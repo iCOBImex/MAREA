@@ -69,44 +69,24 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                 ),
                 
                 #Third tab starts here
-                tabPanel("Inputs",
+                tabPanel("Datos",
                          sidebarLayout(
                            sidebarPanel(
                              fileInput(inputId ="biophys",
-                                       label = "Seleccionar archivo",
+                                       label = "Base biofis",
                                        accept = ".csv"),
-                             selectInput(inputId='sepind',
-                                         label='Separador',
-                                         choices=c("Coma"=',',
-                                                   "Punto y coma"=';',
-                                                   "Tabulación"='\t',
-                                                   "Espacio"=" "),
-                                         selected = ','),
                              
                              fileInput(inputId ="socioeco",
-                                       label = "Seleccionar archivo",
+                                       label = "Base socioeco",
                                        accept = ".csv"),
-                             selectInput(inputId='sepind',
-                                         label='Separador',
-                                         choices=c("Coma"=',',
-                                                   "Punto y coma"=';',
-                                                   "Tabulación"='\t',
-                                                   "Espacio"=" "),
-                                         selected = ','),
                              
                              fileInput(inputId ="govern",
-                                       label = "Seleccionar archivo",
-                                       accept = ".csv"),
-                             selectInput(inputId='sepind',
-                                         label='Separador',
-                                         choices=c("Coma"=',',
-                                                   "Punto y coma"=';',
-                                                   "Tabulación"='\t',
-                                                   "Espacio"=" "),
-                                         selected = ',')
+                                       label = "Base gobernanza",
+                                       accept = ".csv")
                            ),
                            mainPanel(
-                             "More Stuff"
+                             "More Stuff",
+                             tableOutput("contents")
                            ))
                 ),
                 
@@ -127,39 +107,75 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                 ),
                 
                 #Fifth tab starts here
-                tabPanel("Confirm",
-                         sidebarLayout(
-                           sidebarPanel(
-                             "Stuff"),
-                           mainPanel(
-                             "More Stuff"
-                           ))
+                tabPanel("Confirmar",
+                         fluidPage(
+                           fluidRow(
+                             column(2, wellPanel(
+                               tableOutput("objss")
+                             )),
+                             
+                             column(2, wellPanel(
+                               tableOutput("indBs")
+                             )),
+                             
+                             column(2, wellPanel(
+                               tableOutput("indSs")
+                             )),
+                             
+                             column(2, wellPanel(
+                               tableOutput("indGs")
+                             )),
+                             
+                             column(2, wellPanel(
+                               tableOutput("comss")
+                             )),
+                             
+                             column(2, wellPanel(
+                               tableOutput("rcpss")
+                             ))
+                           )
+                         )
                 ),
                 
                 #Sixth tab starts here
-                tabPanel("Results",
+                tabPanel("Resultados",
                          sidebarLayout(
                            sidebarPanel(
-                             "Stuff"),
+                             "Nothing yet"),
                            mainPanel(
-                             "More Stuff"
+                             "Might be here by Friday"
                            ))
                 )
 )
 
-# Define server logic required to draw a histogram
+######
+# Define server logic
 server <- function(input, output) {
   
-  # Definir datos aqui
-  datos <- data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
-                      Reserva = c("La Caracolera", "El Gallinero", "Cerro bola"),
-                      Control = c("Lazaro", "El Callienro Control", "Cerro bola control")) %>%
-    mutate(RC = paste(Reserva, Control, sep = "-"))
+  # Definir datos
+  datasetInput <- reactive({
+    
+    inFile <- input$biophys
+    
+    if (is.null(inFile)){
+      # data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
+      #            Reserva = c("La Caracolera", "El Gallinero", "Cerro Bola"),
+      #            Control = c("Lazaro", "El Callienro Control", "Cerro Bola control")) %>%
+      #   mutate(RC = paste(Reserva, Control, sep = "-"))
+      return(NULL)
+      
+    } else {
+      
+      read.csv(inFile$datapath)
+    }
+  })
   
+  output$contents <- renderTable({
+    datasetInput()
+  })
   
-  ######
-  #Definir indicadores reactivos a los objetivos
-  
+  ##### Definir indicadores reactivos a los objetivos####
+
   # Definir Indicadores Biofisicos
   output$indB <- renderUI({
     
@@ -261,6 +277,9 @@ server <- function(input, output) {
   ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados
   
   output$comunidad <- renderUI({
+    
+    datos <- datasetInput()
+    
     comunidades <- unique(datos$Comunidad)
     
     radioButtons("comunidad",
@@ -270,6 +289,8 @@ server <- function(input, output) {
   })
   
   RC <- function(){
+    datos <- datasetInput()
+    
     return(datos$RC[datos$Comunidad == input$comunidad])
   }
   
@@ -281,6 +302,30 @@ server <- function(input, output) {
                        "Selecciona tus pares Reserva-Control",
                        choices = RCopts)
     
+  })
+  
+  output$objss <- renderTable({
+    input$obj
+  })
+  
+  output$indBs <- renderTable({
+    input$indB
+  })
+  
+  output$indSs <- renderTable({
+    input$indS
+  })
+  
+  output$indGs <- renderTable({
+    input$indG
+  })
+  
+  output$comss <- renderTable({
+    input$comunidad
+  })
+  
+  output$rcpss <- renderTable({
+    input$rc
   })
   
 }
