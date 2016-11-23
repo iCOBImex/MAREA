@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(tidyverse)
 
 # Define UI for application that draws a histogram
 ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
@@ -45,32 +46,32 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                            ),
                            mainPanel(
                              wellPanel(
-                             fluidRow(
-                               h1("Indicadores"),
-                               
-                               p("Basandonos en los objetivos seleccionados, nuestra propuesta de indicadores es la siguiente"),
-                               
-                               column(3, wellPanel(
-                                 uiOutput("indB"))),
-                               
-                               column( 3, wellPanel(
-                                 checkboxGroupInput("indS",
-                                                    "Socioeconómicos",
-                                                    choices = c("Arribos",
-                                                                "Ingresos por arribos"))
-                               )),
-                               
-                               column(3, wellPanel(
-                                 checkboxGroupInput("indG",
-                                                    "Gobernanza",
-                                                    choices = c("1",
-                                                                "2",
-                                                                "3",
-                                                                "4",
-                                                                "5",
-                                                                "6"))
+                               fluidRow(
+                                 h1("Indicadores"),
+                                 
+                                 p("Basandonos en los objetivos seleccionados, nuestra propuesta de indicadores es la siguiente"),
+                                 
+                                 column(3, wellPanel(
+                                   uiOutput("indB"))),
+                                 
+                                 column( 3, wellPanel(
+                                   checkboxGroupInput("indS",
+                                                      "Socioeconómicos",
+                                                      choices = c("Arribos",
+                                                                  "Ingresos por arribos"))
+                                 )),
+                                 
+                                 column(3, wellPanel(
+                                   checkboxGroupInput("indG",
+                                                      "Gobernanza",
+                                                      choices = c("1",
+                                                                  "2",
+                                                                  "3",
+                                                                  "4",
+                                                                  "5",
+                                                                  "6"))
+                                 ))
                                ))
-                             ))
                            ))
                 ),
                 
@@ -82,6 +83,22 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                            mainPanel(
                              "More Stuff"
                            ))
+                ),
+                
+                # Fourth tab starts here
+                tabPanel("Seleccionar Reserva",
+                         fluidRow(
+                           column(3, wellPanel(
+                             h1("Comunidad"),
+                             uiOutput("comunidad")
+                           )),
+                           
+                           column(3, wellPanel(
+                             h1("Reserva-Control"),
+                             uiOutput("rc")
+                           ))
+                         )
+                         
                 ),
                 
                 #Fifth tab starts here
@@ -108,6 +125,13 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
+  # Definir datos aqui
+  datos <- data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
+                      Reserva = c("La Caracolera", "El Gallinero", "Cerro bola"),
+                      Control = c("Lazaro", "El Callienro Control", "Cerro bola control")) %>%
+    mutate(RC = paste(Reserva, Control, sep = "-"))
+  
+  
   output$indB <- renderUI({
     
     if (input$obj == "A"){
@@ -132,6 +156,29 @@ server <- function(input, output) {
                                      "Nivel trófico"),
                          selected = c("Riqueza"))
     }
+  })
+  
+  output$comunidad <- renderUI({
+    comunidades <- unique(datos$Comunidad)
+    
+    radioButtons("comunidad",
+                 "Selecciona tus comunidades",
+                 choices = comunidades,
+                 selected = "El Rosario")
+  })
+  
+  RC <- function(){
+    return(datos$RC[datos$Comunidad == input$comunidad])
+  }
+  
+  output$rc <- renderUI({
+    
+    RCopts <- RC()
+    
+    checkboxGroupInput("rc",
+                       "Selecciona tus pares Reserva-Control",
+                       choices = RCopts)
+    
   })
   
 }
