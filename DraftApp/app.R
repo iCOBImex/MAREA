@@ -41,7 +41,10 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                                                             "Evitar que se llegue a la sobreexplotación" = "D",
                                                             "Recuperar especies sobreexplotadas" = "E",
                                                             "Contribuir al mantenimiento de los procesos biológicos" = "E",
-                                                            "Preservar el hábitat de las especies pesqueras" = "F"),
+                                                            "Preservar el hábitat de las especies pesqueras" = "F",
+                                                            "More objectives" = "G",
+                                                            "More Objectives" = "H",
+                                                            "More objectives" = "I"),
                                                 selected = c("A"))
                            ),
                            mainPanel(
@@ -51,25 +54,15 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                                  
                                  p("Basandonos en los objetivos seleccionados, nuestra propuesta de indicadores es la siguiente"),
                                  
-                                 column(3, wellPanel(
+                                 column(4, wellPanel(
                                    uiOutput("indB"))),
                                  
-                                 column( 3, wellPanel(
-                                   checkboxGroupInput("indS",
-                                                      "Socioeconómicos",
-                                                      choices = c("Arribos",
-                                                                  "Ingresos por arribos"))
+                                 column(3, wellPanel(
+                                   uiOutput("indS")
                                  )),
                                  
-                                 column(3, wellPanel(
-                                   checkboxGroupInput("indG",
-                                                      "Gobernanza",
-                                                      choices = c("1",
-                                                                  "2",
-                                                                  "3",
-                                                                  "4",
-                                                                  "5",
-                                                                  "6"))
+                                 column(5, wellPanel(
+                                   uiOutput("indG")
                                  ))
                                ))
                            ))
@@ -79,7 +72,39 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                 tabPanel("Inputs",
                          sidebarLayout(
                            sidebarPanel(
-                             "Stuff"),
+                             fileInput(inputId ="biophys",
+                                       label = "Seleccionar archivo",
+                                       accept = ".csv"),
+                             selectInput(inputId='sepind',
+                                         label='Separador',
+                                         choices=c("Coma"=',',
+                                                   "Punto y coma"=';',
+                                                   "Tabulación"='\t',
+                                                   "Espacio"=" "),
+                                         selected = ','),
+                             
+                             fileInput(inputId ="socioeco",
+                                       label = "Seleccionar archivo",
+                                       accept = ".csv"),
+                             selectInput(inputId='sepind',
+                                         label='Separador',
+                                         choices=c("Coma"=',',
+                                                   "Punto y coma"=';',
+                                                   "Tabulación"='\t',
+                                                   "Espacio"=" "),
+                                         selected = ','),
+                             
+                             fileInput(inputId ="govern",
+                                       label = "Seleccionar archivo",
+                                       accept = ".csv"),
+                             selectInput(inputId='sepind',
+                                         label='Separador',
+                                         choices=c("Coma"=',',
+                                                   "Punto y coma"=';',
+                                                   "Tabulación"='\t',
+                                                   "Espacio"=" "),
+                                         selected = ',')
+                           ),
                            mainPanel(
                              "More Stuff"
                            ))
@@ -132,9 +157,13 @@ server <- function(input, output) {
     mutate(RC = paste(Reserva, Control, sep = "-"))
   
   
+  ######
+  #Definir indicadores reactivos a los objetivos
+  
+  # Definir Indicadores Biofisicos
   output$indB <- renderUI({
     
-    if (input$obj == "A"){
+    if (any(input$obj == "A")){
       
       checkboxGroupInput("indB",
                          "Biofísicos",
@@ -157,6 +186,79 @@ server <- function(input, output) {
                          selected = c("Riqueza"))
     }
   })
+  
+  # Definir idnciadores Socioeconomicos
+  output$indS <- renderUI({
+    
+    if (any(input$obj == "A")){
+      
+      checkboxGroupInput("indS",
+                         "Socioeconómicos",
+                         choices = c("Arribos",
+                                     "Ingresos por arribos"),
+                         selected = c("Arribos"))
+    } else {
+      checkboxGroupInput("indS",
+                         "Socioeconómicos",
+                         choices = c("Arribos",
+                                     "Ingresos por arribos"),
+                         selected = c("Ingresos por arribos"))
+    }
+  })
+  
+  # Definir indicadores de gobernanza
+  output$indG <- renderUI({
+    
+    if (!any(input$obj == "G")){
+      
+      checkboxGroupInput("indG",
+                         "Gobernanza",
+                         choices = c("Acceso a la pesquería",
+                                     "Número de pescadores",
+                                     "Reconocimiento legal de la reserva", 
+                                     "Grado de pesca ilegal",
+                                     "Plan de manejo",
+                                     "Tamaño de la reserva",
+                                     "Razonamiento para el diseño de la reserva",
+                                     "Pertenencia a oragnizaciones pesqueras",
+                                     "Tipo de organización pesquera",
+                                     "Representación"),
+                         selected = c("Acceso a la pesquería",
+                                      "Número de pescadores",
+                                      "Reconocimiento legal de la reserva", 
+                                      "Grado de pesca ilegal",
+                                      "Plan de manejo",
+                                      "Tamaño de la reserva",
+                                      "Razonamiento para el diseño de la reserva",
+                                      "Pertenencia a oragnizaciones pesqueras",
+                                      "Tipo de organización pesquera",
+                                      "Representación"))
+    } else {
+      
+      checkboxGroupInput("indG",
+                         "Gobernanza",
+                         choices = c("Acceso a la pesquería",
+                                     "Número de pescadores",
+                                     "Reconocimiento legal de la reserva", 
+                                     "Grado de pesca ilegal",
+                                     "Plan de manejo",
+                                     "Tamaño de la reserva",
+                                     "Razonamiento para el diseño de la reserva",
+                                     "Pertenencia a oragnizaciones pesqueras",
+                                     "Tipo de organización pesquera",
+                                     "Representación"),
+                         selected = c("Acceso a la pesquería",
+                                      "Plan de manejo",
+                                      "Tamaño de la reserva",
+                                      "Razonamiento para el diseño de la reserva",
+                                      "Representación"))
+      
+    }
+  })
+  
+  
+  #######
+  ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados
   
   output$comunidad <- renderUI({
     comunidades <- unique(datos$Comunidad)
