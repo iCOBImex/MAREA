@@ -18,7 +18,8 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                              h1("Recursos")),
                            mainPanel(
                              h1("Más sobre TURFeffect"),
-                             p("www.turfeffect.org")
+                             p(a("TURFeffect", href="www.turfeffect.orgu", target="_blank")),
+                             p(a("Manual", href="www.turfeffect.orgu", target="_blank"))
                            ))
                 ),
                 #Second tab starts here
@@ -62,16 +63,6 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                 ),
                 
                 #Third tab starts here
-                tabPanel("Indicators",
-                         sidebarLayout(
-                           sidebarPanel(
-                             "Stuff"),
-                           mainPanel(
-                             "More Stuff"
-                           ))
-                ),
-                
-                #Fourth tab starts here
                 tabPanel("Inputs",
                          sidebarLayout(
                            sidebarPanel(
@@ -82,7 +73,6 @@ ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
                 ),
                 
                 #Fifth tab starts here
-                
                 tabPanel("Confirm",
                          sidebarLayout(
                            sidebarPanel(
