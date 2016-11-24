@@ -11,7 +11,10 @@ library(shiny)
 library(tidyverse)
 
 # Define UI for application that draws a histogram
-ui = navbarPage("A tool to evaluate the effectiveness of Marine Reserves",
+ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves",
+                # p(),
+                # img(src="cobi.jpg", width="60px"),
+                # img(src="turf.jpg", width="60px"),
                 # First tab starts here
                 tabPanel("Introduccion",
                          sidebarLayout(
