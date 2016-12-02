@@ -9,6 +9,7 @@
 
 library(shiny)
 library(tidyverse)
+library(MPAtools)
 
 # Define UI for application that draws a histogram
 ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves",
@@ -146,7 +147,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                            sidebarPanel(
                              "Nothing yet"),
                            mainPanel(
-                             "Might be here by Friday"
+                             plotOutput("results")
                            ))
                 )
 )
@@ -155,7 +156,10 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
 # Define server logic
 server <- function(input, output) {
   
-  # Definir datos
+  options(shiny.maxRequestSize = 200*1024^2)
+  
+  
+  # Definir datos biofisicos
   datasetInput <- reactive({
     
     inFile <- input$biophys
@@ -169,13 +173,20 @@ server <- function(input, output) {
       
     } else {
       
-      read.csv(inFile$datapath)
+      data <- read.csv(inFile$datapath) %>%
+        filter(!is.na(Comunidad))
+      
+      return(data)
     }
   })
   
   output$contents <- renderTable({
-    datasetInput()
+    head(datasetInput())
   })
+  
+  # Definir datos pesqueros
+  
+  # Definir datos de gobernananza
   
   ##### Definir indicadores reactivos a los objetivos####
 
@@ -294,7 +305,7 @@ server <- function(input, output) {
   RC <- function(){
     datos <- datasetInput()
     
-    return(datos$RC[datos$Comunidad == input$comunidad])
+    return(unique(datos$RC[datos$Comunidad == input$comunidad]))
   }
   
   output$rc <- renderUI({
@@ -329,6 +340,30 @@ server <- function(input, output) {
   
   output$rcpss <- renderTable({
     input$rc
+  })
+  
+  ### Analisis comienza aqui
+  
+  # peces <- reactive({datasetInput()})
+  # comunidad <- com.fun()
+  # reserva <- res.fun()
+  # control <- con.fun()
+  # 
+  # Dp <- summary(turfeffect(density(peces, comunidad), reserva, control))
+  # Sp <- summary(turfeffect(richness(peces, comunidad), reserva, control))
+  # Bp <- summary(turfeffect(fish_biomass(peces, comunidad), reserva, control))
+  # NT <- summary(turfeffect(trophic(peces, comunidad), reserva, control))
+
+  output$results <- renderPlot({
+    
+    datasetInput() %>%
+      group_by(Comunidad, Sitio, Zonificacion, Ano) %>%
+      summarize(N = sum(Abundancia, na.rm = T)) %>%
+      ggplot(aes(x = Ano, y = N, color = Zonificacion)) +
+      geom_point() +
+      geom_line() +
+      theme_bw()
+    
   })
   
 }
