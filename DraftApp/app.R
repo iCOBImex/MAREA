@@ -7,9 +7,9 @@
 #    http://shiny.rstudio.com/
 #
 
+library(MPAtools)
 library(shiny)
 library(tidyverse)
-library(MPAtools)
 
 # Define UI for application that draws a histogram
 ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves",
@@ -44,11 +44,11 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                                                             "Mejorar la productividad pesquera en aguas adyacentes" = "C",
                                                             "Evitar que se llegue a la sobreexplotación" = "D",
                                                             "Recuperar especies sobreexplotadas" = "E",
-                                                            "Contribuir al mantenimiento de los procesos biológicos" = "E",
-                                                            "Preservar el hábitat de las especies pesqueras" = "F",
-                                                            "More objectives" = "G",
-                                                            "More Objectives" = "H",
-                                                            "More objectives" = "I"),
+                                                            "Contribuir al mantenimiento de los procesos biológicos" = "F",
+                                                            "Preservar el hábitat de las especies pesqueras" = "G",
+                                                            "More objectives" = "H",
+                                                            "More Objectives" = "I",
+                                                            "More objectives" = "J"),
                                                 selected = c("A"))
                            ),
                            mainPanel(
@@ -143,12 +143,23 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 
                 #Sixth tab starts here
                 tabPanel("Resultados",
-                         sidebarLayout(
-                           sidebarPanel(
-                             "Nothing yet"),
-                           mainPanel(
-                             plotOutput("results")
-                           ))
+                         
+                         fluidRow(column(4, offset = 4, wellPanel(
+                           plotOutput("totres")
+                         ))),
+                         fluidRow(
+                           column(4, wellPanel(
+                             imageOutput("biores")
+                           )),
+                           
+                           column(4, wellPanel(
+                             imageOutput("socres")
+                           )),
+                           
+                           column(4, wellPanel(
+                             imageOutput("gobres")
+                           ))),
+                         downloadButton('reporte', 'Descargar Reporte')
                 )
 )
 
@@ -189,101 +200,54 @@ server <- function(input, output) {
   # Definir datos de gobernananza
   
   ##### Definir indicadores reactivos a los objetivos####
-
+  
   # Definir Indicadores Biofisicos
   output$indB <- renderUI({
     
-    if (any(input$obj == "A")){
-      
-      checkboxGroupInput("indB",
-                         "Biofísicos",
-                         choices = c("Densidad",
-                                     "Riqueza",
-                                     "Índice de diversidad de Shannon",
-                                     "Biomasa",
-                                     "Organismos > LT_50",
-                                     "Nivel trófico"),
-                         selected = c ("Densidad"))
-    } else {
-      checkboxGroupInput("indB",
-                         "Biofísicos",
-                         choices = c("Densidad",
-                                     "Riqueza",
-                                     "Índice de diversidad de Shannon",
-                                     "Biomasa",
-                                     "Organismos > LT_50",
-                                     "Nivel trófico"),
-                         selected = c("Riqueza"))
-    }
+    checkboxGroupInput("indB",
+                       "Biofísicos",
+                       choices = c("Densidad",
+                                   "Densidad de especies objetivo",
+                                   "Riqueza",
+                                   "Índice de diversidad de Shannon",
+                                   "Biomasa",
+                                   "Biomasa de especies objetivo",
+                                   "Organismos > LT_50",
+                                   "Nivel trófico"),
+                       selected = indB_sel(input$obj))
   })
   
   # Definir idnciadores Socioeconomicos
   output$indS <- renderUI({
     
-    if (any(input$obj == "A")){
-      
-      checkboxGroupInput("indS",
-                         "Socioeconómicos",
-                         choices = c("Arribos",
-                                     "Ingresos por arribos"),
-                         selected = c("Arribos"))
-    } else {
-      checkboxGroupInput("indS",
-                         "Socioeconómicos",
-                         choices = c("Arribos",
-                                     "Ingresos por arribos"),
-                         selected = c("Ingresos por arribos"))
-    }
+    
+    checkboxGroupInput("indS",
+                       "Socioeconómicos",
+                       choices = c("Arribos",
+                                   "Arribos de especies objetivo",
+                                   "Ingresos por arribos",
+                                   "Ingresos por arribos de especies objetivo",
+                                   "Trabajos alternativos a pesca"),
+                       selected = indS_sel(input$obj))
   })
   
   # Definir indicadores de gobernanza
   output$indG <- renderUI({
     
-    if (!any(input$obj == "G")){
-      
-      checkboxGroupInput("indG",
-                         "Gobernanza",
-                         choices = c("Acceso a la pesquería",
-                                     "Número de pescadores",
-                                     "Reconocimiento legal de la reserva", 
-                                     "Grado de pesca ilegal",
-                                     "Plan de manejo",
-                                     "Tamaño de la reserva",
-                                     "Razonamiento para el diseño de la reserva",
-                                     "Pertenencia a oragnizaciones pesqueras",
-                                     "Tipo de organización pesquera",
-                                     "Representación"),
-                         selected = c("Acceso a la pesquería",
-                                      "Número de pescadores",
-                                      "Reconocimiento legal de la reserva", 
-                                      "Grado de pesca ilegal",
-                                      "Plan de manejo",
-                                      "Tamaño de la reserva",
-                                      "Razonamiento para el diseño de la reserva",
-                                      "Pertenencia a oragnizaciones pesqueras",
-                                      "Tipo de organización pesquera",
-                                      "Representación"))
-    } else {
-      
-      checkboxGroupInput("indG",
-                         "Gobernanza",
-                         choices = c("Acceso a la pesquería",
-                                     "Número de pescadores",
-                                     "Reconocimiento legal de la reserva", 
-                                     "Grado de pesca ilegal",
-                                     "Plan de manejo",
-                                     "Tamaño de la reserva",
-                                     "Razonamiento para el diseño de la reserva",
-                                     "Pertenencia a oragnizaciones pesqueras",
-                                     "Tipo de organización pesquera",
-                                     "Representación"),
-                         selected = c("Acceso a la pesquería",
-                                      "Plan de manejo",
-                                      "Tamaño de la reserva",
-                                      "Razonamiento para el diseño de la reserva",
-                                      "Representación"))
-      
-    }
+    checkboxGroupInput("indG",
+                       "Gobernanza",
+                       choices = c("Acceso a la pesquería",
+                                   "Número de pescadores",
+                                   "Reconocimiento legal de la reserva", 
+                                   "Grado de pesca ilegal",
+                                   "Plan de manejo",
+                                   "Tamaño de la reserva",
+                                   "Razonamiento para el diseño de la reserva",
+                                   "Pertenencia a oragnizaciones pesqueras",
+                                   "Tipo de organización pesquera",
+                                   "Representación"),
+                       selected = indG_sel(input$obj))
+    
   })
   
   
@@ -310,11 +274,9 @@ server <- function(input, output) {
   
   output$rc <- renderUI({
     
-    RCopts <- RC()
-    
-    checkboxGroupInput("rc",
-                       "Selecciona tus pares Reserva-Control",
-                       choices = RCopts)
+    radioButtons("rc",
+                 "Selecciona tus pares Reserva-Control",
+                 choices = RC())
     
   })
   
@@ -346,15 +308,26 @@ server <- function(input, output) {
   
   # peces <- reactive({datasetInput()})
   # comunidad <- com.fun()
-  # reserva <- res.fun()
+  res.fun <- function(){
+    data.res <- datasetInput()
+    
+    as.character(unique(data.res$Sitio[data.res$RC == input$rc & !data$Zonificacion=="Control"]))
+  }
+  
+  con.fun <- function(){
+    data.res <- datasetInput()
+    
+    as.character(unique(data.res$Sitio[data.res$RC == input$rc & data$Zonificacion=="Control"]))
+  }
+  
   # control <- con.fun()
   # 
   # Dp <- summary(turfeffect(density(peces, comunidad), reserva, control))
   # Sp <- summary(turfeffect(richness(peces, comunidad), reserva, control))
   # Bp <- summary(turfeffect(fish_biomass(peces, comunidad), reserva, control))
   # NT <- summary(turfeffect(trophic(peces, comunidad), reserva, control))
-
-  output$results <- renderPlot({
+  
+  output$totres <- renderPlot({
     
     datasetInput() %>%
       group_by(Comunidad, Sitio, Zonificacion, Ano) %>%
@@ -365,6 +338,41 @@ server <- function(input, output) {
       theme_bw()
     
   })
+  
+  ### Output for biophys indicators
+  output$biores <- renderImage({
+    model <- summary(turfeffect(MPAtools::density(datasetInput(),
+                                                  input$comunidad),
+                                reserve = res.fun(),
+                                control = con.fun()))
+    
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    list(src = paste("www/", score(x), sep = ""))
+    
+  }, deleteFile = F)
+  
+  
+  ### Output to download
+  output$reporte <- downloadHandler(
+    
+    # This function returns a string which tells the client
+    # browser what name to use when saving the file.
+    filename = function() {
+      paste(input$dataset, input$filetype, sep = ".")
+    },
+    
+    # This function should write data to a file given to it by
+    # the argument 'file'.
+    content = function(file) {
+      sep <- switch(input$filetype, "csv" = ",", "tsv" = "\t")
+      
+      # Write to a file specified by the 'file' argument
+      write.table(datasetInput(), file, sep = sep,
+                  row.names = FALSE)
+    }
+  )
   
 }
 
