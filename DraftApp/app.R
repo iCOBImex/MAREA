@@ -39,17 +39,13 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                              h1("Objetivos"),
                              checkboxGroupInput("obj",
                                                 "Selecciona tus objetivos",
-                                                choices = c("Recuperar especies de interés comercial" = "A",
-                                                            "Conservar especies en régimen de protección especial" = "B",
-                                                            "Mejorar la productividad pesquera en aguas adyacentes" = "C",
-                                                            "Evitar que se llegue a la sobreexplotación" = "D",
-                                                            "Recuperar especies sobreexplotadas" = "E",
-                                                            "Contribuir al mantenimiento de los procesos biológicos" = "F",
-                                                            "Preservar el hábitat de las especies pesqueras" = "G",
-                                                            "More objectives" = "H",
-                                                            "More Objectives" = "I",
-                                                            "More objectives" = "J"),
-                                                selected = c("A"))
+                                                choices = c("Recuperar especies de interés comercial" = 2,
+                                                            "Conservar especies en régimen de protección especial" = 3,
+                                                            "Mejorar la productividad pesquera en aguas adyacentes" = 4,
+                                                            "Evitar que se llegue a la sobreexplotación" = 5,
+                                                            "Recuperar especies sobreexplotadas" = 6,
+                                                            "Contribuir al mantenimiento de los procesos biológicos" = 7,
+                                                            "Preservar la diversidad biologica y los ecosistemas" = 8))
                            ),
                            mainPanel(
                              wellPanel(
@@ -105,7 +101,10 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                            column(3, wellPanel(
                              h1("Reserva-Control"),
                              uiOutput("rc")
-                           ))
+                           )),
+                           
+                           column(3,
+                                  uiOutput("objsp"))
                          )
                          
                 ),
@@ -114,28 +113,28 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 tabPanel("Confirmar",
                          fluidPage(
                            fluidRow(
-                             column(2, wellPanel(
-                               tableOutput("objss")
+                             column(2, wellPanel("Objetivos",
+                                                 tableOutput("objss")
                              )),
                              
-                             column(2, wellPanel(
-                               tableOutput("indBs")
+                             column(2, wellPanel("Indicadores biofisicos",
+                                                 tableOutput("indBs")
                              )),
                              
-                             column(2, wellPanel(
-                               tableOutput("indSs")
+                             column(2, wellPanel("Indicadores socioeconomicos",
+                                                 tableOutput("indSs")
                              )),
                              
-                             column(2, wellPanel(
-                               tableOutput("indGs")
+                             column(2, wellPanel("Indicadores de gobernanza",
+                                                 tableOutput("indGs")
                              )),
                              
-                             column(2, wellPanel(
-                               tableOutput("comss")
+                             column(2, wellPanel("Comunidad",
+                                                 tableOutput("comss")
                              )),
                              
-                             column(2, wellPanel(
-                               tableOutput("rcpss")
+                             column(2, wellPanel("Reserva-Control",
+                                                 tableOutput("rcpss")
                              ))
                            )
                          )
@@ -145,7 +144,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 tabPanel("Resultados",
                          
                          fluidRow(column(4, offset = 4, wellPanel(
-                           plotOutput("totres")
+                           imageOutput("totres")
                          ))),
                          fluidRow(
                            column(4, wellPanel(
@@ -184,7 +183,7 @@ server <- function(input, output) {
       
     } else {
       
-      data <- read.csv(inFile$datapath) %>%
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F) %>%
         filter(!is.na(Comunidad))
       
       return(data)
@@ -206,15 +205,16 @@ server <- function(input, output) {
     
     checkboxGroupInput("indB",
                        "Biofísicos",
-                       choices = c("Densidad",
-                                   "Densidad de especies objetivo",
+                       choices = c("Índice de diversidad de Shannon",
                                    "Riqueza",
-                                   "Índice de diversidad de Shannon",
-                                   "Biomasa",
-                                   "Biomasa de especies objetivo",
                                    "Organismos > LT_50",
-                                   "Nivel trófico"),
-                       selected = indB_sel(input$obj))
+                                   "Densidad",
+                                   "Densidad de especies objetivo",
+                                   "Perturbación natural",
+                                   "Nivel trófico",
+                                   "Biomasa",
+                                   "Biomasa de especies objetivo"),
+                       selected = indB_sel(as.numeric(input$obj)))
   })
   
   # Definir idnciadores Socioeconomicos
@@ -228,7 +228,7 @@ server <- function(input, output) {
                                    "Ingresos por arribos",
                                    "Ingresos por arribos de especies objetivo",
                                    "Trabajos alternativos a pesca"),
-                       selected = indS_sel(input$obj))
+                       selected = indS_sel(as.numeric(input$obj)))
   })
   
   # Definir indicadores de gobernanza
@@ -238,15 +238,19 @@ server <- function(input, output) {
                        "Gobernanza",
                        choices = c("Acceso a la pesquería",
                                    "Número de pescadores",
-                                   "Reconocimiento legal de la reserva", 
+                                   "Reconocimiento legal de la reserva",
+                                   "Tipo de reserva",
                                    "Grado de pesca ilegal",
                                    "Plan de manejo",
+                                   "Procuración de la reserva",
                                    "Tamaño de la reserva",
                                    "Razonamiento para el diseño de la reserva",
                                    "Pertenencia a oragnizaciones pesqueras",
                                    "Tipo de organización pesquera",
-                                   "Representación"),
-                       selected = indG_sel(input$obj))
+                                   "Representación",
+                                   "Reglamentación interna",
+                                   "Efectividad percibida"),
+                       selected = indG_sel(as.numeric(input$obj)))
     
   })
   
@@ -280,6 +284,36 @@ server <- function(input, output) {
     
   })
   
+  output$objsp <- renderUI({
+    
+    if(any(input$obj == c(2, 3, 6)) |
+       
+       any(input$indB == c("Organismos > LT_50",
+                           "Densidad de especies objetivo",
+                           "Biomasa de especies objetivo")) |
+       
+       any(input$indS == c("Arribos de especies objetivo",
+                           "Ingresos por arribos de especies objetivo"))){
+      
+      sp_list <- datasetInput() %>%
+        filter(Comunidad == input$comunidad,
+               RC == RC()) %>%
+        group_by(GeneroEspecie) %>%
+        summarize(N = n()) %>%
+        filter(!is.na(GeneroEspecie))
+      
+      wellPanel(
+        h1("Especies objetivo"),
+        checkboxGroupInput("objsp",
+                           "Selecciona tus especies objetivo",
+                           choices = sp_list$GeneroEspecie))
+    }
+    
+  })
+  
+  
+  ### Definir tablas de confirmacion
+  
   output$objss <- renderTable({
     input$obj
   })
@@ -311,13 +345,13 @@ server <- function(input, output) {
   res.fun <- function(){
     data.res <- datasetInput()
     
-    as.character(unique(data.res$Sitio[data.res$RC == input$rc & !data$Zonificacion=="Control"]))
+    as.character(unique(data.res$Sitio[data.res$RC == input$rc & !data.res$Zonificacion=="Control"]))
   }
   
   con.fun <- function(){
     data.res <- datasetInput()
     
-    as.character(unique(data.res$Sitio[data.res$RC == input$rc & data$Zonificacion=="Control"]))
+    as.character(unique(data.res$Sitio[data.res$RC == input$rc & data.res$Zonificacion=="Control"]))
   }
   
   # control <- con.fun()
@@ -327,20 +361,50 @@ server <- function(input, output) {
   # Bp <- summary(turfeffect(fish_biomass(peces, comunidad), reserva, control))
   # NT <- summary(turfeffect(trophic(peces, comunidad), reserva, control))
   
-  output$totres <- renderPlot({
+  output$totres <- renderImage({
+    model <- summary(turfeffect(MPAtools::density(datasetInput(),
+                                                  input$comunidad),
+                                reserve = res.fun(),
+                                control = con.fun()))
     
-    datasetInput() %>%
-      group_by(Comunidad, Sitio, Zonificacion, Ano) %>%
-      summarize(N = sum(Abundancia, na.rm = T)) %>%
-      ggplot(aes(x = Ano, y = N, color = Zonificacion)) +
-      geom_point() +
-      geom_line() +
-      theme_bw()
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
     
-  })
+    list(src = paste("www/", score(x), sep = ""))
+    
+  }, deleteFile = F)
   
   ### Output for biophys indicators
   output$biores <- renderImage({
+    model <- summary(turfeffect(MPAtools::density(datasetInput(),
+                                                  input$comunidad),
+                                reserve = res.fun(),
+                                control = con.fun()))
+    
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    list(src = paste("www/", score(x), sep = ""))
+    
+  }, deleteFile = F)
+  
+  ### Output for socioeco indicators
+  output$socres <- renderImage({
+    model <- summary(turfeffect(MPAtools::density(datasetInput(),
+                                                  input$comunidad),
+                                reserve = res.fun(),
+                                control = con.fun()))
+    
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    list(src = paste("www/", score(x), sep = ""))
+    
+  }, deleteFile = F)
+  
+  ### Output for governance indicators
+  
+  output$gobres <- renderImage({
     model <- summary(turfeffect(MPAtools::density(datasetInput(),
                                                   input$comunidad),
                                 reserve = res.fun(),
@@ -360,17 +424,15 @@ server <- function(input, output) {
     # This function returns a string which tells the client
     # browser what name to use when saving the file.
     filename = function() {
-      paste(input$dataset, input$filetype, sep = ".")
+      paste(input$biophys, "csv", sep = ".")
     },
     
     # This function should write data to a file given to it by
     # the argument 'file'.
     content = function(file) {
-      sep <- switch(input$filetype, "csv" = ",", "tsv" = "\t")
       
       # Write to a file specified by the 'file' argument
-      write.table(datasetInput(), file, sep = sep,
-                  row.names = FALSE)
+      write.table(datasetInput(), file, sep = ",", row.names = FALSE)
     }
   )
   
