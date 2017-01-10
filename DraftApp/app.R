@@ -17,7 +17,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 # img(src="cobi.jpg", width="60px"),
                 # img(src="turf.jpg", width="60px"),
                 # First tab starts here
-                tabPanel("Introduccion",
+                tabPanel(img(src="intro.jpg", width="150px"),
                          sidebarLayout(
                            sidebarPanel(
                              h1("Recursos"),
@@ -25,15 +25,15 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                              p("Link a la ", a("Guía de usuario", href="www.turfeffect.org", target="_blank")),
                              p("Página de ", a("TURFeffect", href="www.turfeffect.org", target="_blank")),
                              p("Enviar comentarios a", a("Juan Carlos Villaseñor-Derbez", href="juancarlos@turfeffect.org", target="_blank"))),
-                           mainPanel(
-                             h1("Introducción"),
-                             p("Bienvenido a la aplicación TURFeffect. Esta es una herramienta que te permitirá evaluar la efectividad de tu zonas de no pesca. La evaluación se basa en el desempeño de una serie de indicadores ", tags$b("Biofísicos, Socioeconómicos y de Gobernanza"), ". Los indicadores son seleccionados con base en los objetivos indicados, pero la aplicación permite que el usuario (tu!) selecciones indicadores que creas más convenientes o sean de tu mayor interés."),
+                           mainPanel(img(src="info1.jpg", width="920px"),
+                             # h1("Introducción"),
+                             # p("Bienvenido a la aplicación TURFeffect. Esta es una herramienta que te permitirá evaluar la efectividad de tu zonas de no pesca. La evaluación se basa en el desempeño de una serie de indicadores ", tags$b("Biofísicos, Socioeconómicos y de Gobernanza"), ". Los indicadores son seleccionados con base en los objetivos indicados, pero la aplicación permite que el usuario (tu!) selecciones indicadores que creas más convenientes o sean de tu mayor interés."),
                              p("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación, así como el manual de evaluación de zonas de no pesca en México Podrás encontrar los recursos en el menú de la derecha.")
                            ),
                            position = c("right"))
                 ),
                 #Second tab starts here
-                tabPanel("Objetivos e Indicadores",
+                tabPanel(img(src="objeind.jpg", width="150px"),
                          sidebarLayout(
                            sidebarPanel(
                              h1("Objetivos"),
@@ -69,7 +69,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 ),
                 
                 #Third tab starts here
-                tabPanel("Datos",
+                tabPanel(img(src="datos.jpg", width="150px"),
                          sidebarLayout(
                            sidebarPanel(
                              fileInput(inputId ="biophys",
@@ -84,14 +84,13 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                                        label = "Base gobernanza",
                                        accept = ".csv")
                            ),
-                           mainPanel(
-                             "More Stuff",
+                           mainPanel("Data preview:",
                              tableOutput("contents")
                            ))
                 ),
                 
                 # Fourth tab starts here
-                tabPanel("Seleccionar Reserva",
+                tabPanel(img(src="select.jpg", width="150px"),
                          fluidRow(
                            column(3, wellPanel(
                              h1("Comunidad"),
@@ -110,7 +109,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 ),
                 
                 #Fifth tab starts here
-                tabPanel("Confirmar",
+                tabPanel(img(src="conf.jpg", width="150px"),
                          fluidPage(
                            fluidRow(
                              column(2, wellPanel("Objetivos",
@@ -141,21 +140,21 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 ),
                 
                 #Sixth tab starts here
-                tabPanel("Resultados",
+                tabPanel(img(src="res.jpg", width="150px"),
                          
-                         fluidRow(column(4, offset = 4, wellPanel(
+                         fluidRow(column(4, offset = 4, wellPanel("Resultado General",
                            imageOutput("totres")
                          ))),
                          fluidRow(
-                           column(4, wellPanel(
+                           column(4, wellPanel("Resultado Biofísicos",
                              imageOutput("biores")
                            )),
                            
-                           column(4, wellPanel(
+                           column(4, wellPanel("Resultado Socioeconómicos",
                              imageOutput("socres")
                            )),
                            
-                           column(4, wellPanel(
+                           column(4, wellPanel("Resultado Gobernanza",
                              imageOutput("gobres")
                            ))),
                          downloadButton('reporte', 'Descargar Reporte')

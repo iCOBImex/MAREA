@@ -1,4 +1,4 @@
-Comunidad,Sitio,RC,Zonificacion,Ano,Transecto,GeneroEspecie,Talla,Abundancia,Profundidad,Visibilidad,Temperatura
+Comunidad,Sitio,RC,Zonificacion,Ano,Transecto,GeneroEspecie,Talla,Abundancia,ProfundidadInicial,Visibilidad,Temperatura
 El Rosario,Lazaro,Sportfish-Lazaro,Control,2013,1,NA,NA,0,18,4,10
 El Rosario,Lazaro,Sportfish-Lazaro,Control,2013,1,Caulolatilus princeps,21,1,18,4,10
 El Rosario,Lazaro,Sportfish-Lazaro,Control,2013,1,Caulolatilus princeps,25,1,18,4,10
