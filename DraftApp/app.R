@@ -26,9 +26,9 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                              p("Página de ", a("TURFeffect", href="www.turfeffect.org", target="_blank")),
                              p("Enviar comentarios a", a("Juan Carlos Villaseñor-Derbez", href="juancarlos@turfeffect.org", target="_blank"))),
                            mainPanel(img(src="info1.jpg", width="920px"),
-                             # h1("Introducción"),
-                             # p("Bienvenido a la aplicación TURFeffect. Esta es una herramienta que te permitirá evaluar la efectividad de tu zonas de no pesca. La evaluación se basa en el desempeño de una serie de indicadores ", tags$b("Biofísicos, Socioeconómicos y de Gobernanza"), ". Los indicadores son seleccionados con base en los objetivos indicados, pero la aplicación permite que el usuario (tu!) selecciones indicadores que creas más convenientes o sean de tu mayor interés."),
-                             p("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación, así como el manual de evaluación de zonas de no pesca en México Podrás encontrar los recursos en el menú de la derecha.")
+                                     # h1("Introducción"),
+                                     # p("Bienvenido a la aplicación TURFeffect. Esta es una herramienta que te permitirá evaluar la efectividad de tu zonas de no pesca. La evaluación se basa en el desempeño de una serie de indicadores ", tags$b("Biofísicos, Socioeconómicos y de Gobernanza"), ". Los indicadores son seleccionados con base en los objetivos indicados, pero la aplicación permite que el usuario (tu!) selecciones indicadores que creas más convenientes o sean de tu mayor interés."),
+                                     p("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación, así como el manual de evaluación de zonas de no pesca en México Podrás encontrar los recursos en el menú de la derecha.")
                            ),
                            position = c("right"))
                 ),
@@ -85,7 +85,7 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                                        accept = ".csv")
                            ),
                            mainPanel("Data preview:",
-                             tableOutput("contents")
+                                     tableOutput("contents")
                            ))
                 ),
                 
@@ -143,19 +143,19 @@ ui = navbarPage("A tool to evaluate the effectiveness of no-take Marine Reserves
                 tabPanel(img(src="res.jpg", width="150px"),
                          
                          fluidRow(column(4, offset = 4, wellPanel("Resultado General",
-                           imageOutput("totres")
+                                                                  imageOutput("totres")
                          ))),
                          fluidRow(
                            column(4, wellPanel("Resultado Biofísicos",
-                             imageOutput("biores")
+                                               imageOutput("biores")
                            )),
                            
                            column(4, wellPanel("Resultado Socioeconómicos",
-                             imageOutput("socres")
+                                               imageOutput("socres")
                            )),
                            
                            column(4, wellPanel("Resultado Gobernanza",
-                             imageOutput("gobres")
+                                               imageOutput("gobres")
                            ))),
                          downloadButton('reporte', 'Descargar Reporte')
                 )
@@ -269,11 +269,11 @@ server <- function(input, output) {
                  selected = "El Rosario")
   })
   
-  RC <- function(){
+  RC <- reactive({
     datos <- datasetInput()
     
     return(unique(datos$RC[datos$Comunidad == input$comunidad]))
-  }
+  })
   
   output$rc <- renderUI({
     
@@ -337,21 +337,19 @@ server <- function(input, output) {
     input$rc
   })
   
-  ### Analisis comienza aqui
+  ### Analisis comienza aqui -------------------------------------------------------------------------
   
   # peces <- reactive({datasetInput()})
   # comunidad <- com.fun()
-  res.fun <- function(){
+  res.fun <- reactive({
     data.res <- datasetInput()
-    
     as.character(unique(data.res$Sitio[data.res$RC == input$rc & !data.res$Zonificacion=="Control"]))
-  }
+  })
   
-  con.fun <- function(){
+  con.fun <- reactive({
     data.res <- datasetInput()
-    
     as.character(unique(data.res$Sitio[data.res$RC == input$rc & data.res$Zonificacion=="Control"]))
-  }
+  })
   
   # control <- con.fun()
   # 
@@ -369,9 +367,7 @@ server <- function(input, output) {
     x <- data.frame(est = coefficients(model)[7],
                     p = coefficients(model)[28])
     
-    list(src = paste("www/", score(x), sep = ""))
-    
-  }, deleteFile = F)
+    list(src = paste("www/", score(x), sep = ""))}, deleteFile = F)
   
   ### Output for biophys indicators
   output$biores <- renderImage({
