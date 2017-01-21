@@ -118,30 +118,32 @@ ui <- dashboardPage(
                #Fifth tab starts here
                tabPanel(img(src="conf.jpg", width="150px"),
                         fluidPage(
+                          textOutput("title"),
+                          
                           fluidRow(
-                            column(2, wellPanel("Objetivos",
+                            column(3, wellPanel("Objetivos",
                                                 tableOutput("objss")
                             )),
                             
-                            column(2, wellPanel("Indicadores biofisicos",
+                            column(3, wellPanel("Indicadores biofisicos",
                                                 tableOutput("indBs")
                             )),
                             
-                            column(2, wellPanel("Indicadores socioeconomicos",
+                            column(3, wellPanel("Indicadores socioeconomicos",
                                                 tableOutput("indSs")
                             )),
                             
-                            column(2, wellPanel("Indicadores de gobernanza",
+                            column(3, wellPanel("Indicadores de gobernanza",
                                                 tableOutput("indGs")
-                            )),
-                            
-                            column(2, wellPanel("Comunidad",
-                                                tableOutput("comss")
-                            )),
-                            
-                            column(2, wellPanel("Reserva-Control",
-                                                tableOutput("rcpss")
                             ))
+                            # 
+                            # column(2, wellPanel("Comunidad",
+                            #                     tableOutput("comss")
+                            # )),
+                            # 
+                            # column(2, wellPanel("Reserva-Control",
+                            #                     tableOutput("rcpss")
+                            # ))
                           )
                         )
                ),
@@ -272,8 +274,7 @@ server <- function(input, output) {
     
     radioButtons("comunidad",
                  "Selecciona tus comunidades",
-                 choices = comunidades,
-                 selected = "El Rosario")
+                 choices = comunidades)
   })
   
   RC <- reactive({
@@ -354,13 +355,17 @@ server <- function(input, output) {
     return(indG)
   })
   
-  output$comss <- renderTable({
-    input$comun
+  output$title <- renderText({
+    paste("El análisis se generará para la reserva de ", input$rc, " en la comunidad de ", input$comunidad)
   })
   
-  output$rcpss <- renderTable({
-    input$rc
-  })
+  # output$comss <- renderTable({
+  #   input$comunidad
+  # })
+  # 
+  # output$rcpss <- renderTable({
+  #   input$rc
+  # })
   
   ### Analisis comienza aqui -------------------------------------------------------------------------
   
@@ -470,11 +475,6 @@ server <- function(input, output) {
         output_file = file,
         envir = new.env(parent = globalenv())
       )
-      
-      # rmarkdown::render(input = tempReport, output_file = file,
-      #                   params = params,
-      #                   envir = new.env(parent = globalenv())
-      # )
     }
   )
 }
