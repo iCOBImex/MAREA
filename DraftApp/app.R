@@ -179,7 +179,11 @@ ui <- dashboardPage(
       #Sixth tab starts here
       tabPanel(
         img(src = "res.jpg", width = "150px"),
+        
+        fluidRow(column(12, offset = 4, img(src = "legend.jpg", width = "750px"))),
+        
         fluidRow(column(12, offset = 4, valueBoxOutput("totres"))),
+        
         fluidRow(
           valueBoxOutput("biores"),
           valueBoxOutput("socres"),
@@ -554,7 +558,7 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "Gobernance",
+      value = "Governance",
       subtitle = x,
       icon = icon("users"),
       color = color
