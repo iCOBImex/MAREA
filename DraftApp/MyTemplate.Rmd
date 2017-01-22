@@ -84,7 +84,7 @@ summary <-list(
   ),
   Soc = list(
     L = paste(
-      score(x = data.frame(est = coefficients(Sl)[1], p = coefficients(Sl)[7])), ".jpg", sep = ""
+      score(x = data.frame(est = coefficients(Sl)[2], p = coefficients(Sl)[8])), ".jpg", sep = ""
     )
   )
 )

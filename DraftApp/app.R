@@ -135,13 +135,13 @@ ui <- dashboardPage(
                            'Socioeconomic data')
           ),
           mainPanel(h2("Data preview:"),
-            tabsetPanel(
-              tabPanel("Biophysical",
-                       tableOutput("preview1")),
-              tabPanel("Socioeconomic",
-                       tableOutput("preview2")),
-              tabPanel("Governance",
-                       tableOutput("preview3"))))
+                    tabsetPanel(
+                      tabPanel("Biophysical",
+                               tableOutput("preview1")),
+                      tabPanel("Socioeconomic",
+                               tableOutput("preview2")),
+                      tabPanel("Governance",
+                               tableOutput("preview3"))))
         )
       ),
       
@@ -280,7 +280,7 @@ server <- function(input, output) {
   
   FormatoA=read.csv("www/bio.csv", sep=",")
   FormatoB=read.csv("www/socio.csv", sep=",")
-
+  
   output$downloadA <- downloadHandler(
     filename = function(){paste("Biophysical", ".csv")},
     content = function(file) {
@@ -566,8 +566,8 @@ server <- function(input, output) {
     model <- summary(lm(Landings~Year, data = socioInput()
     ))
     
-    x <- data.frame(est = coefficients(model)[1],
-                    p = coefficients(model)[7])
+    x <- data.frame(est = coefficients(model)[2],
+                    p = coefficients(model)[8])
     
     color <- score(x)
     
@@ -593,7 +593,7 @@ server <- function(input, output) {
   output$gobres <- renderValueBox({
     model <- summary(turfeffect(
       MPAtools::richness(datasetInput(),
-                        input$comunidad),
+                         input$comunidad),
       reserve = res.fun(),
       control = con.fun()
     ))
@@ -643,6 +643,7 @@ server <- function(input, output) {
       params <- list(
         title = c("Report trial"),
         peces = datasetInput(),
+        socioeco = socioInput(),
         comunidad = input$comunidad,
         reserva = res.fun(),
         control = con.fun()
@@ -654,14 +655,7 @@ server <- function(input, output) {
       
       rmarkdown::render(
         input = "MyTemplate.Rmd",
-        params = list(
-          title = c("Report trial"),
-          peces = datasetInput(),
-          socioeco = socioInput(),
-          comunidad = input$comunidad,
-          reserva = res.fun(),
-          control = con.fun()
-        ),
+        params = params,
         output_file = file,
         envir = new.env(parent = globalenv())
       )
