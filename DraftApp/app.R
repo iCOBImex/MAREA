@@ -631,17 +631,10 @@ server <- function(input, output) {
       # can happen when deployed).
       tempReport <-
         file.path(
-          tempdir(),
-          system.file(
-            "rmarkdown/templates/report/Reporte/MyTemplate.Rmd",
-            package = "MPAtools"
-          )
+          tempdir(),"MyTemplate.Rmd"
         )
       file.copy(
-        system.file(
-          "rmarkdown/templates/report/Reporte/MyTemplate.Rmd",
-          package = "MPAtools"
-        ),
+        "MyTemplate.Rmd",
         tempReport,
         overwrite = TRUE
       )
@@ -660,10 +653,7 @@ server <- function(input, output) {
       # from the code in this app).
       
       rmarkdown::render(
-        input = system.file(
-          "rmarkdown/templates/report/Reporte/MyTemplate.Rmd",
-          package = "MPAtools"
-        ),
+        input = "MyTemplate.Rmd",
         params = list(
           title = c("Report trial"),
           peces = datasetInput(),
