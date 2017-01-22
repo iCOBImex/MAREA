@@ -125,7 +125,14 @@ ui <- dashboardPage(
               inputId = "govern",
               label = "Base gobernanza",
               accept = ".csv"
-            )
+            ),
+            p(),
+            h2("Sample formats"),                                       
+            downloadButton('downloadA', 
+                           'Biophysical data'),
+            p(),
+            downloadButton('downloadB',
+                           'Socioeconomic data')
           ),
           mainPanel(h2("Data preview:"),
             tabsetPanel(
@@ -133,7 +140,7 @@ ui <- dashboardPage(
                        tableOutput("preview1")),
               tabPanel("Socioeconomic",
                        tableOutput("preview2")),
-              tabPanel("GOvernance",
+              tabPanel("Governance",
                        tableOutput("preview3"))))
         )
       ),
@@ -270,6 +277,23 @@ server <- function(input, output) {
   #### Cargar datos
   
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
+  
+  FormatoA=read.csv("www/bio.csv", sep=",")
+  FormatoB=read.csv("www/socio.csv", sep=",")
+
+  output$downloadA <- downloadHandler(
+    filename = function(){paste("Biophysical", ".csv")},
+    content = function(file) {
+      write.csv(FormatoA, file, row.names=F)
+    }
+  )
+  
+  output$downloadB <- downloadHandler(
+    filename = function(){paste("Socioeconomic", ".csv")},
+    content = function(file) {
+      write.csv(FormatoB, file, row.names=F)
+    }
+  )
   
   
   # Definir datos biofisicos ##################################################################
