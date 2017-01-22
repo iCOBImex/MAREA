@@ -193,7 +193,7 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "res.jpg", width = "150px"),
         
-        fluidRow(column(12, offset = 4, img(src = "legend2.gif", width = "750px"))),
+        fluidRow(column(12, offset = 4, img(src = "legend2.gif", width = "500px"))),
         
         fluidRow(column(12, offset = 4, valueBoxOutput("totres"))),
         
