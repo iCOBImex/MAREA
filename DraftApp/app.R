@@ -127,8 +127,14 @@ ui <- dashboardPage(
               accept = ".csv"
             )
           ),
-          mainPanel("Data preview:",
-                    tableOutput("contents"))
+          mainPanel(h2("Data preview:"),
+            tabsetPanel(
+              tabPanel("Biophysical",
+                       tableOutput("preview1")),
+              tabPanel("Socioeconomic",
+                       tableOutput("preview2")),
+              tabPanel("GOvernance",
+                       tableOutput("preview3"))))
         )
       ),
       
@@ -180,7 +186,7 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "res.jpg", width = "150px"),
         
-        fluidRow(column(12, offset = 4, img(src = "legend.jpg", width = "750px"))),
+        fluidRow(column(12, offset = 4, img(src = "legend2.gif", width = "750px"))),
         
         fluidRow(column(12, offset = 4, valueBoxOutput("totres"))),
         
@@ -266,7 +272,7 @@ server <- function(input, output) {
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
   
-  # Definir datos biofisicos
+  # Definir datos biofisicos ##################################################################
   datasetInput <- reactive({
     inFile <- input$biophys
     
@@ -292,7 +298,35 @@ server <- function(input, output) {
     head(datasetInput())
   })
   
-  # Definir datos pesqueros
+  # Definir datos pesqueros #####################################################################
+  
+  socioInput<- reactive({
+    inFile <- input$socioeco
+    
+    if (is.null(inFile)) {
+      # data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
+      #            Reserva = c("La Caracolera", "El Gallinero", "Cerro Bola"),
+      #            Control = c("Lazaro", "El Callienro Control", "Cerro Bola control")) %>%
+      #   mutate(RC = paste(Reserva, Control, sep = "-"))
+      return(NULL)
+      
+    } else {
+      data <-
+        read.csv(inFile$datapath,
+                 header = T,
+                 stringsAsFactors = F)
+      
+      return(data)
+    }
+  })
+  
+  output$preview1 <- renderTable({
+    head(datasetInput())
+  })
+  
+  output$preview2 <- renderTable({
+    head(socioInput())
+  })
   
   # Definir datos de gobernananza
   
@@ -495,7 +529,7 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "Biophysical",
+      value = "Density",
       subtitle = x,
       icon = icon("line-chart"),
       color = color
@@ -505,15 +539,11 @@ server <- function(input, output) {
   
   ### Output for socioeco indicators ####################################################################
   output$socres <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::density(datasetInput(),
-                        input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
+    model <- summary(lm(Landings~Year, data = socioInput()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
+    x <- data.frame(est = coefficients(model)[1],
+                    p = coefficients(model)[7])
     
     color <- score(x)
     
@@ -526,7 +556,7 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "Socioeconomic",
+      value = "Landings",
       subtitle = x,
       icon = icon("money"),
       color = color
@@ -613,6 +643,7 @@ server <- function(input, output) {
         params = list(
           title = c("Report trial"),
           peces = datasetInput(),
+          socioeco = socioInput(),
           comunidad = input$comunidad,
           reserva = res.fun(),
           control = con.fun()
