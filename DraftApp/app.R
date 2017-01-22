@@ -317,10 +317,7 @@ server <- function(input, output) {
       return(data)
     }
   })
-  
-  output$contents <- renderTable({
-    head(datasetInput())
-  })
+
   
   # Definir datos pesqueros #####################################################################
   
