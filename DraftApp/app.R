@@ -650,26 +650,26 @@ server <- function(input, output) {
   })
   
   ######################### Biomass #######################
-  output$biomass <- renderUI({
-    if ("Biomasa" %in% input$indB) {
-      model <- summary(turfeffect(
-        MPAtools::fish_biomass(datasetInput(),
-                               input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
-      
-      valueBox(
-        value = "Biomasa",
-        subtitle = x$x,
-        icon = icon("leaf"),
-        color = x$color,
-        width = NULL
-      )
-    }
-  })
+  # output$biomass <- renderUI({
+  #   if ("Biomasa" %in% input$indB) {
+  #     model <- summary(turfeffect(
+  #       MPAtools::fish_biomass(datasetInput(),
+  #                              input$comunidad),
+  #       reserve = res.fun(),
+  #       control = con.fun()
+  #     ))
+  #     
+  #     x <- valueBoxValues(model)
+  #     
+  #     valueBox(
+  #       value = "Biomasa",
+  #       subtitle = x$x,
+  #       icon = icon("leaf"),
+  #       color = x$color,
+  #       width = NULL
+  #     )
+  #   }
+  # })
   
   ######################### Trophic Level #######################
   # output$TL <- renderUI({
