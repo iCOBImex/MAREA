@@ -55,7 +55,7 @@ ui <- dashboardPage(
       "A tool to evaluate the effectiveness of no-take Marine Reserves",
       #theme = shinythemes::shinytheme("cerulean"),
       
-      # First tab starts here
+      #### First tab starts here ################################################################################
       tabPanel(
         img(src = "intro.jpg", width = "150px"),
         mainPanel(
@@ -66,7 +66,7 @@ ui <- dashboardPage(
         ),
         position = c("right")
       ),
-      #Second tab starts here
+      #### Second tab starts here ################################################################################
       tabPanel(
         img(src = "objeind.jpg", width = "150px"),
         sidebarLayout(
@@ -104,7 +104,7 @@ ui <- dashboardPage(
         )
       ),
       
-      #Third tab starts here
+      #### Third tab starts here ################################################################################
       tabPanel(
         img(src = "datos.jpg", width = "150px"),
         sidebarLayout(
@@ -148,7 +148,7 @@ ui <- dashboardPage(
         )
       ),
       
-      # Fourth tab starts here
+      #### Fourth tab starts here ################################################################################
       tabPanel(
         img(src = "select.jpg", width = "150px"),
         fluidRow(
@@ -164,7 +164,7 @@ ui <- dashboardPage(
         
       ),
       
-      #Fifth tab starts here
+      #### Fifth tab starts here ################################################################################
       tabPanel(
         img(src = "conf.jpg", width = "150px"),
         fluidPage(
@@ -192,7 +192,7 @@ ui <- dashboardPage(
         )
       ),
       
-      #Sixth tab starts here
+      #### Sixth tab starts here################################################################################
       tabPanel(
         img(src = "res.jpg", width = "150px"),
         
@@ -209,15 +209,22 @@ ui <- dashboardPage(
           column(
             4,
             valueBoxOutput("biores", width = NULL),
-            p(),
-            valueBoxOutput("density", width = NULL),
-            p(),
-            valueBoxOutput("richness", width = NULL),
-            p(),
-            valueBoxOutput("Shannon", width = NULL)
+            uiOutput("shannon"),
+            uiOutput("richness"),
+            uiOutput("density"),
+            uiOutput("biomass"),
+            uiOutput("TL"),
+            uiOutput("orgtl50"),
+            uiOutput("natural")
           ),
           
-          column(4, valueBoxOutput("socres", width = NULL)),
+          column(
+            4,
+            valueBoxOutput("socres", width = NULL),
+            valueBoxOutput("landings", width = NULL),
+            valueBoxOutput("income", width = NULL)
+          ),
+          
           column(4, valueBoxOutput("gobres", width = NULL))
         )
       )
@@ -225,11 +232,13 @@ ui <- dashboardPage(
   )
 )
 
-######
-# Define server logic
-server <- function(input, output) {
+############################################################################
+##                         Define server logic                           ##
+###########################################################################
 
-  ##### Definir indicadores reactivos a los objetivos####
+server <- function(input, output) {
+  
+  ##### Definir indicadores reactivos a los objetivos ######################################################
   
   # Definir Indicadores Biofisicos
   output$indB <- renderUI({
@@ -293,8 +302,9 @@ server <- function(input, output) {
     
   })
   
-  #### Cargar datos
+  #### Cargar datos ######################################################################
   
+  #### Formatos de prueba disponibles ##########################
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
   FormatoA = read.csv("www/bio.csv", sep = ",")
@@ -319,7 +329,7 @@ server <- function(input, output) {
   )
   
   
-  # Definir datos biofisicos ##################################################################
+  # Definir datos biofisicos ####################################
   datasetInput <- reactive({
     inFile <- input$biophys
     
@@ -342,7 +352,7 @@ server <- function(input, output) {
   })
   
   
-  # Definir datos pesqueros #####################################################################
+  # Definir datos pesqueros ######################################
   
   socioInput <- reactive({
     inFile <- input$socioeco
@@ -372,10 +382,10 @@ server <- function(input, output) {
     head(socioInput())
   })
   
-  # Definir datos de gobernananza
+  #### Definir datos de gobernananza ####################################
   
-  #######
-  ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados
+
+  ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados ####################################
   
   output$comunidad <- renderUI({
     datos <- datasetInput()
@@ -437,7 +447,7 @@ server <- function(input, output) {
   })
   
   
-  ### Definir tablas de confirmacion
+  ### Definir tablas de confirmacion ####################################
   
   output$objss <- renderTable({
     options <-
@@ -453,7 +463,7 @@ server <- function(input, output) {
         )
       )
     
-    selected <- options[as.numeric(input$obj) - 1, ]
+    selected <- options[as.numeric(input$obj) - 1,]
     
     selected <- paste(seq(1, length(selected)), "- ", selected)
     
@@ -495,10 +505,8 @@ server <- function(input, output) {
   #   input$rc
   # })
   
-  ### Analisis comienza aqui -------------------------------------------------------------------------
+  ### Analisis comienza aqui ####################################
   
-  # peces <- reactive({datasetInput()})
-  # comunidad <- com.fun()
   res.fun <- reactive({
     data.res <- datasetInput()
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
@@ -510,13 +518,6 @@ server <- function(input, output) {
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
                                          data.res$Zonificacion == "Control"]))
   })
-  
-  # control <- con.fun()
-  #
-  # Dp <- summary(turfeffect(density(peces, comunidad), reserva, control))
-  # Sp <- summary(turfeffect(richness(peces, comunidad), reserva, control))
-  # Bp <- summary(turfeffect(fish_biomass(peces, comunidad), reserva, control))
-  # NT <- summary(turfeffect(trophic(peces, comunidad), reserva, control))
   
   # Output for general results ####################################################################
   
@@ -531,7 +532,7 @@ server <- function(input, output) {
     x <- valueBoxValues(model)
     
     valueBox(
-      value = "General performance",
+      value = "General",
       subtitle = x$x,
       icon = icon("globe"),
       color = x$color
@@ -540,6 +541,8 @@ server <- function(input, output) {
   })
   
   ### Output for biophys indicators ####################################################################
+  
+  ######################### General #######################
   output$biores <- renderValueBox({
     model <- summary(turfeffect(
       MPAtools::density(datasetInput(),
@@ -551,71 +554,145 @@ server <- function(input, output) {
     x <- valueBoxValues(model)
     
     valueBox(
-      value = "Biophysical indicators",
+      value = "Indicadores biofísicos",
       subtitle = x$x,
       icon = icon("leaf"),
       color = x$color
     )
   })
   
-  ## Density
-  
-  output$density <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::density(datasetInput(),
-                        input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
-    ))
-    
-    x <- valueBoxValues(model)
-    
-    valueBox(
-      value = "Density",
-      subtitle = x$x,
-      icon = icon("leaf"),
-      color = x$color
-    )
+  ######################### Shannon #######################
+  output$shannon <- renderUI({
+    if ("Índice de diversidad de Shannon" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::shannon(datasetInput(),
+                          input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Índice de Shannon",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color,
+        width = NULL
+      )
+    } else {}
   })
   
-  ## Richness
-  
-  output$richness <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::richness(datasetInput(),
-                         input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
-    ))
-    
-    x <- valueBoxValues(model)
-    
-    valueBox(
-      value = "Richness",
-      subtitle = x$x,
-      icon = icon("leaf"),
-      color = x$color
-    )
+  ######################### Richness #######################
+  output$richness <- renderUI({
+    if ("Riqueza" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::richness(datasetInput(),
+                           input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Riqueza",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color,
+        width = NULL
+      )
+    }
   })
   
-  ## Shannon
-  output$Shannon <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::shannon(datasetInput(),
-                        input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
-    ))
-    
-    x <- valueBoxValues(model)
-    
-    valueBox(
-      value = "Shannon index (H')",
-      subtitle = x$x,
-      icon = icon("leaf"),
-      color = x$color
-    )
+  ######################### Density #######################
+  output$density <- renderUI({
+    if ("Densidad" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::density(datasetInput(),
+                          input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Densidad",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color, 
+        width = NULL
+      )
+    }
   })
+  
+  ######################### Biomass #######################
+  output$biomass <- renderUI({
+    if ("Biomasa" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::fish_biomass(datasetInput(),
+                               input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Biomasa",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color,
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Trophic Level #######################
+  output$TL <- renderUI({
+    if ("Nivel trófico" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::trophic(datasetInput(),
+                          input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Nivel Trófico",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color,
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 #######################
+  output$orgtl50 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB) {
+      model <- summary(turfeffect(
+        MPAtools::density(datasetInput(),
+                          input$comunidad),
+        reserve = res.fun(),
+        control = con.fun()
+      ))
+      
+      x <- valueBoxValues(model)
+      
+      valueBox(
+        value = "Organismos > LT50",
+        subtitle = x$x,
+        icon = icon("leaf"),
+        color = x$color,
+        width = NULL
+      )
+    }
+  })
+  
   
   ### Output for socioeco indicators ####################################################################
   output$socres <- renderValueBox({
@@ -635,7 +712,7 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "Landings",
+      value = "Arribos",
       subtitle = x,
       icon = icon("money"),
       color = color
@@ -646,7 +723,6 @@ server <- function(input, output) {
   ### Output for governance indicators ####################################################################
   
   output$gobres <- renderValueBox({
-    
     valueBox(
       value = "Governance",
       subtitle = "nothing yet",
