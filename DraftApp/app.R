@@ -413,8 +413,6 @@ server <- function(input, output) {
   output$rc <- renderUI({
     req(input$biophys)
     
-    print(input$comunidad)
-    
     pairs <- RC()
 
     radioButtons("rc",
