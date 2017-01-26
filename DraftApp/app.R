@@ -672,48 +672,48 @@ server <- function(input, output) {
   })
   
   ######################### Trophic Level #######################
-  output$TL <- renderUI({
-    if ("Nivel trófico" %in% input$indB) {
-      model <- summary(turfeffect(
-        MPAtools::trophic(datasetInput(),
-                          input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
-      
-      valueBox(
-        value = "Nivel Trófico",
-        subtitle = x$x,
-        icon = icon("leaf"),
-        color = x$color,
-        width = NULL
-      )
-    }
-  })
+  # output$TL <- renderUI({
+  #   if ("Nivel trófico" %in% input$indB) {
+  #     model <- summary(turfeffect(
+  #       MPAtools::trophic(datasetInput(),
+  #                         input$comunidad),
+  #       reserve = res.fun(),
+  #       control = con.fun()
+  #     ))
+  #     
+  #     x <- valueBoxValues(model)
+  #     
+  #     valueBox(
+  #       value = "Nivel Trófico",
+  #       subtitle = x$x,
+  #       icon = icon("leaf"),
+  #       color = x$color,
+  #       width = NULL
+  #     )
+  #   }
+  # })
   
   ######################### Organisms above TL 50 #######################
-  output$orgtl50 <- renderUI({
-    if ("Organismos > LT_50" %in% input$indB) {
-      model <- summary(turfeffect(
-        MPAtools::density(datasetInput(),
-                          input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
-      
-      valueBox(
-        value = "Organismos > LT50",
-        subtitle = x$x,
-        icon = icon("leaf"),
-        color = x$color,
-        width = NULL
-      )
-    }
-  })
+  # output$orgtl50 <- renderUI({
+  #   if ("Organismos > LT_50" %in% input$indB) {
+  #     model <- summary(turfeffect(
+  #       MPAtools::density(datasetInput(),
+  #                         input$comunidad),
+  #       reserve = res.fun(),
+  #       control = con.fun()
+  #     ))
+  #     
+  #     x <- valueBoxValues(model)
+  #     
+  #     valueBox(
+  #       value = "Organismos > LT50",
+  #       subtitle = x$x,
+  #       icon = icon("leaf"),
+  #       color = x$color,
+  #       width = NULL
+  #     )
+  #   }
+  # })
   
   
   ### Output for socioeco indicators ####################################################################
