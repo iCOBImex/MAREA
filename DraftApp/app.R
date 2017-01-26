@@ -228,6 +228,7 @@ ui <- dashboardPage(
 ######
 # Define server logic
 server <- function(input, output) {
+
   ##### Definir indicadores reactivos a los objetivos####
   
   # Definir Indicadores Biofisicos
@@ -527,24 +528,13 @@ server <- function(input, output) {
       control = con.fun()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    x <- valueBoxValues(model)
     
     valueBox(
       value = "General performance",
-      subtitle = x,
+      subtitle = x$x,
       icon = icon("globe"),
-      color = color
+      color = x$color
     )
     
   })
@@ -558,24 +548,13 @@ server <- function(input, output) {
       control = con.fun()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    x <- valueBoxValues(model)
     
     valueBox(
       value = "Biophysical indicators",
-      subtitle = x,
+      subtitle = x$x,
       icon = icon("leaf"),
-      color = color
+      color = x$color
     )
   })
   
@@ -589,24 +568,13 @@ server <- function(input, output) {
       control = con.fun()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    x <- valueBoxValues(model)
     
     valueBox(
       value = "Density",
-      subtitle = x,
+      subtitle = x$x,
       icon = icon("leaf"),
-      color = color
+      color = x$color
     )
   })
   
@@ -620,24 +588,13 @@ server <- function(input, output) {
       control = con.fun()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    x <- valueBoxValues(model)
     
     valueBox(
       value = "Richness",
-      subtitle = x,
+      subtitle = x$x,
       icon = icon("leaf"),
-      color = color
+      color = x$color
     )
   })
   
@@ -650,24 +607,13 @@ server <- function(input, output) {
       control = con.fun()
     ))
     
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    x <- valueBoxValues(model)
     
     valueBox(
       value = "Shannon index (H')",
-      subtitle = x,
+      subtitle = x$x,
       icon = icon("leaf"),
-      color = color
+      color = x$color
     )
   })
   
@@ -700,31 +646,12 @@ server <- function(input, output) {
   ### Output for governance indicators ####################################################################
   
   output$gobres <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::richness(datasetInput(),
-                         input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
-    ))
-    
-    x <- data.frame(est = coefficients(model)[7],
-                    p = coefficients(model)[28])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
     
     valueBox(
       value = "Governance",
-      subtitle = x,
+      subtitle = "nothing yet",
       icon = icon("users"),
-      color = color
+      color = "red"
     )
     
   })
