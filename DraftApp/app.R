@@ -221,8 +221,8 @@ ui <- dashboardPage(
           column(
             4,
             valueBoxOutput("socres", width = NULL),
-            valueBoxOutput("landings", width = NULL),
-            valueBoxOutput("income", width = NULL)
+            uiOutput("landings", width = NULL),
+            uiOutput("income", width = NULL)
           ),
           
           column(4, valueBoxOutput("gobres", width = NULL))
@@ -384,10 +384,12 @@ server <- function(input, output) {
   
   #### Definir datos de gobernananza ####################################
   
-
+  
   ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados ####################################
   
   output$comunidad <- renderUI({
+    req(input$biophys)
+    
     datos <- datasetInput()
     
     comunidades <- unique(datos$Comunidad)
@@ -398,23 +400,36 @@ server <- function(input, output) {
   })
   
   RC <- reactive({
-    datos <- datasetInput()
-    
-    return(unique(datos$RC[datos$Comunidad == input$comunidad]))
+    req(input$comunidad)
+   
+    pairs <- datasetInput() %>% 
+      filter(Comunidad == input$comunidad) %>% 
+      group_by(RC) %>% 
+      summarize(n())
+
+    return(pairs$RC)
   })
   
   output$rc <- renderUI({
+    req(input$biophys)
+    
+    print(input$comunidad)
+    
+    pairs <- RC()
+
     radioButtons("rc",
                  "Selecciona tus pares Reserva-Control",
-                 choices = RC())
+                 choices = pairs)
     
   })
   
   output$objsp <- renderUI({
+    req(input$biophys)
+    
     if (any(input$obj == c(2, 3, 6)) |
         
         any(
-          input$indB == c(
+          input$indB %in% c(
             "Organismos > LT_50",
             "Densidad de especies objetivo",
             "Biomasa de especies objetivo"
@@ -422,7 +437,7 @@ server <- function(input, output) {
         ) |
         
         any(
-          input$indS == c(
+          input$indS %in% c(
             "Arribos de especies objetivo",
             "Ingresos por arribos de especies objetivo"
           )
@@ -450,8 +465,9 @@ server <- function(input, output) {
   ### Definir tablas de confirmacion ####################################
   
   output$objss <- renderTable({
-    options <-
-      data.frame(
+    req(input$biophys)
+    
+    options <- data.frame(
         Options = c(
           "Recuperar especies de interés comercial",
           "Conservar especies en régimen de protección especial",
@@ -471,24 +487,32 @@ server <- function(input, output) {
   })
   
   output$indBs <- renderTable({
+    req(input$biophys)
+    
     indB <- paste(seq(1, length(input$indB)), "- ", input$indB)
     
     return(indB)
   })
   
   output$indSs <- renderTable({
+    req(input$biophys)
+    
     indS <- paste(seq(1, length(input$indS)), "- ", input$indS)
     
     return(indS)
   })
   
   output$indGs <- renderTable({
+    req(input$biophys)
+    
     indG <- paste(seq(1, length(input$indG)), "- ", input$indG)
     
     return(indG)
   })
   
   output$title <- renderText({
+    req(input$biophys)
+    
     paste(
       "El análisis se generará para la reserva de ",
       input$rc,
@@ -712,13 +736,72 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "Arribos",
+      value = "Socioeconómicos",
       subtitle = x,
       icon = icon("money"),
       color = color
     )
     
   })
+  
+  ######################### Landings #######################
+  
+  output$landings <- renderUI({
+    if ("Arribos" %in% input$indS) {
+      model <- summary(lm(Landings ~ Year, data = socioInput()))
+      
+      x <- data.frame(est = coefficients(model)[2],
+                      p = coefficients(model)[8])
+      
+      color <- score(x)
+      
+      x <-
+        paste(
+          "Estimate = ",
+          formatC(x$est, digits = 2, format = "f"),
+          "; p = ",
+          formatC(x$p, digits = 2, format = "f")
+        )
+      
+      valueBox(
+        value = "Arribos",
+        subtitle = x,
+        icon = icon("money"),
+        color = color,
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings #######################
+  
+  output$income <- renderUI({
+    if ("Ingresos por arribos" %in% input$indS) {
+      model <- summary(lm(Income ~ Year, data = socioInput()))
+      
+      x <- data.frame(est = coefficients(model)[2],
+                      p = coefficients(model)[8])
+      
+      color <- score(x)
+      
+      x <-
+        paste(
+          "Estimate = ",
+          formatC(x$est, digits = 2, format = "f"),
+          "; p = ",
+          formatC(x$p, digits = 2, format = "f")
+        )
+      
+      valueBox(
+        value = "Ingresos",
+        subtitle = x,
+        icon = icon("money"),
+        color = color,
+        width = NULL
+      )
+    }
+  })
+  
   
   ### Output for governance indicators ####################################################################
   
@@ -729,7 +812,6 @@ server <- function(input, output) {
       icon = icon("users"),
       color = "red"
     )
-    
   })
   
   
