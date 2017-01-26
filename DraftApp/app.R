@@ -206,15 +206,20 @@ ui <- dashboardPage(
         
         # Insert score by categories
         fluidRow(
-          valueBoxOutput("biores"),
-          valueBoxOutput("socres"),
-          valueBoxOutput("gobres")
-        ),
-        
-        column(12,
-               valueBoxOutput("density"),
-               valueBoxOutput("richness"),
-               valueBoxOutput("Shannon"))
+          column(
+            4,
+            valueBoxOutput("biores", width = NULL),
+            p(),
+            valueBoxOutput("density", width = NULL),
+            p(),
+            valueBoxOutput("richness", width = NULL),
+            p(),
+            valueBoxOutput("Shannon", width = NULL)
+          ),
+          
+          column(4, valueBoxOutput("socres", width = NULL)),
+          column(4, valueBoxOutput("gobres", width = NULL))
+        )
       )
     )
   )
@@ -447,7 +452,7 @@ server <- function(input, output) {
         )
       )
     
-    selected <- options[as.numeric(input$obj) - 1,]
+    selected <- options[as.numeric(input$obj) - 1, ]
     
     selected <- paste(seq(1, length(selected)), "- ", selected)
     
@@ -569,7 +574,7 @@ server <- function(input, output) {
     valueBox(
       value = "Biophysical indicators",
       subtitle = x,
-      icon = icon("line-chart"),
+      icon = icon("leaf"),
       color = color
     )
   })
@@ -600,7 +605,7 @@ server <- function(input, output) {
     valueBox(
       value = "Density",
       subtitle = x,
-      icon = icon("line-chart"),
+      icon = icon("leaf"),
       color = color
     )
   })
@@ -631,11 +636,12 @@ server <- function(input, output) {
     valueBox(
       value = "Richness",
       subtitle = x,
-      icon = icon("line-chart"),
+      icon = icon("leaf"),
       color = color
     )
   })
   
+  ## Shannon
   output$Shannon <- renderValueBox({
     model <- summary(turfeffect(
       MPAtools::shannon(datasetInput(),
@@ -660,7 +666,7 @@ server <- function(input, output) {
     valueBox(
       value = "Shannon index (H')",
       subtitle = x,
-      icon = icon("line-chart"),
+      icon = icon("leaf"),
       color = color
     )
   })
