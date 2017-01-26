@@ -127,21 +127,24 @@ ui <- dashboardPage(
               accept = ".csv"
             ),
             p(),
-            h2("Sample formats"),                                       
-            downloadButton('downloadA', 
+            h2("Sample formats"),
+            downloadButton('downloadA',
                            'Biophysical data'),
             p(),
             downloadButton('downloadB',
                            'Socioeconomic data')
           ),
-          mainPanel(h2("Data preview:"),
-                    tabsetPanel(
-                      tabPanel("Biophysical",
-                               tableOutput("preview1")),
-                      tabPanel("Socioeconomic",
-                               tableOutput("preview2")),
-                      tabPanel("Governance",
-                               tableOutput("preview3"))))
+          mainPanel(
+            h2("Data preview:"),
+            tabsetPanel(
+              tabPanel("Biophysical",
+                       tableOutput("preview1")),
+              tabPanel("Socioeconomic",
+                       tableOutput("preview2")),
+              tabPanel("Governance",
+                       tableOutput("preview3"))
+            )
+          )
         )
       ),
       
@@ -193,15 +196,25 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "res.jpg", width = "150px"),
         
-        fluidRow(column(12, offset = 4, img(src = "legend2.gif", width = "500px"))),
+        # Insert a legend
+        fluidRow(column(
+          12, offset = 4, img(src = "legend2.gif", width = "500px")
+        )),
         
+        # Insert a general score
         fluidRow(column(12, offset = 4, valueBoxOutput("totres"))),
         
+        # Insert score by categories
         fluidRow(
           valueBoxOutput("biores"),
           valueBoxOutput("socres"),
           valueBoxOutput("gobres")
-        )
+        ),
+        
+        column(12,
+               valueBoxOutput("density"),
+               valueBoxOutput("richness"),
+               valueBoxOutput("Shannon"))
       )
     )
   )
@@ -278,20 +291,24 @@ server <- function(input, output) {
   
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
-  FormatoA=read.csv("www/bio.csv", sep=",")
-  FormatoB=read.csv("www/socio.csv", sep=",")
+  FormatoA = read.csv("www/bio.csv", sep = ",")
+  FormatoB = read.csv("www/socio.csv", sep = ",")
   
   output$downloadA <- downloadHandler(
-    filename = function(){paste("Biophysical", ".csv")},
+    filename = function() {
+      paste("Biophysical", ".csv")
+    },
     content = function(file) {
-      write.csv(FormatoA, file, row.names=F)
+      write.csv(FormatoA, file, row.names = F)
     }
   )
   
   output$downloadB <- downloadHandler(
-    filename = function(){paste("Socioeconomic", ".csv")},
+    filename = function() {
+      paste("Socioeconomic", ".csv")
+    },
     content = function(file) {
-      write.csv(FormatoB, file, row.names=F)
+      write.csv(FormatoB, file, row.names = F)
     }
   )
   
@@ -317,11 +334,11 @@ server <- function(input, output) {
       return(data)
     }
   })
-
+  
   
   # Definir datos pesqueros #####################################################################
   
-  socioInput<- reactive({
+  socioInput <- reactive({
     inFile <- input$socioeco
     
     if (is.null(inFile)) {
@@ -519,7 +536,7 @@ server <- function(input, output) {
       )
     
     valueBox(
-      value = "General",
+      value = "General performance",
       subtitle = x,
       icon = icon("globe"),
       color = color
@@ -550,18 +567,107 @@ server <- function(input, output) {
       )
     
     valueBox(
+      value = "Biophysical indicators",
+      subtitle = x,
+      icon = icon("line-chart"),
+      color = color
+    )
+  })
+  
+  ## Density
+  
+  output$density <- renderValueBox({
+    model <- summary(turfeffect(
+      MPAtools::density(datasetInput(),
+                        input$comunidad),
+      reserve = res.fun(),
+      control = con.fun()
+    ))
+    
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    color <- score(x)
+    
+    x <-
+      paste(
+        "Estimate = ",
+        formatC(x$est, digits = 2, format = "f"),
+        "; p = ",
+        formatC(x$p, digits = 2, format = "f")
+      )
+    
+    valueBox(
       value = "Density",
       subtitle = x,
       icon = icon("line-chart"),
       color = color
     )
+  })
+  
+  ## Richness
+  
+  output$richness <- renderValueBox({
+    model <- summary(turfeffect(
+      MPAtools::richness(datasetInput(),
+                         input$comunidad),
+      reserve = res.fun(),
+      control = con.fun()
+    ))
     
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    color <- score(x)
+    
+    x <-
+      paste(
+        "Estimate = ",
+        formatC(x$est, digits = 2, format = "f"),
+        "; p = ",
+        formatC(x$p, digits = 2, format = "f")
+      )
+    
+    valueBox(
+      value = "Richness",
+      subtitle = x,
+      icon = icon("line-chart"),
+      color = color
+    )
+  })
+  
+  output$Shannon <- renderValueBox({
+    model <- summary(turfeffect(
+      MPAtools::shannon(datasetInput(),
+                        input$comunidad),
+      reserve = res.fun(),
+      control = con.fun()
+    ))
+    
+    x <- data.frame(est = coefficients(model)[7],
+                    p = coefficients(model)[28])
+    
+    color <- score(x)
+    
+    x <-
+      paste(
+        "Estimate = ",
+        formatC(x$est, digits = 2, format = "f"),
+        "; p = ",
+        formatC(x$p, digits = 2, format = "f")
+      )
+    
+    valueBox(
+      value = "Shannon index (H')",
+      subtitle = x,
+      icon = icon("line-chart"),
+      color = color
+    )
   })
   
   ### Output for socioeco indicators ####################################################################
   output$socres <- renderValueBox({
-    model <- summary(lm(Landings~Year, data = socioInput()
-    ))
+    model <- summary(lm(Landings ~ Year, data = socioInput()))
     
     x <- data.frame(est = coefficients(model)[2],
                     p = coefficients(model)[8])
@@ -627,14 +733,10 @@ server <- function(input, output) {
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
       tempReport <-
-        file.path(
-          tempdir(),"MyTemplate.Rmd"
-        )
-      file.copy(
-        "MyTemplate.Rmd",
-        tempReport,
-        overwrite = TRUE
-      )
+        file.path(tempdir(), "MyTemplate.Rmd")
+      file.copy("MyTemplate.Rmd",
+                tempReport,
+                overwrite = TRUE)
       
       # Set up parameters to pass to Rmd document
       params <- list(
