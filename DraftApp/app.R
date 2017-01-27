@@ -246,7 +246,7 @@ server <- function(input, output) {
       "indB",
       "Biofísicos",
       choices = c(
-        "Índice de diversidad de Shannon",
+        "Indice de diversidad de Shannon",
         "Riqueza",
         "Organismos > LT_50",
         "Densidad",
@@ -415,23 +415,23 @@ server <- function(input, output) {
   
   output$objsp <- renderUI({
     req(input$biophys)
+    req(input$comunidad)
     
-    if (any(input$obj == c(2, 3, 6)) |
-        
+    if (any(input$obj %in% c(2, 3, 6)) ||
         any(
           input$indB %in% c(
             "Organismos > LT_50",
             "Densidad de especies objetivo",
             "Biomasa de especies objetivo"
           )
-        ) |
-        
+        ) ||
         any(
           input$indS %in% c(
             "Arribos de especies objetivo",
             "Ingresos por arribos de especies objetivo"
           )
         )) {
+      
       sp_list <- datasetInput() %>%
         filter(Comunidad == input$comunidad,
                RC == RC()) %>%
@@ -528,7 +528,9 @@ server <- function(input, output) {
   
   results_i <- reactive({
     req(input$biophys)
-    req(input$IndB)
+    req(input$indB)
+    req(input$comunidad)
+    req(input$rc)
     
     values = list(indB = input$indB,
                   comunidad = input$comunidad)
@@ -555,7 +557,7 @@ server <- function(input, output) {
       value = "General",
       subtitle = valueBoxString(model),
       icon = icon("globe"),
-      color = valueBoxValues(model)
+      color = score(model)
     )
     
   })
@@ -583,7 +585,7 @@ server <- function(input, output) {
   
   ######################### Shannon #######################
   output$shannon <- renderUI({
-    if ("Índice de diversidad de Shannon" %in% input$indB) {
+    if ("Indice de diversidad de Shannon" %in% input$indB) {
       model <- results_i()$model[[1]]
       
       valueBox(
@@ -703,56 +705,56 @@ server <- function(input, output) {
   # })
   
   
-  ### Output for socioeco indicators ####################################################################
-  output$socres <- renderValueBox({
-    req(input$socioeco)
-    
-    model <- lm(Landings ~ Year, data = socioInput())
-    
-    valueBox(
-      value = "Socioeconómicos",
-      subtitle = valueBoxString(model),
-      icon = icon("money"),
-      color = score(model)
-    )
-    
-  })
-  
-  ######################### Landings #######################
-  
-  output$landings <- renderUI({
-    req(input$socioeco)
-    
-    if ("Arribos" %in% input$indS) {
-      model <- lm(Landings ~ Year, data = socioInput())
-      
-      valueBox(
-        value = "Arribos",
-        subtitle = valueBoxString(model),
-        icon = icon("money"),
-        color = score(model),
-        width = NULL
-      )
-    }
-  })
-  
-  ######################### Income from landings #######################
-  
-  output$income <- renderUI({
-    req(input$socioeco)
-    
-    if ("Ingresos por arribos" %in% input$indS) {
-      model <- lm(Income ~ Year, data = socioInput())
-      
-      valueBox(
-        value = "Ingresos",
-        subtitle = valueBoxString(model),
-        icon = icon("money"),
-        color = score(model),
-        width = NULL
-      )
-    }
-  })
+  # ### Output for socioeco indicators ####################################################################
+  # output$socres <- renderValueBox({
+  #   req(input$socioeco)
+  #   
+  #   model <- lm(Landings ~ Year, data = socioInput())
+  #   
+  #   valueBox(
+  #     value = "Socioeconómicos",
+  #     subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
+  #     icon = icon("money"),
+  #     color = score(model)
+  #   )
+  #   
+  # })
+  # 
+  # ######################### Landings #######################
+  # 
+  # output$landings <- renderUI({
+  #   req(input$socioeco)
+  #   
+  #   if ("Arribos" %in% input$indS) {
+  #     model <- lm(Landings ~ Year, data = socioInput())
+  #     
+  #     valueBox(
+  #       value = "Arribos",
+  #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
+  #       icon = icon("money"),
+  #       color = score(model),
+  #       width = NULL
+  #     )
+  #   }
+  # })
+  # 
+  # ######################### Income from landings #######################
+  # 
+  # output$income <- renderUI({
+  #   req(input$socioeco)
+  #   
+  #   if ("Ingresos por arribos" %in% input$indS) {
+  #     model <- lm(Income ~ Year, data = socioInput())
+  #     
+  #     valueBox(
+  #       value = "Ingresos",
+  #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
+  #       icon = icon("money"),
+  #       color = score(model),
+  #       width = NULL
+  #     )
+  #   }
+  # })
   
   
   ### Output for governance indicators ####################################################################
