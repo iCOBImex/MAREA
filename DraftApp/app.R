@@ -455,7 +455,7 @@ server <- function(input, output) {
   ### Definir tablas de confirmacion ####################################
   
   output$objss <- renderTable({
-    req(input$biophys)
+    req(input$obj)
     
     options <- data.frame(
       Options = c(
@@ -471,33 +471,26 @@ server <- function(input, output) {
     
     selected <- options[as.numeric(input$obj) - 1,]
     
-    selected <- paste(seq(1, length(selected)), "- ", selected)
-    
-    return(selected)
+    selected <- unname(data.frame(paste(seq(1, length(selected)), "- ", selected)))
+
   })
   
   output$indBs <- renderTable({
-    req(input$biophys)
+    req(input$indB)
     
-    indB <- paste(seq(1, length(input$indB)), "- ", input$indB)
-    
-    return(indB)
+    indB <- unname(data.frame(paste(seq(1, length(input$indB)), "- ", input$indB)))
   })
   
   output$indSs <- renderTable({
-    req(input$biophys)
+    req(input$indS)
     
-    indS <- paste(seq(1, length(input$indS)), "- ", input$indS)
-    
-    return(indS)
+    indS <- unname(data.frame(paste(seq(1, length(input$indS)), "- ", input$indS)))
   })
   
   output$indGs <- renderTable({
-    req(input$biophys)
+    req(input$indG)
     
-    indG <- paste(seq(1, length(input$indG)), "- ", input$indG)
-    
-    return(indG)
+    indG <- unname(data.frame(paste(seq(1, length(input$indG)), "- ", input$indG)))
   })
   
   output$title <- renderText({
@@ -548,6 +541,9 @@ server <- function(input, output) {
   # Output for general results ####################################################################
   
   output$totres <- renderValueBox({
+    req(input$biophys)
+    req(input$socioeco)
+    
     model <- turfeffect(
       MPAtools::shannon(datasetInput(),
                         input$comunidad),
@@ -709,6 +705,8 @@ server <- function(input, output) {
   
   ### Output for socioeco indicators ####################################################################
   output$socres <- renderValueBox({
+    req(input$socioeco)
+    
     model <- lm(Landings ~ Year, data = socioInput())
     
     valueBox(
@@ -723,7 +721,8 @@ server <- function(input, output) {
   ######################### Landings #######################
   
   output$landings <- renderUI({
-
+    req(input$socioeco)
+    
     if ("Arribos" %in% input$indS) {
       model <- lm(Landings ~ Year, data = socioInput())
       
@@ -740,6 +739,8 @@ server <- function(input, output) {
   ######################### Income from landings #######################
   
   output$income <- renderUI({
+    req(input$socioeco)
+    
     if ("Ingresos por arribos" %in% input$indS) {
       model <- lm(Income ~ Year, data = socioInput())
       
@@ -769,7 +770,12 @@ server <- function(input, output) {
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
     # For PDF output, change this to "report.pdf"
-    filename = "report.html",
+    filename = paste(
+      "Analisis",
+      input$comunidad,
+      input$rc,
+      sep = "_"
+    ),
     content = function(file) {
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
