@@ -334,10 +334,6 @@ server <- function(input, output) {
     inFile <- input$biophys
     
     if (is.null(inFile)) {
-      # data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
-      #            Reserva = c("La Caracolera", "El Gallinero", "Cerro Bola"),
-      #            Control = c("Lazaro", "El Callienro Control", "Cerro Bola control")) %>%
-      #   mutate(RC = paste(Reserva, Control, sep = "-"))
       return(NULL)
       
     } else {
@@ -358,10 +354,6 @@ server <- function(input, output) {
     inFile <- input$socioeco
     
     if (is.null(inFile)) {
-      # data.frame(Comunidad = c("El Rosario", "Maria Elena", "Puerto Libertad"),
-      #            Reserva = c("La Caracolera", "El Gallinero", "Cerro Bola"),
-      #            Control = c("Lazaro", "El Callienro Control", "Cerro Bola control")) %>%
-      #   mutate(RC = paste(Reserva, Control, sep = "-"))
       return(NULL)
       
     } else {
@@ -401,12 +393,12 @@ server <- function(input, output) {
   
   RC <- reactive({
     req(input$comunidad)
-   
+    
     pairs <- datasetInput() %>% 
       filter(Comunidad == input$comunidad) %>% 
       group_by(RC) %>% 
       summarize(n())
-
+    
     return(pairs$RC)
   })
   
@@ -414,7 +406,7 @@ server <- function(input, output) {
     req(input$biophys)
     
     pairs <- RC()
-
+    
     radioButtons("rc",
                  "Selecciona tus pares Reserva-Control",
                  choices = pairs)
@@ -466,16 +458,16 @@ server <- function(input, output) {
     req(input$biophys)
     
     options <- data.frame(
-        Options = c(
-          "Recuperar especies de interés comercial",
-          "Conservar especies en régimen de protección especial",
-          "Mejorar la productividad pesquera en aguas adyacentes",
-          "Evitar que se llegue a la sobreexplotación",
-          "Recuperar especies sobreexplotadas",
-          "Contribuir al mantenimiento de los procesos biológicos",
-          "Preservar la diversidad biologica y los ecosistemas"
-        )
+      Options = c(
+        "Recuperar especies de interés comercial",
+        "Conservar especies en régimen de protección especial",
+        "Mejorar la productividad pesquera en aguas adyacentes",
+        "Evitar que se llegue a la sobreexplotación",
+        "Recuperar especies sobreexplotadas",
+        "Contribuir al mantenimiento de los procesos biológicos",
+        "Preservar la diversidad biologica y los ecosistemas"
       )
+    )
     
     selected <- options[as.numeric(input$obj) - 1,]
     
@@ -541,23 +533,33 @@ server <- function(input, output) {
                                          data.res$Zonificacion == "Control"]))
   })
   
+  results_i <- reactive({
+    req(input$biophys)
+    req(input$IndB)
+    
+    values = list(indB = input$indB,
+                  comunidad = input$comunidad)
+    
+    bio_results(values, datasetInput(), res.fun(), con.fun())
+    })
+  
+  
+  
   # Output for general results ####################################################################
   
   output$totres <- renderValueBox({
-    model <- summary(turfeffect(
+    model <- turfeffect(
       MPAtools::shannon(datasetInput(),
                         input$comunidad),
       reserve = res.fun(),
       control = con.fun()
-    ))
-    
-    x <- valueBoxValues(model)
+    )
     
     valueBox(
       value = "General",
-      subtitle = x$x,
+      subtitle = valueBoxString(model),
       icon = icon("globe"),
-      color = x$color
+      color = valueBoxValues(model)
     )
     
   })
@@ -566,40 +568,33 @@ server <- function(input, output) {
   
   ######################### General #######################
   output$biores <- renderValueBox({
-    model <- summary(turfeffect(
-      MPAtools::density(datasetInput(),
-                        input$comunidad),
-      reserve = res.fun(),
-      control = con.fun()
-    ))
     
-    x <- valueBoxValues(model)
+    biosummary <- results_i() %>%
+      filter(!is.na(e)) %>% 
+      mutate(Valid = length(e),
+             Positive = (e>0)*1,
+             Score = sum(Positive)/Valid*100) %>% 
+      select(Score) %>% max()
+      
     
     valueBox(
       value = "Indicadores biofísicos",
-      subtitle = x$x,
+      subtitle = paste0( biosummary, "% de indicadores positivos"),
       icon = icon("leaf"),
-      color = x$color
+      color = "green"
     )
   })
   
   ######################### Shannon #######################
   output$shannon <- renderUI({
     if ("Índice de diversidad de Shannon" %in% input$indB) {
-      model <- summary(turfeffect(
-        MPAtools::shannon(datasetInput(),
-                          input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
+      model <- results_i()$model[[1]]
       
       valueBox(
         value = "Índice de Shannon",
-        subtitle = x$x,
+        subtitle = valueBoxString(model),
         icon = icon("leaf"),
-        color = x$color,
+        color = score(model),
         width = NULL
       )
     } else {}
@@ -608,20 +603,18 @@ server <- function(input, output) {
   ######################### Richness #######################
   output$richness <- renderUI({
     if ("Riqueza" %in% input$indB) {
-      model <- summary(turfeffect(
+      model <- turfeffect(
         MPAtools::richness(datasetInput(),
                            input$comunidad),
         reserve = res.fun(),
         control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
+      )
       
       valueBox(
         value = "Riqueza",
-        subtitle = x$x,
+        subtitle = valueBoxString(model),
         icon = icon("leaf"),
-        color = x$color,
+        color = score(model),
         width = NULL
       )
     }
@@ -630,20 +623,18 @@ server <- function(input, output) {
   ######################### Density #######################
   output$density <- renderUI({
     if ("Densidad" %in% input$indB) {
-      model <- summary(turfeffect(
+      model <- turfeffect(
         MPAtools::density(datasetInput(),
                           input$comunidad),
         reserve = res.fun(),
         control = con.fun()
-      ))
-      
-      x <- valueBoxValues(model)
+      )
       
       valueBox(
         value = "Densidad",
-        subtitle = x$x,
+        subtitle = valueBoxString(model),
         icon = icon("leaf"),
-        color = x$color, 
+        color = score(model), 
         width = NULL
       )
     }
@@ -663,7 +654,7 @@ server <- function(input, output) {
   #     
   #     valueBox(
   #       value = "Biomasa",
-  #       subtitle = x$x,
+  #       subtitle = valueBoxString(model),
   #       icon = icon("leaf"),
   #       color = x$color,
   #       width = NULL
@@ -685,7 +676,7 @@ server <- function(input, output) {
   #     
   #     valueBox(
   #       value = "Nivel Trófico",
-  #       subtitle = x$x,
+  #       subtitle = valueBoxString(model),
   #       icon = icon("leaf"),
   #       color = x$color,
   #       width = NULL
@@ -707,7 +698,7 @@ server <- function(input, output) {
   #     
   #     valueBox(
   #       value = "Organismos > LT50",
-  #       subtitle = x$x,
+  #       subtitle = valueBoxString(model),
   #       icon = icon("leaf"),
   #       color = x$color,
   #       width = NULL
@@ -718,26 +709,13 @@ server <- function(input, output) {
   
   ### Output for socioeco indicators ####################################################################
   output$socres <- renderValueBox({
-    model <- summary(lm(Landings ~ Year, data = socioInput()))
-    
-    x <- data.frame(est = coefficients(model)[2],
-                    p = coefficients(model)[8])
-    
-    color <- score(x)
-    
-    x <-
-      paste(
-        "Estimate = ",
-        formatC(x$est, digits = 2, format = "f"),
-        "; p = ",
-        formatC(x$p, digits = 2, format = "f")
-      )
+    model <- lm(Landings ~ Year, data = socioInput())
     
     valueBox(
       value = "Socioeconómicos",
-      subtitle = x,
+      subtitle = valueBoxString(model),
       icon = icon("money"),
-      color = color
+      color = score(model)
     )
     
   })
@@ -745,27 +723,15 @@ server <- function(input, output) {
   ######################### Landings #######################
   
   output$landings <- renderUI({
+
     if ("Arribos" %in% input$indS) {
-      model <- summary(lm(Landings ~ Year, data = socioInput()))
-      
-      x <- data.frame(est = coefficients(model)[2],
-                      p = coefficients(model)[8])
-      
-      color <- score(x)
-      
-      x <-
-        paste(
-          "Estimate = ",
-          formatC(x$est, digits = 2, format = "f"),
-          "; p = ",
-          formatC(x$p, digits = 2, format = "f")
-        )
+      model <- lm(Landings ~ Year, data = socioInput())
       
       valueBox(
         value = "Arribos",
-        subtitle = x,
+        subtitle = valueBoxString(model),
         icon = icon("money"),
-        color = color,
+        color = score(model),
         width = NULL
       )
     }
@@ -775,26 +741,13 @@ server <- function(input, output) {
   
   output$income <- renderUI({
     if ("Ingresos por arribos" %in% input$indS) {
-      model <- summary(lm(Income ~ Year, data = socioInput()))
-      
-      x <- data.frame(est = coefficients(model)[2],
-                      p = coefficients(model)[8])
-      
-      color <- score(x)
-      
-      x <-
-        paste(
-          "Estimate = ",
-          formatC(x$est, digits = 2, format = "f"),
-          "; p = ",
-          formatC(x$p, digits = 2, format = "f")
-        )
+      model <- lm(Income ~ Year, data = socioInput())
       
       valueBox(
         value = "Ingresos",
-        subtitle = x,
+        subtitle = valueBoxString(model),
         icon = icon("money"),
-        color = color,
+        color = score(model),
         width = NULL
       )
     }
