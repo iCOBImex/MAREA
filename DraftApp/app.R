@@ -77,11 +77,11 @@ ui <- dashboardPage(
               "Selecciona tus objetivos",
               choices = c(
                 "Recuperar especies de interés comercial" = 2,
-                "Conservar especies en régimen de protección especial" = 3,
+                "Conservar especies en régimen de proteccion especial" = 3,
                 "Mejorar la productividad pesquera en aguas adyacentes" = 4,
-                "Evitar que se llegue a la sobreexplotación" = 5,
+                "Evitar que se llegue a la sobreexplotacion" = 5,
                 "Recuperar especies sobreexplotadas" = 6,
-                "Contribuir al mantenimiento de los procesos biológicos" = 7,
+                "Contribuir al mantenimiento de los procesos biologicos" = 7,
                 "Preservar la diversidad biologica y los ecosistemas" = 8
               )
             )
@@ -251,8 +251,8 @@ server <- function(input, output) {
         "Organismos > LT_50",
         "Densidad",
         "Densidad de especies objetivo",
-        "Perturbación natural",
-        "Nivel trófico",
+        "Perturbacion natural",
+        "Nivel trofico",
         "Biomasa",
         "Biomasa de especies objetivo"
       ),
@@ -264,7 +264,7 @@ server <- function(input, output) {
   output$indS <- renderUI({
     checkboxGroupInput(
       "indS",
-      "Socioeconómicos",
+      "Socioeconomicos",
       choices = c(
         "Arribos",
         "Arribos de especies objetivo",
@@ -282,19 +282,19 @@ server <- function(input, output) {
       "indG",
       "Gobernanza",
       choices = c(
-        "Acceso a la pesquería",
-        "Número de pescadores",
+        "Acceso a la pesqueria",
+        "Numero de pescadores",
         "Reconocimiento legal de la reserva",
         "Tipo de reserva",
         "Grado de pesca ilegal",
         "Plan de manejo",
-        "Procuración de la reserva",
-        "Tamaño de la reserva",
-        "Razonamiento para el diseño de la reserva",
+        "Procuracion de la reserva",
+        "Tamano de la reserva",
+        "Razonamiento para el diseno de la reserva",
         "Pertenencia a oragnizaciones pesqueras",
-        "Tipo de organización pesquera",
-        "Representación",
-        "Reglamentación interna",
+        "Tipo de organizacion pesquera",
+        "Representacion",
+        "Reglamentacion interna",
         "Efectividad percibida"
       ),
       selected = indG_sel(as.numeric(input$obj))
@@ -460,11 +460,11 @@ server <- function(input, output) {
     options <- data.frame(
       Options = c(
         "Recuperar especies de interés comercial",
-        "Conservar especies en régimen de protección especial",
+        "Conservar especies en régimen de proteccion especial",
         "Mejorar la productividad pesquera en aguas adyacentes",
-        "Evitar que se llegue a la sobreexplotación",
+        "Evitar que se llegue a la sobreexplotacion",
         "Recuperar especies sobreexplotadas",
-        "Contribuir al mantenimiento de los procesos biológicos",
+        "Contribuir al mantenimiento de los procesos biologicos",
         "Preservar la diversidad biologica y los ecosistemas"
       )
     )
@@ -494,7 +494,7 @@ server <- function(input, output) {
   })
   
   output$title <- renderText({
-    req(input$biophys)
+    req(input$rc)
     
     paste(
       "El análisis se generará para la reserva de ",
@@ -543,9 +543,8 @@ server <- function(input, output) {
   # Output for general results ####################################################################
   
   output$totres <- renderValueBox({
-    req(input$biophys)
-    req(input$socioeco)
-    
+    req(input$obj)
+
     model <- turfeffect(
       MPAtools::shannon(datasetInput(),
                         input$comunidad),
@@ -577,7 +576,7 @@ server <- function(input, output) {
     
     valueBox(
       value = "Indicadores biofísicos",
-      subtitle = paste0( biosummary, "% de indicadores positivos"),
+      subtitle = paste0(formatC(biosummary, digits = 0, format = "f"), "% de indicadores positivos"),
       icon = icon("leaf"),
       color = "green"
     )
@@ -586,7 +585,7 @@ server <- function(input, output) {
   ######################### Shannon #######################
   output$shannon <- renderUI({
     if ("Indice de diversidad de Shannon" %in% input$indB) {
-      model <- results_i()$model[[1]]
+      model <- results_i()$model[[1]] #The model for shannon is in the first element of the model column
       
       valueBox(
         value = "Índice de Shannon",
@@ -601,12 +600,7 @@ server <- function(input, output) {
   ######################### Richness #######################
   output$richness <- renderUI({
     if ("Riqueza" %in% input$indB) {
-      model <- turfeffect(
-        MPAtools::richness(datasetInput(),
-                           input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      )
+      model <- results_i()$model[[2]] #The model for richness is in the second element of the model column
       
       valueBox(
         value = "Riqueza",
@@ -621,12 +615,7 @@ server <- function(input, output) {
   ######################### Density #######################
   output$density <- renderUI({
     if ("Densidad" %in% input$indB) {
-      model <- turfeffect(
-        MPAtools::density(datasetInput(),
-                          input$comunidad),
-        reserve = res.fun(),
-        control = con.fun()
-      )
+      model <- results_i()$model[[4]] #The model for density is in the fourth element of the model column
       
       valueBox(
         value = "Densidad",
@@ -640,37 +629,22 @@ server <- function(input, output) {
   
   ######################### Biomass #######################
   # output$biomass <- renderUI({
-  #   if ("Biomasa" %in% input$indB) {
-  #     model <- summary(turfeffect(
-  #       MPAtools::fish_biomass(datasetInput(),
-  #                              input$comunidad),
-  #       reserve = res.fun(),
-  #       control = con.fun()
-  #     ))
-  #     
-  #     x <- valueBoxValues(model)
+  # model <- results_i()$model[[7]] #The model for biomass is in the seventhelement of the model column
   #     
   #     valueBox(
   #       value = "Biomasa",
   #       subtitle = valueBoxString(model),
   #       icon = icon("leaf"),
-  #       color = x$color,
+  #       color = score(model),
   #       width = NULL
   #     )
   #   }
   # })
   
-  ######################### Trophic Level #######################
+  # ######################## Trophic Level #######################
   # output$TL <- renderUI({
-  #   if ("Nivel trófico" %in% input$indB) {
-  #     model <- summary(turfeffect(
-  #       MPAtools::trophic(datasetInput(),
-  #                         input$comunidad),
-  #       reserve = res.fun(),
-  #       control = con.fun()
-  #     ))
-  #     
-  #     x <- valueBoxValues(model)
+  #   if ("Nivel trofico" %in% input$indB) {
+  #     model <- results_i()$model[[6]] #The model for trophic level is in the sixth element of the model column
   #     
   #     valueBox(
   #       value = "Nivel Trófico",
@@ -685,20 +659,13 @@ server <- function(input, output) {
   ######################### Organisms above TL 50 #######################
   # output$orgtl50 <- renderUI({
   #   if ("Organismos > LT_50" %in% input$indB) {
-  #     model <- summary(turfeffect(
-  #       MPAtools::density(datasetInput(),
-  #                         input$comunidad),
-  #       reserve = res.fun(),
-  #       control = con.fun()
-  #     ))
-  #     
-  #     x <- valueBoxValues(model)
-  #     
+  # model <- results_i()$model[[3]] #The model for Organisms > TL 50 is in the third element of the model column
+  # 
   #     valueBox(
   #       value = "Organismos > LT50",
   #       subtitle = valueBoxString(model),
   #       icon = icon("leaf"),
-  #       color = x$color,
+  #       color = score(model),
   #       width = NULL
   #     )
   #   }
@@ -772,11 +739,12 @@ server <- function(input, output) {
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
     # For PDF output, change this to "report.pdf"
-    filename = paste(
-      "Analisis",
+    filename = paste0(
+      "Analisis_",
       input$comunidad,
+      "_",
       input$rc,
-      sep = "_"
+      ".html"
     ),
     content = function(file) {
       # Copy the report file to a temporary directory before processing it, in
@@ -791,11 +759,7 @@ server <- function(input, output) {
       # Set up parameters to pass to Rmd document
       params <- list(
         title = c("Report trial"),
-        peces = datasetInput(),
-        socioeco = socioInput(),
-        comunidad = input$comunidad,
-        reserva = res.fun(),
-        control = con.fun()
+        results = results_i()
       )
       
       # Knit the document, passing in the `params` list, and eval it in a

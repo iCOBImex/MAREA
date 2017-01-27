@@ -2,11 +2,7 @@
 output: html_document
 params:
   title: ""
-  peces: ""
-  socioeco: ""
-  comunidad: ""
-  reserva: ""
-  control: ""
+  results: ""
 ---
 
 ---
@@ -59,44 +55,20 @@ width: 80%;
 
 ```{r}
 
-peces <-  params$peces
-socioeco <- params$socioeco
-invertebrados <-  params$invertebrados
-pesca <-  params$pesca
-comunidad <-  params$comunidad
-reserva <-  params$reserva
-control <-  params$control
-
-Dp <- summary(turfeffect(density(peces, comunidad), reserva, control))
-
-Sl <- summary(lm(Landings~Year, socioeco))
-
-
-##
-
-summary <-list(
-  Bio = list(
-    P = list(
-      Dp = paste(
-        score(x = data.frame(est = coefficients(Dp)[7], p = coefficients(Dp)[28])), ".jpg", sep = ""
-      )
-    )
-  ),
-  Soc = list(
-    L = paste(
-      score(x = data.frame(est = coefficients(Sl)[2], p = coefficients(Sl)[8])), ".jpg", sep = ""
-    )
-  )
-)
-
-
+results <- params$results
+  
 ```
 
 
-Cat    | Indicador               | Valor                                        
--------|-------------------------|----------------------------------------------
-Bio    | Densidad Peces          | `r knitr::include_graphics(summary$Bio$P$Dp)`
-Soc    | Arribos de Langosta     | `r knitr::include_graphics(summary$Soc$L)`
+
+```{r, results = 'asis'}
+results %>%
+  filter(!is.na(color)) %>% 
+  mutate(Puntaje = paste0("![](",color, ".jpg)")) %>%
+  select(Indicador = Ind,
+         Puntaje) %>%
+  knitr::kable()
+```
 
 
 <center>
@@ -107,7 +79,7 @@ Soc    | Arribos de Langosta     | `r knitr::include_graphics(summary$Soc$L)`
 
 ### Densidad
 
-```{r densidad peces, fig.cap = "Densidad promedio de peces (org / m^2)."}
+```{r densidad peces, fig.cap = "Densidad promedio de peces (org / m^2).", eval = F}
 
 Np <- density(data = peces, location = comunidad)
 
@@ -115,7 +87,7 @@ mpa_plot3(Np, reserve = reserva, control = control, y.lab = "Densidad (org / m^2
 
 ```
 
-```{r tabla densidad peces, results = 'asis'}
+```{r tabla densidad peces, results = 'asis', eval = F}
 
 stargazer(turfeffect(Np, reserve = reserva, control = control), dep.var.labels = "Densidad (org / transecto)", type = "html", dep.var.caption = "", report = "vc*", single.row = T, omit.stat = c("adj.rsq", "n"), digits = 2, df = F, notes = "+p < 0.1, ++p<0.05, +++p<0.001", notes.append = FALSE, star.char = "+")
 
@@ -127,7 +99,7 @@ stargazer(turfeffect(Np, reserve = reserva, control = control), dep.var.labels =
 
 ### Arribos de langosta
 
-```{r}
+```{r, eval = F}
 
 ggplot(socioeco, aes(x = Year, y = Landings)) +
   geom_point(color = "red") +
@@ -136,7 +108,7 @@ ggplot(socioeco, aes(x = Year, y = Landings)) +
 
 ```
 
-```{r}
+```{r, eval = F}
 
 stargazer(lm(Landings~Year, socioeco), dep.var.labels = "Densidad (org / transecto)", type = "html", dep.var.caption = "", report = "vc*", single.row = T, omit.stat = c("adj.rsq", "n"), digits = 2, df = F, notes = "+p < 0.1, ++p<0.05, +++p<0.001", notes.append = FALSE, star.char = "+")
 
