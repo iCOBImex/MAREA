@@ -51,6 +51,7 @@ ui <- dashboardPage(
     img(src = "turf.jpg", width = "60px")
   ),
   dashboardBody(
+    useShinyjs(),
     navbarPage(
       "A tool to evaluate the effectiveness of no-take Marine Reserves",
       #theme = shinythemes::shinytheme("cerulean"),
@@ -206,26 +207,46 @@ ui <- dashboardPage(
         
         # Insert score by categories
         fluidRow(
-          column(
-            4,
-            valueBoxOutput("biores", width = NULL),
-            uiOutput("shannon"),
-            uiOutput("richness"),
-            uiOutput("density"),
-            uiOutput("biomass"),
-            uiOutput("TL"),
-            uiOutput("orgtl50"),
-            uiOutput("natural")
-          ),
+          column(4,
+                 wellPanel(
+                   h1("Biofisicos", align = "center"),
+                   valueBoxOutput("biores", width = NULL),
+                   actionButton("toggle_bio",
+                                "Mas/Menos",
+                                icon = icon("th-list")),
+                   hidden(
+                     uiOutput("shannon"),
+                     uiOutput("richness"),
+                     uiOutput("density"),
+                     uiOutput("biomass"),
+                     uiOutput("TL"),
+                     uiOutput("orgtl50"),
+                     uiOutput("natural")
+                   )
+                 )),
           
-          column(
-            4,
-            valueBoxOutput("socres", width = NULL),
-            uiOutput("landings", width = NULL),
-            uiOutput("income", width = NULL)
-          ),
+          column(4,
+                 wellPanel(
+                   h1("Socioeconomicos", align = "center"),
+                   valueBoxOutput("socres", width = NULL),
+                   actionButton("toggle_soc",
+                                "Mas/Menos",
+                                icon = icon("th-list")),
+                   hidden(
+                     uiOutput("landings", width = NULL),
+                     uiOutput("income", width = NULL)
+                   )
+                 )),
           
-          column(4, valueBoxOutput("gobres", width = NULL))
+          column(4, wellPanel(
+            h1("Gobernanza", align = "center"),
+            valueBoxOutput("gobres", width = NULL),
+            actionButton("toggle_gov",
+                         "Mas/Menos",
+                         icon = icon("th-list"))
+            # hidden()
+            )
+            )
         )
       )
     )
@@ -237,7 +258,6 @@ ui <- dashboardPage(
 ###########################################################################
 
 server <- function(input, output) {
-  
   ##### Definir indicadores reactivos a los objetivos ######################################################
   
   # Definir Indicadores Biofisicos
@@ -394,9 +414,9 @@ server <- function(input, output) {
   RC <- reactive({
     req(input$comunidad)
     
-    pairs <- datasetInput() %>% 
-      filter(Comunidad == input$comunidad) %>% 
-      group_by(RC) %>% 
+    pairs <- datasetInput() %>%
+      filter(Comunidad == input$comunidad) %>%
+      group_by(RC) %>%
       summarize(n())
     
     return(pairs$RC)
@@ -431,7 +451,6 @@ server <- function(input, output) {
             "Ingresos por arribos de especies objetivo"
           )
         )) {
-      
       sp_list <- datasetInput() %>%
         filter(Comunidad == input$comunidad,
                RC == RC()) %>%
@@ -469,28 +488,40 @@ server <- function(input, output) {
       )
     )
     
-    selected <- options[as.numeric(input$obj) - 1,]
+    selected <- options[as.numeric(input$obj) - 1, ]
     
-    selected <- unname(data.frame(paste(seq(1, length(selected)), "- ", selected)))
-
+    selected <-
+      unname(data.frame(paste(seq(
+        1, length(selected)
+      ), "- ", selected)))
+    
   })
   
   output$indBs <- renderTable({
     req(input$indB)
     
-    indB <- unname(data.frame(paste(seq(1, length(input$indB)), "- ", input$indB)))
+    indB <-
+      unname(data.frame(paste(seq(
+        1, length(input$indB)
+      ), "- ", input$indB)))
   })
   
   output$indSs <- renderTable({
     req(input$indS)
     
-    indS <- unname(data.frame(paste(seq(1, length(input$indS)), "- ", input$indS)))
+    indS <-
+      unname(data.frame(paste(seq(
+        1, length(input$indS)
+      ), "- ", input$indS)))
   })
   
   output$indGs <- renderTable({
     req(input$indG)
     
-    indG <- unname(data.frame(paste(seq(1, length(input$indG)), "- ", input$indG)))
+    indG <-
+      unname(data.frame(paste(seq(
+        1, length(input$indG)
+      ), "- ", input$indG)))
   })
   
   output$title <- renderText({
@@ -517,13 +548,13 @@ server <- function(input, output) {
   res.fun <- reactive({
     data.res <- datasetInput()
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
-                                         !data.res$Zonificacion == "Control"]))
+                                         !data.res$Zona == "Control"]))
   })
   
   con.fun <- reactive({
     data.res <- datasetInput()
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
-                                         data.res$Zonificacion == "Control"]))
+                                         data.res$Zona == "Control"]))
   })
   
   results_i <- reactive({
@@ -536,7 +567,7 @@ server <- function(input, output) {
                   comunidad = input$comunidad)
     
     bio_results(values, datasetInput(), res.fun(), con.fun())
-    })
+  })
   
   
   
@@ -544,19 +575,20 @@ server <- function(input, output) {
   
   output$totres <- renderValueBox({
     req(input$obj)
-
+    
     model <- turfeffect(
       MPAtools::shannon(datasetInput(),
                         input$comunidad),
       reserve = res.fun(),
-      control = con.fun()
+      control = con.fun(),
+      type = "bio"
     )
     
     valueBox(
       value = "General",
-      subtitle = valueBoxString(model),
+      subtitle = valueBoxString(model, "bio"),
       icon = icon("globe"),
-      color = score(model)
+      color = bio_score(model)
     )
     
   })
@@ -565,48 +597,68 @@ server <- function(input, output) {
   
   ######################### General #######################
   output$biores <- renderValueBox({
-    
     biosummary <- results_i() %>%
-      filter(!is.na(e)) %>% 
-      mutate(Valid = length(e),
-             Positive = (e>0)*1,
-             Score = sum(Positive)/Valid*100) %>% 
+      filter(!is.na(e)) %>%
+      mutate(
+        Valid = length(e),
+        Positive = (e > 0) * 1,
+        Score = sum(Positive) / Valid * 100
+      ) %>%
       select(Score) %>% max()
-      
+    
     
     valueBox(
-      value = "Indicadores biofísicos",
-      subtitle = paste0(formatC(biosummary, digits = 0, format = "f"), "% de indicadores positivos"),
+      value = "General",
+      subtitle = paste0(
+        formatC(biosummary, digits = 0, format = "f"),
+        "% de indicadores positivos"
+      ),
       icon = icon("leaf"),
       color = "green"
     )
   })
   
+  ######## Toggle output ##################################
+  observeEvent(input$toggle_bio, {
+    toggle("shannon")
+    toggle("richness")
+    toggle("density")
+    toggle("biomass")
+    toggle("TL")
+    toggle("orgtl50")
+    toggle("natural")
+  })
+  
+  observeEvent(input$toggle_soc, {
+    toggle("landings")
+    toggle("income")
+  })
+  
+  observeEvent(input$toggle_gov, {
+  })
+  
   ######################### Shannon #######################
   output$shannon <- renderUI({
     if ("Indice de diversidad de Shannon" %in% input$indB) {
-      model <- results_i()$model[[1]] #The model for shannon is in the first element of the model column
-      
       valueBox(
         value = "Índice de Shannon",
-        subtitle = valueBoxString(model),
+        subtitle = results_i()$string[1],
         icon = icon("leaf"),
-        color = score(model),
+        color = results_i()$color[1],
         width = NULL
       )
-    } else {}
+    } else {
+    }
   })
   
   ######################### Richness #######################
   output$richness <- renderUI({
     if ("Riqueza" %in% input$indB) {
-      model <- results_i()$model[[2]] #The model for richness is in the second element of the model column
-      
       valueBox(
         value = "Riqueza",
-        subtitle = valueBoxString(model),
+        subtitle = results_i()$string[2],
         icon = icon("leaf"),
-        color = score(model),
+        color = results_i()$color[2],
         width = NULL
       )
     }
@@ -615,13 +667,11 @@ server <- function(input, output) {
   ######################### Density #######################
   output$density <- renderUI({
     if ("Densidad" %in% input$indB) {
-      model <- results_i()$model[[4]] #The model for density is in the fourth element of the model column
-      
       valueBox(
         value = "Densidad",
-        subtitle = valueBoxString(model),
+        subtitle = results_i()$string[4],
         icon = icon("leaf"),
-        color = score(model), 
+        color = results_i()$color[4],
         width = NULL
       )
     }
@@ -630,7 +680,7 @@ server <- function(input, output) {
   ######################### Biomass #######################
   # output$biomass <- renderUI({
   # model <- results_i()$model[[7]] #The model for biomass is in the seventhelement of the model column
-  #     
+  #
   #     valueBox(
   #       value = "Biomasa",
   #       subtitle = valueBoxString(model),
@@ -645,7 +695,7 @@ server <- function(input, output) {
   # output$TL <- renderUI({
   #   if ("Nivel trofico" %in% input$indB) {
   #     model <- results_i()$model[[6]] #The model for trophic level is in the sixth element of the model column
-  #     
+  #
   #     valueBox(
   #       value = "Nivel Trófico",
   #       subtitle = valueBoxString(model),
@@ -660,7 +710,7 @@ server <- function(input, output) {
   # output$orgtl50 <- renderUI({
   #   if ("Organismos > LT_50" %in% input$indB) {
   # model <- results_i()$model[[3]] #The model for Organisms > TL 50 is in the third element of the model column
-  # 
+  #
   #     valueBox(
   #       value = "Organismos > LT50",
   #       subtitle = valueBoxString(model),
@@ -675,26 +725,27 @@ server <- function(input, output) {
   # ### Output for socioeco indicators ####################################################################
   # output$socres <- renderValueBox({
   #   req(input$socioeco)
-  #   
+  #
   #   model <- lm(Landings ~ Year, data = socioInput())
-  #   
+  #
   #   valueBox(
   #     value = "Socioeconómicos",
   #     subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
   #     icon = icon("money"),
   #     color = score(model)
   #   )
-  #   
+  #
   # })
-  # 
+  #
   # ######################### Landings #######################
-  # 
+  #
   # output$landings <- renderUI({
   #   req(input$socioeco)
-  #   
+  #
   #   if ("Arribos" %in% input$indS) {
-  #     model <- lm(Landings ~ Year, data = socioInput())
-  #     
+  #     model <- landings(datasetInput(), input$comunidad, "kg") %>%
+  #       lm(Arribos ~ Ano)
+  #
   #     valueBox(
   #       value = "Arribos",
   #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
@@ -704,15 +755,15 @@ server <- function(input, output) {
   #     )
   #   }
   # })
-  # 
+  #
   # ######################### Income from landings #######################
-  # 
+  #
   # output$income <- renderUI({
   #   req(input$socioeco)
-  #   
+  #
   #   if ("Ingresos por arribos" %in% input$indS) {
   #     model <- lm(Income ~ Year, data = socioInput())
-  #     
+  #
   #     valueBox(
   #       value = "Ingresos",
   #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
@@ -722,7 +773,7 @@ server <- function(input, output) {
   #     )
   #   }
   # })
-  
+  #
   
   ### Output for governance indicators ####################################################################
   
@@ -738,14 +789,9 @@ server <- function(input, output) {
   
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
-    # For PDF output, change this to "report.pdf"
-    filename = paste0(
-      "Analisis_",
-      input$comunidad,
-      "_",
-      input$rc,
-      ".html"
-    ),
+    # Define a filename based on the input
+    filename = c("ReporteTURFeffect.html"),
+    
     content = function(file) {
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
@@ -757,10 +803,8 @@ server <- function(input, output) {
                 overwrite = TRUE)
       
       # Set up parameters to pass to Rmd document
-      params <- list(
-        title = c("Report trial"),
-        results = results_i()
-      )
+      params <- list(title = c("Report trial"),
+                     results = results_i())
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
