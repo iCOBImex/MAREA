@@ -7,10 +7,11 @@
 #    http://shiny.rstudio.com/
 #
 
-library(MPAtools)
 library(shiny)
-library(tidyverse)
 library(shinydashboard)
+library(shinyjs)
+library(MPAtools)
+library(tidyverse)
 
 # Define UI for application that draws a histogram
 # ui = dashboardPage(
@@ -535,14 +536,6 @@ server <- function(input, output) {
     )
   })
   
-  # output$comss <- renderTable({
-  #   input$comunidad
-  # })
-  #
-  # output$rcpss <- renderTable({
-  #   input$rc
-  # })
-  
   ### Analisis comienza aqui ####################################
   
   res.fun <- reactive({
@@ -557,7 +550,7 @@ server <- function(input, output) {
                                          data.res$Zona == "Control"]))
   })
   
-  results_i <- reactive({
+  results_bio <- reactive({
     req(input$biophys)
     req(input$indB)
     req(input$comunidad)
@@ -597,7 +590,7 @@ server <- function(input, output) {
   
   ######################### General #######################
   output$biores <- renderValueBox({
-    biosummary <- results_i() %>%
+    biosummary <- results_bio() %>%
       filter(!is.na(e)) %>%
       mutate(
         Valid = length(e),
@@ -642,9 +635,9 @@ server <- function(input, output) {
     if ("Indice de diversidad de Shannon" %in% input$indB) {
       valueBox(
         value = "Índice de Shannon",
-        subtitle = results_i()$string[1],
+        subtitle = results_bio()$string[1],
         icon = icon("leaf"),
-        color = results_i()$color[1],
+        color = results_bio()$color[1],
         width = NULL
       )
     } else {
@@ -656,9 +649,9 @@ server <- function(input, output) {
     if ("Riqueza" %in% input$indB) {
       valueBox(
         value = "Riqueza",
-        subtitle = results_i()$string[2],
+        subtitle = results_bio()$string[2],
         icon = icon("leaf"),
-        color = results_i()$color[2],
+        color = results_bio()$color[2],
         width = NULL
       )
     }
@@ -669,9 +662,9 @@ server <- function(input, output) {
     if ("Densidad" %in% input$indB) {
       valueBox(
         value = "Densidad",
-        subtitle = results_i()$string[4],
+        subtitle = results_bio()$string[4],
         icon = icon("leaf"),
-        color = results_i()$color[4],
+        color = results_bio()$color[4],
         width = NULL
       )
     }
@@ -679,7 +672,7 @@ server <- function(input, output) {
   
   ######################### Biomass #######################
   # output$biomass <- renderUI({
-  # model <- results_i()$model[[7]] #The model for biomass is in the seventhelement of the model column
+  # model <- results_bio()$model[[7]] #The model for biomass is in the seventhelement of the model column
   #
   #     valueBox(
   #       value = "Biomasa",
@@ -694,7 +687,7 @@ server <- function(input, output) {
   # ######################## Trophic Level #######################
   # output$TL <- renderUI({
   #   if ("Nivel trofico" %in% input$indB) {
-  #     model <- results_i()$model[[6]] #The model for trophic level is in the sixth element of the model column
+  #     model <- results_bio()$model[[6]] #The model for trophic level is in the sixth element of the model column
   #
   #     valueBox(
   #       value = "Nivel Trófico",
@@ -709,7 +702,7 @@ server <- function(input, output) {
   ######################### Organisms above TL 50 #######################
   # output$orgtl50 <- renderUI({
   #   if ("Organismos > LT_50" %in% input$indB) {
-  # model <- results_i()$model[[3]] #The model for Organisms > TL 50 is in the third element of the model column
+  # model <- results_bio()$model[[3]] #The model for Organisms > TL 50 is in the third element of the model column
   #
   #     valueBox(
   #       value = "Organismos > LT50",
@@ -804,7 +797,7 @@ server <- function(input, output) {
       
       # Set up parameters to pass to Rmd document
       params <- list(title = c("Report trial"),
-                     results = results_i())
+                     results = results_bio())
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
