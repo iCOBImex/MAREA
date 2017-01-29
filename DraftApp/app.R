@@ -604,7 +604,7 @@ server <- function(input, output) {
   
   ######################### General Bio#######################
   output$biores <- renderValueBox({
-    if (length(results_bio() > 1)){
+    if (length(results_bio()) > 1){
     biosummary <- results_bio() %>%
       filter(!is.na(e)) %>%
       mutate(
@@ -731,9 +731,7 @@ server <- function(input, output) {
   ### Output for socioeco indicators ####################################################################
   ### General Soc ####################
   output$socres <- renderValueBox({
-    
-    print(results_soc())
-    socsummary <- results_soc() %>%
+      socsummary <- results_soc() %>%
       filter(!is.na(e)) %>%
       mutate(
         Valid = length(e),
@@ -824,7 +822,7 @@ server <- function(input, output) {
       
       # Set up parameters to pass to Rmd document
       params <- list(title = c("Report trial"),
-                     results = results_bio())
+                     results = rbind(results_bio(), results_soc()))
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
