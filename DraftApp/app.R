@@ -604,6 +604,7 @@ server <- function(input, output) {
   
   ######################### General Bio#######################
   output$biores <- renderValueBox({
+    if (length(results_bio() > 1)){
     biosummary <- results_bio() %>%
       filter(!is.na(e)) %>%
       mutate(
@@ -621,7 +622,14 @@ server <- function(input, output) {
       ),
       icon = icon("leaf"),
       color = "green"
-    )
+    )} else {
+      valueBox(
+        value = "General",
+        subtitle = "0 % de indicadores positivos",
+        icon = icon("leaf"),
+        color = "green"
+      )
+    }
   })
   
   ######## Toggle Bio output ##################################
@@ -758,7 +766,7 @@ server <- function(input, output) {
   output$landings <- renderUI({
     if ("Arribos" %in% input$indS) {
       valueBox(
-        value = "Densidad",
+        value = "Arribos",
         subtitle = results_soc()$string[1],
         icon = icon("leaf"),
         color = results_soc()$color[1],
@@ -772,7 +780,7 @@ server <- function(input, output) {
   output$income <- renderUI({
     if ("Ingresos por arribos" %in% input$indS) {
       valueBox(
-        value = "Densidad",
+        value = "Ingresos",
         subtitle = results_soc()$string[2],
         icon = icon("leaf"),
         color = results_soc()$color[2],
