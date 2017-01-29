@@ -351,7 +351,7 @@ server <- function(input, output) {
   
   
   # Definir datos biofisicos ####################################
-  datasetInput <- reactive({
+  bioInput <- reactive({
     inFile <- input$biophys
     
     if (is.null(inFile)) {
@@ -388,7 +388,7 @@ server <- function(input, output) {
   })
   
   output$preview1 <- renderTable({
-    head(datasetInput())
+    head(bioInput())
   })
   
   output$preview2 <- renderTable({
@@ -403,7 +403,7 @@ server <- function(input, output) {
   output$comunidad <- renderUI({
     req(input$biophys)
     
-    datos <- datasetInput()
+    datos <- bioInput()
     
     comunidades <- unique(datos$Comunidad)
     
@@ -415,7 +415,7 @@ server <- function(input, output) {
   RC <- reactive({
     req(input$comunidad)
     
-    pairs <- datasetInput() %>%
+    pairs <- bioInput() %>%
       filter(Comunidad == input$comunidad) %>%
       group_by(RC) %>%
       summarize(n())
@@ -452,7 +452,7 @@ server <- function(input, output) {
             "Ingresos por arribos de especies objetivo"
           )
         )) {
-      sp_list <- datasetInput() %>%
+      sp_list <- bioInput() %>%
         filter(Comunidad == input$comunidad,
                RC == RC()) %>%
         group_by(GeneroEspecie) %>%
@@ -538,18 +538,21 @@ server <- function(input, output) {
   
   ### Analisis comienza aqui ####################################
   
+  # Define a reactive value for a reserve site
   res.fun <- reactive({
-    data.res <- datasetInput()
+    data.res <- bioInput()
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
                                          !data.res$Zona == "Control"]))
   })
   
+  # Defina a reactive value for a control site
   con.fun <- reactive({
-    data.res <- datasetInput()
+    data.res <- bioInput()
     as.character(unique(data.res$Sitio[data.res$RC == input$rc &
                                          data.res$Zona == "Control"]))
   })
   
+  # Define a reactive value for a tibble that stores the analysis results for biophysical indicators
   results_bio <- reactive({
     req(input$biophys)
     req(input$indB)
@@ -559,18 +562,29 @@ server <- function(input, output) {
     values = list(indB = input$indB,
                   comunidad = input$comunidad)
     
-    bio_results(values, datasetInput(), res.fun(), con.fun())
+    bio_results(values, bioInput(), res.fun(), con.fun())
+  })
+  
+  # Define a reactive value for a tibble that stores the analysis results for socioeconomic indicators
+  results_soc <- reactive({
+    req(input$socioeco)
+    req(input$indS)
+    req(input$comunidad)
+
+    values = list(indS = input$indS,
+                  comunidad = input$comunidad)
+    
+    soc_results(values, socioInput())
   })
   
   
-  
-  # Output for general results ####################################################################
+  ### Output for general results ####################################################################
   
   output$totres <- renderValueBox({
     req(input$obj)
     
     model <- turfeffect(
-      MPAtools::shannon(datasetInput(),
+      MPAtools::shannon(bioInput(),
                         input$comunidad),
       reserve = res.fun(),
       control = con.fun(),
@@ -588,7 +602,7 @@ server <- function(input, output) {
   
   ### Output for biophys indicators ####################################################################
   
-  ######################### General #######################
+  ######################### General Bio#######################
   output$biores <- renderValueBox({
     biosummary <- results_bio() %>%
       filter(!is.na(e)) %>%
@@ -598,7 +612,6 @@ server <- function(input, output) {
         Score = sum(Positive) / Valid * 100
       ) %>%
       select(Score) %>% max()
-    
     
     valueBox(
       value = "General",
@@ -611,7 +624,7 @@ server <- function(input, output) {
     )
   })
   
-  ######## Toggle output ##################################
+  ######## Toggle Bio output ##################################
   observeEvent(input$toggle_bio, {
     toggle("shannon")
     toggle("richness")
@@ -620,14 +633,6 @@ server <- function(input, output) {
     toggle("TL")
     toggle("orgtl50")
     toggle("natural")
-  })
-  
-  observeEvent(input$toggle_soc, {
-    toggle("landings")
-    toggle("income")
-  })
-  
-  observeEvent(input$toggle_gov, {
   })
   
   ######################### Shannon #######################
@@ -714,59 +719,68 @@ server <- function(input, output) {
   #   }
   # })
   
+
+  ### Output for socioeco indicators ####################################################################
+  ### General Soc ####################
+  output$socres <- renderValueBox({
+    
+    print(results_soc())
+    socsummary <- results_soc() %>%
+      filter(!is.na(e)) %>%
+      mutate(
+        Valid = length(e),
+        Positive = (e > 0) * 1,
+        Score = sum(Positive) / Valid * 100
+      ) %>%
+      select(Score) %>% max()
+    
+    valueBox(
+      value = "General",
+      subtitle = paste0(
+        formatC(socsummary, digits = 0, format = "f"),
+        "% de indicadores positivos"
+      ),
+      icon = icon("leaf"),
+      color = "green"
+    )
+
+  })
   
-  # ### Output for socioeco indicators ####################################################################
-  # output$socres <- renderValueBox({
-  #   req(input$socioeco)
-  #
-  #   model <- lm(Landings ~ Year, data = socioInput())
-  #
-  #   valueBox(
-  #     value = "Socioeconómicos",
-  #     subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
-  #     icon = icon("money"),
-  #     color = score(model)
-  #   )
-  #
-  # })
-  #
-  # ######################### Landings #######################
-  #
-  # output$landings <- renderUI({
-  #   req(input$socioeco)
-  #
-  #   if ("Arribos" %in% input$indS) {
-  #     model <- landings(datasetInput(), input$comunidad, "kg") %>%
-  #       lm(Arribos ~ Ano)
-  #
-  #     valueBox(
-  #       value = "Arribos",
-  #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
-  #       icon = icon("money"),
-  #       color = score(model),
-  #       width = NULL
-  #     )
-  #   }
-  # })
-  #
-  # ######################### Income from landings #######################
-  #
-  # output$income <- renderUI({
-  #   req(input$socioeco)
-  #
-  #   if ("Ingresos por arribos" %in% input$indS) {
-  #     model <- lm(Income ~ Year, data = socioInput())
-  #
-  #     valueBox(
-  #       value = "Ingresos",
-  #       subtitle = valueBoxString(model),         # Arreglar aqui, este modelo tiene menos coeficientes
-  #       icon = icon("money"),
-  #       color = score(model),
-  #       width = NULL
-  #     )
-  #   }
-  # })
-  #
+  ######## Toggle Soc output ##################################
+  
+  observeEvent(input$toggle_soc, {
+    toggle("landings")
+    toggle("income")
+  })
+
+  ######################### Landings #######################
+
+  output$landings <- renderUI({
+    if ("Arribos" %in% input$indS) {
+      valueBox(
+        value = "Densidad",
+        subtitle = results_soc()$string[1],
+        icon = icon("leaf"),
+        color = results_soc()$color[1],
+        width = NULL
+      )
+    }
+  })
+
+  ######################### Income from landings #######################
+
+  output$income <- renderUI({
+    if ("Ingresos por arribos" %in% input$indS) {
+      valueBox(
+        value = "Densidad",
+        subtitle = results_soc()$string[2],
+        icon = icon("leaf"),
+        color = results_soc()$color[2],
+        width = NULL
+      )
+    }
+  })
+
   
   ### Output for governance indicators ####################################################################
   
@@ -777,6 +791,11 @@ server <- function(input, output) {
       icon = icon("users"),
       color = "red"
     )
+  })
+  
+  ######## Toggle Gov output ##################################
+  
+  observeEvent(input$toggle_gov, {
   })
   
   
