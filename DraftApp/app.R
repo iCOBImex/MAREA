@@ -14,10 +14,6 @@ library(MPAtools)
 library(tidyverse)
 
 # Define UI for application that draws a histogram
-# ui = dashboardPage(
-#   dashboardHeader(),
-#   dashboardSidebar(),
-#   dashboardBody(
 
 ui <- dashboardPage(
   dashboardHeader(title = "TURFeffect App"),

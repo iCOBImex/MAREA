@@ -1,5 +1,11 @@
 ---
-output: html_document
+output: 
+    html_document: 
+        fig_caption: yes
+        toc: yes
+        toc_float:
+            collapsed: no
+            smooth_scroll: no
 params:
   title: ""
   results: ""
@@ -10,19 +16,17 @@ title: `r params$title`
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = F, fig.height = 3, warning = F, message = F, results = 'asis')
+
 ```
 
 ```{r cargar paquetes}
 
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(dplyr)
-  library(tidyr)
+  library(tidyverse)
   library(MPAtools)
-  library(reshape)
   library(stargazer)
-  library(ggExtra)
 })
 
 ```
@@ -62,55 +66,120 @@ results <- params$results
 
 
 ```{r, results = 'asis'}
+
 results %>%
   filter(!is.na(color)) %>% 
   mutate(Puntaje = paste0("![](",color, ".jpg)")) %>%
   select(Indicador = Ind,
          Puntaje) %>%
   knitr::kable()
+
 ```
 
 
 <center>
 
+
 # Ecologicos
 
 ## Peces
 
+### Indice de diversidad de Shannon
+
+
+```{r}
+
+results$plot[[1]]
+
+```
+
+```{r, results = 'asis'}
+
+results$model[[1]] %>% 
+  stargazer(
+    dep.var.labels = "Shannon (H'/transecto)",
+    type = "html",
+    dep.var.caption = "",
+    report = "vc*",
+    single.row = T,
+    omit.stat = c("adj.rsq", "n"),
+    digits = 2,
+    df = F,
+    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+    notes.append = FALSE,
+    star.char = "+"
+  )
+
+```
+
+
+### Riqueza
+
+```{r}
+
+results$plot[[2]]
+
+```
+
+```{r, results = 'asis'}
+
+results$model[[2]] %>% 
+  stargazer(
+    dep.var.labels = "Riqueza (Spp/transecto)",
+    type = "html",
+    dep.var.caption = "",
+    report = "vc*",
+    single.row = T,
+    omit.stat = c("adj.rsq", "n"),
+    digits = 2,
+    df = F,
+    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+    notes.append = FALSE,
+    star.char = "+"
+  )
+
+```
+
+
+### Organismos > LT_50
+
 ### Densidad
 
-```{r densidad peces, fig.cap = "Densidad promedio de peces (org / m^2).", eval = F}
+```{r}
 
-Np <- density(data = peces, location = comunidad)
-
-mpa_plot3(Np, reserve = reserva, control = control, y.lab = "Densidad (org / m^2)")
+results$plot[[4]]
 
 ```
 
-```{r tabla densidad peces, results = 'asis', eval = F}
+```{r, results = 'asis'}
 
-stargazer(turfeffect(Np, reserve = reserva, control = control), dep.var.labels = "Densidad (org / transecto)", type = "html", dep.var.caption = "", report = "vc*", single.row = T, omit.stat = c("adj.rsq", "n"), digits = 2, df = F, notes = "+p < 0.1, ++p<0.05, +++p<0.001", notes.append = FALSE, star.char = "+")
+results$model[[4]] %>% 
+  stargazer(
+    dep.var.labels = "Densidad (Organismos/transecto)",
+    type = "html",
+    dep.var.caption = "",
+    report = "vc*",
+    single.row = T,
+    omit.stat = c("adj.rsq", "n"),
+    digits = 2,
+    df = F,
+    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+    notes.append = FALSE,
+    star.char = "+"
+  )
 
 ```
+
+
+### Densidad de especies objetivo
+
+### Nivel trofico
+
+### Biomasa
+
+### Biomasa de especies objetivo
 
 # Socioeconomicos
 
 ## Arribos
-
-### Arribos de langosta
-
-```{r, eval = F}
-
-ggplot(socioeco, aes(x = Year, y = Landings)) +
-  geom_point(color = "red") +
-  geom_line() +
-  theme_bw()
-
-```
-
-```{r, eval = F}
-
-stargazer(lm(Landings~Year, socioeco), dep.var.labels = "Densidad (org / transecto)", type = "html", dep.var.caption = "", report = "vc*", single.row = T, omit.stat = c("adj.rsq", "n"), digits = 2, df = F, notes = "+p < 0.1, ++p<0.05, +++p<0.001", notes.append = FALSE, star.char = "+")
-
-```
 
