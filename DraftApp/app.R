@@ -10,6 +10,7 @@
 library(shiny)
 library(shinydashboard)
 library(shinyjs)
+library(shinyBS)
 library(MPAtools)
 library(tidyverse)
 
@@ -254,7 +255,7 @@ ui <- dashboardPage(
 ##                         Define server logic                           ##
 ###########################################################################
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   ##### Definir indicadores reactivos a los objetivos ######################################################
   
   # Definir Indicadores Biofisicos
@@ -596,10 +597,11 @@ server <- function(input, output) {
     
   })
   
-  ### Output for biophys indicators ####################################################################
+  ### Output for biophys indicators ##################################################################
   
   ######################### General Bio#######################
   output$biores <- renderValueBox({
+    
     if (length(results_bio()) > 1){
     biosummary <- results_bio() %>%
       filter(!is.na(e)) %>%
@@ -680,18 +682,17 @@ server <- function(input, output) {
   })
   
   ######################### Biomass #######################
-  # output$biomass <- renderUI({
-  # model <- results_bio()$model[[7]] #The model for biomass is in the seventhelement of the model column
-  #
-  #     valueBox(
-  #       value = "Biomasa",
-  #       subtitle = valueBoxString(model),
-  #       icon = icon("leaf"),
-  #       color = score(model),
-  #       width = NULL
-  #     )
-  #   }
-  # })
+  output$biomass <- renderUI({
+    if ("Biomasa" %in% input$indB) {
+      valueBox(
+        value = "Biomasa",
+        subtitle = results_bio()$string[7],
+        icon = icon("leaf"),
+        color = results_bio()$color[7],
+        width = NULL
+      )
+    }
+  })
   
   # ######################## Trophic Level #######################
   # output$TL <- renderUI({
@@ -824,12 +825,16 @@ server <- function(input, output) {
       # child of the global environment (this isolates the code in the document
       # from the code in this app).
       
-      rmarkdown::render(
-        input = "MyTemplate.Rmd",
-        params = params,
-        output_file = file,
-        envir = new.env(parent = globalenv())
-      )
+      withProgress(message = "Generando reporte", value = 0.5, {
+        rmarkdown::render(
+          input = "MyTemplate.Rmd",
+          params = params,
+          output_file = file,
+          envir = new.env(parent = globalenv())
+          
+        )
+        incProgress(0.5)
+      })
     }
   )
 }
