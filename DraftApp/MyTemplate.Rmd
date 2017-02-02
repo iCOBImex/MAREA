@@ -175,6 +175,30 @@ results$model[[4]] %>%
 
 ### Nivel trofico
 
+```{r}
+results$plot[[6]]
+```
+
+```{r, results = 'asis'}
+
+results$model[[6]] %>% 
+  stargazer(
+    dep.var.labels = "Nivel trofico",
+    type = "html",
+    dep.var.caption = "",
+    report = "vc*",
+    single.row = T,
+    omit.stat = c("adj.rsq", "n"),
+    digits = 2,
+    df = F,
+    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+    notes.append = FALSE,
+    star.char = "+"
+  )
+
+```
+
+
 ### Biomasa
 
 ```{r}

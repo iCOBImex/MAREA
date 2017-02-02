@@ -691,20 +691,20 @@ server <- function(input, output, session) {
     }
   })
   
-  # ######################## Trophic Level #######################
-  # output$TL <- renderUI({
-  #   if ("Nivel trofico" %in% input$indB) {
-  #     model <- results_bio()$model[[6]] #The model for trophic level is in the sixth element of the model column
-  #
-  #     valueBox(
-  #       value = "Nivel Trófico",
-  #       subtitle = valueBoxString(model),
-  #       icon = icon("leaf"),
-  #       color = x$color,
-  #       width = NULL
-  #     )
-  #   }
-  # })
+  ######################## Trophic Level #######################
+  output$TL <- renderUI({
+    if ("Nivel trofico" %in% input$indB) {
+      model <- results_bio()$model[[6]] #The model for trophic level is in the sixth element of the model column
+
+      valueBox(
+        value = "Nivel Trófico",
+        subtitle = results_bio()$string[6],
+        icon = icon("leaf"),
+        color = results_bio()$color[6],
+        width = NULL
+      )
+    }
+  })
   
   ######################### Organisms above TL 50 #######################
   # output$orgtl50 <- renderUI({
