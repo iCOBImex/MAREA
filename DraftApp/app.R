@@ -41,8 +41,6 @@ ui <- dashboardPage(
       )
     ),
     p(),
-    downloadButton('reporte', 'Descargar Reporte'),
-    p(),
     p(),
     p(),
     img(src = "cobi.jpg", width = "60px"),
@@ -151,8 +149,9 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "select.jpg", width = "150px"),
         fluidRow(
-          column(3, wellPanel(h1("Comunidad"),
-                              uiOutput("comunidad"))),
+          column(3, offset = 2,
+                 wellPanel(h1("Comunidad"),
+                           uiOutput("comunidad"))),
           
           column(3, wellPanel(h1("Reserva-Control"),
                               uiOutput("rc"))),
@@ -196,12 +195,32 @@ ui <- dashboardPage(
         img(src = "res.jpg", width = "150px"),
         
         # Insert a legend
-        fluidRow(column(
-          12, offset = 4, img(src = "legend2.gif", width = "500px")
-        )),
+        fluidRow(
+          column(6, offset = 4,
+                 img(src = "legend2.gif", width = "500px")
+        ),
+        column(2,
+               downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
         
-        # Insert a general score
-        fluidRow(column(12, offset = 4, valueBoxOutput("totres"))),
+        #Lets define some css syle for the button
+        tags$head(tags$style(".butt{background-color:orange;}
+                             .butt{color: white;}
+                             .butt{font-weight: bold;}")),
+        
+        # Insert a button to download report
+        # fluidRow(
+        #   column(4, offset = 4,
+        #          wellPanel(
+        #            h2("Descargar un reporte"),
+        # downloadButton('reporte', 'Descargar Reporte')
+        #            ))),
+        
+        # Insert a global score
+        fluidRow(
+          column(4, offset = 4,
+                 wellPanel(
+                   h1("Global", align = "center"),
+                   valueBoxOutput("totres", width = NULL)))),
         
         # Insert score by categories
         fluidRow(
@@ -769,7 +788,8 @@ server <- function(input, output, session) {
       value = "Governance",
       subtitle = "nothing yet",
       icon = icon("users"),
-      color = "red"
+      color = "red",
+      width = NULL
     )
   })
   
@@ -804,13 +824,15 @@ server <- function(input, output, session) {
           "% de indicadores positivos"
         ),
         icon = icon("globe"),
-        color = "green"
+        color = "green",
+        width = NULL
       )} else {
         valueBox(
           value = "General",
           subtitle = "0 % de indicadores positivos",
           icon = icon("globe"),
-          color = "green"
+          color = "green",
+          width = NULL
         )
       }
   })
