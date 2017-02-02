@@ -1,11 +1,12 @@
 ---
 output: 
     html_document: 
-        fig_caption: yes
-        toc: yes
-        toc_float:
-            collapsed: no
-            smooth_scroll: no
+      fig_caption: yes
+      number_sections: yes
+      toc: yes
+      toc_float:
+        collapsed: no
+        smooth_scroll: no
 params:
   title: ""
   results: ""
@@ -175,6 +176,29 @@ results$model[[4]] %>%
 ### Nivel trofico
 
 ### Biomasa
+
+```{r}
+results$plot[[7]]
+```
+
+```{r, results = 'asis'}
+
+results$model[[7]] %>% 
+  stargazer(
+    dep.var.labels = "Biomasa (Kg/transecto)",
+    type = "html",
+    dep.var.caption = "",
+    report = "vc*",
+    single.row = T,
+    omit.stat = c("adj.rsq", "n"),
+    digits = 2,
+    df = F,
+    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+    notes.append = FALSE,
+    star.char = "+"
+  )
+
+```
 
 ### Biomasa de especies objetivo
 
