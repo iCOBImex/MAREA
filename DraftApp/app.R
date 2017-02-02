@@ -146,6 +146,7 @@ ui <- dashboardPage(
       ),
       
       #### Fourth tab starts here ################################################################################
+      ## I included an offset = 2 to center the elements
       tabPanel(
         img(src = "select.jpg", width = "150px"),
         fluidRow(
