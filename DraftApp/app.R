@@ -574,32 +574,9 @@ server <- function(input, output, session) {
     soc_results(values, socioInput())
   })
   
-  
-  ### Output for general results ####################################################################
-  
-  output$totres <- renderValueBox({
-    req(input$obj)
-    
-    model <- turfeffect(
-      MPAtools::shannon(bioInput(),
-                        input$comunidad),
-      reserve = res.fun(),
-      control = con.fun(),
-      type = "bio"
-    )
-    
-    valueBox(
-      value = "General",
-      subtitle = valueBoxString(model, "bio"),
-      icon = icon("globe"),
-      color = bio_score(model)
-    )
-    
-  })
-  
   ### Output for biophys indicators ##################################################################
   
-  ######################### General Bio#######################
+  ######################### General Bio #######################
   output$biores <- renderValueBox({
     
     if (length(results_bio()) > 1){
@@ -801,6 +778,43 @@ server <- function(input, output, session) {
   observeEvent(input$toggle_gov, {
   })
   
+  ### Output for general results ####################################################################
+  
+  output$totres <- renderValueBox({
+    req(input$obj)
+    ####
+    
+    results <- rbind(results_bio(), results_soc())
+      
+    if (length(results) > 1){
+      summary <- results %>%
+        filter(!is.na(e)) %>%
+        mutate(
+          Valid = length(e),
+          Positive = (e > 0) * 1,
+          Score = sum(Positive) / Valid * 100
+        ) %>%
+        select(Score) %>%
+        max()
+      
+      valueBox(
+        value = "General",
+        subtitle = paste0(
+          formatC(summary, digits = 0, format = "f"),
+          "% de indicadores positivos"
+        ),
+        icon = icon("globe"),
+        color = "green"
+      )} else {
+        valueBox(
+          value = "General",
+          subtitle = "0 % de indicadores positivos",
+          icon = icon("globe"),
+          color = "green"
+        )
+      }
+  })
+  
   
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
@@ -818,7 +832,7 @@ server <- function(input, output, session) {
                 overwrite = TRUE)
       
       # Set up parameters to pass to Rmd document
-      params <- list(title = c("Report trial"),
+      params <- list(title = paste("Reporte para", input$rc, input$comunidad),
                      results = rbind(results_bio(), results_soc()))
       
       # Knit the document, passing in the `params` list, and eval it in a
