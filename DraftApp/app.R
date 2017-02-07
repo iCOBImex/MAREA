@@ -197,16 +197,17 @@ ui <- dashboardPage(
         
         # Insert a legend
         fluidRow(
-          column(6, offset = 4,
+          column(5, offset = 4,
                  img(src = "legend2.gif", width = "500px")
         ),
-        column(2,
+        column(1,
                downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
         
         #Lets define some css syle for the button
-        tags$head(tags$style(".butt{background-color:orange;}
+        tags$head(tags$style(".butt{background-color:green;}
                              .butt{color: white;}
-                             .butt{font-weight: bold;}")),
+                             .butt{font-weight: bold;}
+                             .butt{font-size: 200%;}")),
         
         # Insert a button to download report
         # fluidRow(
