@@ -17,7 +17,7 @@ library(tidyverse)
 # Define UI for application that draws a histogram
 
 ui <- dashboardPage(
-  dashboardHeader(title = "TURFeffect App"),
+  dashboardHeader(title = "MAREA"),
   dashboardSidebar(
     h1("Recursos"),
     p(
@@ -48,8 +48,7 @@ ui <- dashboardPage(
   ),
   dashboardBody(
     useShinyjs(),
-    navbarPage(
-      "A tool to evaluate the effectiveness of no-take Marine Reserves",
+    navbarPage("Marine Reserve Evaluation App",
       #theme = shinythemes::shinytheme("cerulean"),
       
       #### First tab starts here ################################################################################
@@ -138,9 +137,9 @@ ui <- dashboardPage(
                            'Socioeconomic data')
           ),
           mainPanel(
-            h2("Data preview:"),
+            h2("Vista previa:"),
             tabsetPanel(
-              tabPanel("Biophysica Pecesl",
+              tabPanel("Biophysica Peces",
                        tableOutput("preview1")),
               tabPanel("Biophysical Inverts",
                        tableOutput("preview1_i")),
@@ -175,7 +174,7 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "conf.jpg", width = "150px"),
         fluidPage(
-          uiOutput("title"),
+          textOutput("title"),
           
           fluidRow(
             column(3, wellPanel("Objetivos",
@@ -202,6 +201,8 @@ ui <- dashboardPage(
       #### Sixth tab starts here################################################################################
       tabPanel(
         img(src = "res.jpg", width = "150px"),
+        
+        textOutput("final_title"),
         
         # Insert a legend
         fluidRow(
@@ -444,6 +445,10 @@ server <- function(input, output, session) {
     head(bioInput())
   })
   
+  output$preview1_i <- renderTable({
+    head(bioInput_i())
+  })
+  
   output$preview2 <- renderTable({
     head(socioInput())
   })
@@ -581,7 +586,7 @@ server <- function(input, output, session) {
   output$title <- renderText({
     req(input$rc)
     
-    paste(
+    paste0(
       "El análisis se generará para la reserva de ",
       input$rc,
       " en la comunidad de ",
@@ -642,6 +647,17 @@ server <- function(input, output, session) {
                   comunidad = input$comunidad)
     
     soc_results(values, socioInput())
+  })
+  
+  output$final_title <- renderText({
+    req(input$rc)
+    
+    paste0(
+      "Resultados para la reserva de ",
+      input$rc,
+      " en la comunidad de ",
+      input$comunidad
+    )
   })
   
   ### Output for biophys indicators ##################################################################
