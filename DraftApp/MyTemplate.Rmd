@@ -88,27 +88,29 @@ results %>%
 
 
 ```{r}
-
-results$plot[[1]]
+if(!is.na(results$plot[[1]])) {
+  results$plot[[1]]
+}
 
 ```
 
 ```{r, results = 'asis'}
-
-results$model[[1]] %>% 
-  stargazer(
-    dep.var.labels = "Shannon (H'/transecto)",
-    type = "html",
-    dep.var.caption = "",
-    report = "vc*",
-    single.row = T,
-    omit.stat = c("adj.rsq", "n"),
-    digits = 2,
-    df = F,
-    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-    notes.append = FALSE,
-    star.char = "+"
-  )
+if(!is.na(results$model[[1]])){
+  results$model[[1]] %>% 
+    stargazer(
+      dep.var.labels = "Shannon (H'/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
 
 ```
 
@@ -117,26 +119,29 @@ results$model[[1]] %>%
 
 ```{r}
 
-results$plot[[2]]
-
+if(!is.na(results$plot[[2]])) {
+  results$plot[[2]]
+}
 ```
 
 ```{r, results = 'asis'}
 
-results$model[[2]] %>% 
-  stargazer(
-    dep.var.labels = "Riqueza (Spp/transecto)",
-    type = "html",
-    dep.var.caption = "",
-    report = "vc*",
-    single.row = T,
-    omit.stat = c("adj.rsq", "n"),
-    digits = 2,
-    df = F,
-    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-    notes.append = FALSE,
-    star.char = "+"
-  )
+if(!is.na(results$model[[2]])) {
+  results$model[[2]] %>%
+    stargazer(
+      dep.var.labels = "Riqueza (Spp/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
 
 ```
 
@@ -146,27 +151,30 @@ results$model[[2]] %>%
 ### Densidad
 
 ```{r}
-
-results$plot[[4]]
+if(!is.na(results$plot[[4]])) {
+  results$plot[[4]]
+}
 
 ```
 
 ```{r, results = 'asis'}
 
-results$model[[4]] %>% 
-  stargazer(
-    dep.var.labels = "Densidad (Organismos/transecto)",
-    type = "html",
-    dep.var.caption = "",
-    report = "vc*",
-    single.row = T,
-    omit.stat = c("adj.rsq", "n"),
-    digits = 2,
-    df = F,
-    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-    notes.append = FALSE,
-    star.char = "+"
-  )
+if(!is.na(results$model[[4]])) {
+  results$model[[4]] %>%
+    stargazer(
+      dep.var.labels = "Densidad (Organismos/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
 
 ```
 
@@ -176,25 +184,29 @@ results$model[[4]] %>%
 ### Nivel trofico
 
 ```{r}
-results$plot[[6]]
+if(!is.na(results$plot[[6]])){
+  results$plot[[6]]
+}
+
 ```
 
 ```{r, results = 'asis'}
-
-results$model[[6]] %>% 
-  stargazer(
-    dep.var.labels = "Nivel trofico",
-    type = "html",
-    dep.var.caption = "",
-    report = "vc*",
-    single.row = T,
-    omit.stat = c("adj.rsq", "n"),
-    digits = 2,
-    df = F,
-    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-    notes.append = FALSE,
-    star.char = "+"
-  )
+if(!is.na(results$model[[6]])) {
+  results$model[[6]] %>% 
+    stargazer(
+      dep.var.labels = "Nivel trofico",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+  }
 
 ```
 
@@ -202,25 +214,30 @@ results$model[[6]] %>%
 ### Biomasa
 
 ```{r}
+
+if (!is.na(results$plot[[7]])) {
 results$plot[[7]]
+}
+
 ```
 
 ```{r, results = 'asis'}
-
-results$model[[7]] %>% 
-  stargazer(
-    dep.var.labels = "Biomasa (Kg/transecto)",
-    type = "html",
-    dep.var.caption = "",
-    report = "vc*",
-    single.row = T,
-    omit.stat = c("adj.rsq", "n"),
-    digits = 2,
-    df = F,
-    notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-    notes.append = FALSE,
-    star.char = "+"
-  )
+if(!is.na(results$model[[7]])) {
+  results$model[[7]] %>%
+    stargazer(
+      dep.var.labels = "Biomasa (Kg/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
 
 ```
 
