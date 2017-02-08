@@ -108,7 +108,13 @@ ui <- dashboardPage(
           sidebarPanel(
             fileInput(
               inputId = "biophys",
-              label = "Base biofis",
+              label = "Base biofis peces",
+              accept = ".csv"
+            ),
+            
+            fileInput(
+              inputId = "biophys_i",
+              label = "Base biofis inverts",
               accept = ".csv"
             ),
             
@@ -134,8 +140,10 @@ ui <- dashboardPage(
           mainPanel(
             h2("Data preview:"),
             tabsetPanel(
-              tabPanel("Biophysical",
+              tabPanel("Biophysica Pecesl",
                        tableOutput("preview1")),
+              tabPanel("Biophysical Inverts",
+                       tableOutput("preview1_i")),
               tabPanel("Socioeconomic",
                        tableOutput("preview2")),
               tabPanel("Governance",
@@ -233,6 +241,8 @@ ui <- dashboardPage(
                    actionButton("toggle_bio",
                                 "Mas/Menos",
                                 icon = icon("th-list")),
+                   
+                   h2("Peces"),
                    hidden(
                      uiOutput("shannon"),
                      uiOutput("richness"),
@@ -241,6 +251,13 @@ ui <- dashboardPage(
                      uiOutput("TL"),
                      uiOutput("orgtl50"),
                      uiOutput("natural")
+                     ),
+                   
+                   h2("Invertebrados"),
+                   hidden(
+                     uiOutput("shannon_i"),
+                     uiOutput("richness_i"),
+                     uiOutput("density_i")
                    )
                  )),
           
@@ -371,6 +388,24 @@ server <- function(input, output, session) {
   # Definir datos biofisicos ####################################
   bioInput <- reactive({
     inFile <- input$biophys
+    
+    if (is.null(inFile)) {
+      return(NULL)
+      
+    } else {
+      data <-
+        read.csv(inFile$datapath,
+                 header = T,
+                 stringsAsFactors = F) %>%
+        filter(!is.na(Comunidad))
+      
+      return(data)
+    }
+  })
+  
+  # Definir datos biofisicos ####################################
+  bioInput_i <- reactive({
+    inFile <- input$biophys_i
     
     if (is.null(inFile)) {
       return(NULL)
@@ -570,7 +605,7 @@ server <- function(input, output, session) {
                                          data.res$Zona == "Control"]))
   })
   
-  # Define a reactive value for a tibble that stores the analysis results for biophysical indicators
+  # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
     req(input$biophys)
     req(input$indB)
@@ -583,6 +618,20 @@ server <- function(input, output, session) {
     bio_results(values, bioInput(), res.fun(), con.fun())
   })
   
+  # Define a reactive value for a tibble that stores the analysis results for biophysical INVERT indicators
+  results_bio_i <- reactive({
+    req(input$biophys_i)
+    req(input$indB)
+    req(input$comunidad)
+    req(input$rc)
+    
+    values = list(indB = input$indB,
+                  comunidad = input$comunidad)
+    
+    bio_results_i(values, bioInput_i(), res.fun(), con.fun())
+  })
+  
+
   # Define a reactive value for a tibble that stores the analysis results for socioeconomic indicators
   results_soc <- reactive({
     req(input$socioeco)
@@ -630,6 +679,7 @@ server <- function(input, output, session) {
   
   ######## Toggle Bio output ##################################
   observeEvent(input$toggle_bio, {
+    toggle("Peces")
     toggle("shannon")
     toggle("richness")
     toggle("density")
@@ -637,7 +687,13 @@ server <- function(input, output, session) {
     toggle("TL")
     toggle("orgtl50")
     toggle("natural")
+    toggle("Invertebrados")
+    toggle("shannon_i")
+    toggle("richness_i")
+    toggle("density_i")
   })
+  
+  ## PECES ################################################
   
   ######################### Shannon #######################
   output$shannon <- renderUI({
@@ -721,6 +777,49 @@ server <- function(input, output, session) {
   #     )
   #   }
   # })
+  
+  ## INVERTEBRADOS ########################################
+  
+  ######################### Shannon #######################
+  output$shannon_i <- renderUI({
+    if ("Indice de diversidad de Shannon" %in% input$indB) {
+      valueBox(
+        value = "Índice de Shannon",
+        subtitle = results_bio_i()$string[1],
+        icon = icon("leaf"),
+        color = results_bio_i()$color[1],
+        width = NULL
+      )
+    } else {
+    }
+  })
+  
+  ######################### Richness #######################
+  output$richness_i <- renderUI({
+    if ("Riqueza" %in% input$indB) {
+      valueBox(
+        value = "Riqueza",
+        subtitle = results_bio_i()$string[2],
+        icon = icon("leaf"),
+        color = results_bio_i()$color[2],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Density #######################
+  output$density_i <- renderUI({
+    if ("Densidad" %in% input$indB) {
+      valueBox(
+        value = "Densidad",
+        subtitle = results_bio_i()$string[3],
+        icon = icon("leaf"),
+        color = results_bio_i()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
   
 
   ### Output for socioeco indicators ####################################################################
