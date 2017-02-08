@@ -493,7 +493,6 @@ server <- function(input, output, session) {
   })
   
   output$objsp <- renderUI({
-    req(input$biophys)
     req(input$comunidad)
     
     if (any(input$obj %in% c(2, 3, 6)) ||
@@ -510,7 +509,7 @@ server <- function(input, output, session) {
             "Ingresos por arribos de especies objetivo"
           )
         )) {
-      sp_list <- bioInput() %>%
+      sp_list <- rbind(bioInput(), bioInput_i()) %>%
         filter(Comunidad == input$comunidad,
                RC == RC()) %>%
         group_by(GeneroEspecie) %>%
