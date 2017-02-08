@@ -956,7 +956,7 @@ server <- function(input, output, session) {
       
       # Set up parameters to pass to Rmd document
       params <- list(title = paste("Reporte para", input$rc, input$comunidad),
-                     results = rbind(results_bio(), results_soc()))
+                     results = rbind(results_bio(), results_bio_i(), results_soc()))
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document

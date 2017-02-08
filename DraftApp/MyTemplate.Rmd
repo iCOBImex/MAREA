@@ -243,6 +243,100 @@ if(!is.na(results$model[[7]])) {
 
 ### Biomasa de especies objetivo
 
+## Invertebrados
+
+### Indice de diversidad de Shannon
+
+```{r}
+if(!is.na(results$plot[[9]])) {
+  results$plot[[9]]
+}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results$model[[9]])){
+  results$model[[9]] %>% 
+    stargazer(
+      dep.var.labels = "Shannon (H'/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
+
+### Riqueza
+
+```{r}
+
+if(!is.na(results$plot[[10]])) {
+  results$plot[[10]]
+}
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results$model[[10]])) {
+  results$model[[10]] %>%
+    stargazer(
+      dep.var.labels = "Riqueza (Spp/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
+
+### Densidad
+
+```{r}
+if(!is.na(results$plot[[11]])) {
+  results$plot[[11]]
+}
+
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results$model[[11]])) {
+  results$model[[11]] %>%
+    stargazer(
+      dep.var.labels = "Densidad (Organismos/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
+
 # Socioeconomicos
 
 ## Arribos
