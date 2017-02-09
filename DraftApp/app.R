@@ -845,7 +845,7 @@ server <- function(input, output, session) {
         formatC(socsummary, digits = 0, format = "f"),
         "% de indicadores positivos"
       ),
-      icon = icon("leaf"),
+      icon = icon("money"),
       color = "green"
     )
 
@@ -865,7 +865,7 @@ server <- function(input, output, session) {
       valueBox(
         value = "Arribos",
         subtitle = results_soc()$string[1],
-        icon = icon("leaf"),
+        icon = icon("money"),
         color = results_soc()$color[1],
         width = NULL
       )
@@ -879,7 +879,7 @@ server <- function(input, output, session) {
       valueBox(
         value = "Ingresos",
         subtitle = results_soc()$string[2],
-        icon = icon("leaf"),
+        icon = icon("money"),
         color = results_soc()$color[2],
         width = NULL
       )
