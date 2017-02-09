@@ -345,7 +345,7 @@ server <- function(input, output, session) {
   #### Formatos de prueba disponibles ##########################
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
-  FormatoA = read.csv("www/bio.csv", sep = ",")
+  FormatoA = read.csv("www/bio_fish.csv", sep = ",")
   FormatoB = read.csv("www/socio.csv", sep = ",")
   
   output$downloadA <- downloadHandler(
