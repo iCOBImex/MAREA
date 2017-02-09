@@ -902,9 +902,8 @@ server <- function(input, output, session) {
   
   output$totres <- renderValueBox({
     req(input$obj)
-    ####
     
-    results <- rbind(results_bio(), results_soc())
+    results <- rbind(results_bio(), results_bio_i(), results_soc())
       
     if (length(results) > 1){
       summary <- results %>%
