@@ -709,7 +709,6 @@ server <- function(input, output, session) {
         color = results_bio()$color[1],
         width = NULL
       )
-    } else {
     }
   })
   
@@ -794,7 +793,6 @@ server <- function(input, output, session) {
         color = results_bio_i()$color[1],
         width = NULL
       )
-    } else {
     }
   })
   
