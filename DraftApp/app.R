@@ -13,6 +13,7 @@ library(shinyjs)
 library(shinyBS)
 library(MPAtools)
 library(tidyverse)
+library(xtable)
 
 # Define UI for application that draws a histogram
 
@@ -20,31 +21,11 @@ ui <- dashboardPage(
   dashboardHeader(title = "MAREA"),
   dashboardSidebar(
     h1("Recursos"),
-    p(
-      "Link al ",
-      a("Manual", href = "www.turfeffect.org", target = "_blank")
-    ),
-    p(
-      "Link a la ",
-      a("Guía de usuario", href = "www.turfeffect.org", target = "_blank")
-    ),
-    p(
-      "Página de ",
-      a("TURFeffect", href = "www.turfeffect.org", target = "_blank")
-    ),
-    p(
-      "Enviar comentarios a",
-      a(
-        "Juan Carlos Villaseñor-Derbez",
-        href = "juancarlos@turfeffect.org",
-        target = "_blank"
-      )
-    ),
-    p(),
-    p(),
-    p(),
-    img(src = "cobi.jpg", width = "60px"),
-    img(src = "turf.jpg", width = "60px")
+    p("Link al ", a("Manual", href = "http://www.turfeffect.org", target = "_blank")),
+    p("Link a la ", a("Guía de usuario", href = "http://www.turfeffect.org", target = "_blank")),
+    p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
+    p("Enviar comentarios a JC Villaseñor a:"),
+    p("juancarlos@turfeffect.org")
   ),
   dashboardBody(
     useShinyjs(),
@@ -436,21 +417,30 @@ server <- function(input, output, session) {
         read.csv(inFile$datapath,
                  header = T,
                  stringsAsFactors = F)
-      
       return(data)
     }
   })
   
   output$preview1 <- renderTable({
-    head(bioInput())
+    req(input$biophys)
+    bioInput() %>% 
+      dplyr::select(Ano, Comunidad, Sitio, Zona, ProfundidadInicial, Visibilidad, Temperatura, GeneroEspecie, Talla, Abundancia) %>% 
+      head() %>% 
+      xtable()
   })
   
   output$preview1_i <- renderTable({
-    head(bioInput_i())
+    req(input$biophys_i)
+    bioInput_i() %>% 
+      dplyr::select(Ano, Comunidad, Sitio, Zona, ProfundidadInicial, Visibilidad, Temperatura, GeneroEspecie, Talla, Abundancia) %>% 
+      head() %>% 
+      xtable()
   })
   
   output$preview2 <- renderTable({
-    head(socioInput())
+    req(input$socioeco)
+    head(socioInput()) %>% 
+      xtable()
   })
   
   #### Definir datos de gobernananza ####################################
