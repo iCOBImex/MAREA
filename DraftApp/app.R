@@ -651,32 +651,34 @@ server <- function(input, output, session) {
   ######################### General Bio #######################
   output$biores <- renderValueBox({
     
-    if (length(results_bio()) > 1){
-    biosummary <- results_bio() %>%
+    if (length(results_bio()) > 1 & length(results_bio_i()) > 1){
+      
+      all_bio_results <- rbind(results_bio(), results_bio_i())
+      
+    } else if (length(results_bio() > 1 & length(results_bio_i()) < 1)){
+      
+      all_bio_results <- results_bio()
+      
+    } else if (length(results_bio() < 1 & length(results_bio_i()) > 1)){
+      
+      all_bio_results <- results_bio_i()
+    }
+      
+    biosummary <- all_bio_results %>%
       filter(!is.na(e)) %>%
       mutate(
         Valid = length(e),
         Positive = (e > 0) * 1,
-        Score = sum(Positive) / Valid * 100
-      ) %>%
-      select(Score) %>% max()
+        Score = sum(Positive) / Valid * 100) %>%
+      select(Score) %>%
+      max()
     
     valueBox(
       value = "General",
-      subtitle = paste0(
-        formatC(biosummary, digits = 0, format = "f"),
-        "% de indicadores positivos"
-      ),
+      subtitle = paste0(formatC(biosummary, digits = 1, format = "f"), "% de indicadores positivos"),
       icon = icon("leaf"),
-      color = "green"
-    )} else {
-      valueBox(
-        value = "General",
-        subtitle = "0 % de indicadores positivos",
-        icon = icon("leaf"),
-        color = "green"
-      )
-    }
+      color = gen_score(biosummary)
+    )
   })
   
   ######## Toggle Bio output ##################################
@@ -838,12 +840,9 @@ server <- function(input, output, session) {
     
     valueBox(
       value = "General",
-      subtitle = paste0(
-        formatC(socsummary, digits = 0, format = "f"),
-        "% de indicadores positivos"
-      ),
+      subtitle = paste0(formatC(socsummary, digits = 0, format = "f"), "% de indicadores positivos"),
       icon = icon("money"),
-      color = "green"
+      color = gen_score(socsummary)
     )
 
   })
@@ -927,17 +926,9 @@ server <- function(input, output, session) {
           "% de indicadores positivos"
         ),
         icon = icon("globe"),
-        color = "green",
+        color = gen_score(summary),
         width = NULL
-      )} else {
-        valueBox(
-          value = "General",
-          subtitle = "0 % de indicadores positivos",
-          icon = icon("globe"),
-          color = "green",
-          width = NULL
-        )
-      }
+      )}
   })
   
   
