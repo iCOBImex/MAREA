@@ -183,14 +183,17 @@ ui <- dashboardPage(
       tabPanel(
         img(src = "res.jpg", width = "150px"),
         
-        textOutput("final_title"),
+        fluidRow(
+          column(4, offset = 4,
+                 textOutput("final_title")
+          )),
         
         # Insert a legend
         fluidRow(
-          column(5, offset = 4,
-                 img(src = "legend2.gif", width = "500px")
+          column(5, offset = 3,
+                 img(src = "legend2.gif", width = "600px")
         ),
-        column(1,
+        column(1, offset = 1,
                downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
         
         #Lets define some css syle for the button
@@ -198,14 +201,8 @@ ui <- dashboardPage(
                              .butt{color: white;}
                              .butt{font-weight: bold;}
                              .butt{font-size: 200%;}")),
-        
-        # Insert a button to download report
-        # fluidRow(
-        #   column(4, offset = 4,
-        #          wellPanel(
-        #            h2("Descargar un reporte"),
-        # downloadButton('reporte', 'Descargar Reporte')
-        #            ))),
+        # This is how you control background colors with CSS
+        # tags$section(tags$style(".sidebar{background-color: lightblue;}")),
         
         # Insert a global score
         fluidRow(
