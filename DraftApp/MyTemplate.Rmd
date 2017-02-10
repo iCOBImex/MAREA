@@ -54,7 +54,7 @@ width: 80%;
 
 ----
 
-![](legend.png)
+![](legend2.gif)
 
 ----
 
