@@ -834,7 +834,6 @@ server <- function(input, output, session) {
   })
   
   
-
   ### Output for socioeco indicators ####################################################################
   ### General Soc ####################
   output$socres <- renderValueBox({
@@ -857,14 +856,12 @@ server <- function(input, output, session) {
   })
   
   ######## Toggle Soc output ##################################
-  
   observeEvent(input$toggle_soc, {
     toggle("landings")
     toggle("income")
   })
 
   ######################### Landings #######################
-
   output$landings <- renderUI({
     if ("Arribos" %in% input$indS) {
       valueBox(
@@ -878,7 +875,6 @@ server <- function(input, output, session) {
   })
 
   ######################### Income from landings #######################
-
   output$income <- renderUI({
     if ("Ingresos por arribos" %in% input$indS) {
       valueBox(
