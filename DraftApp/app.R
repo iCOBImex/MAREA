@@ -817,13 +817,13 @@ server <- function(input, output, session) {
       mutate(
         Valid = length(e),
         Positive = (e > 0) * 1,
-        Score = sum(Positive) / Valid * 100
-      ) %>%
-      select(Score) %>% max()
+        Score = sum(Positive) / Valid * 100) %>%
+      select(Score) %>%
+        max()
     
     valueBox(
       value = "General",
-      subtitle = paste0(formatC(socsummary, digits = 0, format = "f"), "% de indicadores positivos"),
+      subtitle = paste0(formatC(socsummary, digits = 1, format = "f"), "% de indicadores positivos"),
       icon = icon("money"),
       color = gen_score(socsummary)
     )
