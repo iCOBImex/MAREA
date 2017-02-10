@@ -325,6 +325,35 @@ if(!is.na(results_bio$model[[7]])) {
 
 ### Biomasa de especies objetivo
 
+
+```{r}
+
+if (!is.na(results_bio$plot[[8]])) {
+results_bio$plot[[8]]
+}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[8]])) {
+  results_bio$model[[8]] %>%
+    stargazer(
+      dep.var.labels = "Biomasa (Kg/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
 ## Invertebrados
 
 ### Indice de diversidad de Shannon
