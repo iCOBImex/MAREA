@@ -9,7 +9,9 @@ output:
         smooth_scroll: no
 params:
   title: ""
-  results: ""
+  results_bio: ""
+  results_bio_i: ""
+  results_soc: ""
 ---
 
 ---

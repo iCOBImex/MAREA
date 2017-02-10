@@ -931,9 +931,31 @@ server <- function(input, output, session) {
                 tempReport,
                 overwrite = TRUE)
       
+      ### Check that all results exist, or generate null results instead
+      
+      if (isTruthy(input$biophys)){
+        bio1 <- results_bio()
+      } else {
+        bio1 <- NULL
+      }
+      
+      if (isTruthy(input$biophys_i)){
+        bio2 <- results_bio_i()
+      } else {
+        bio2 <- NULL
+      }
+      
+      if (isTruthy(input$socioeco)){
+        soc <- results_soc()
+      } else {
+        soc <- NULL
+      }
+      
       # Set up parameters to pass to Rmd document
       params <- list(title = paste("Reporte para", input$rc, input$comunidad),
-                     results = rbind(results_bio(), results_bio_i(), results_soc()))
+                     results_bio = bio1,
+                     results_bio_i = bio2,
+                     results_soc = soc)
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
