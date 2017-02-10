@@ -482,30 +482,22 @@ server <- function(input, output, session) {
   output$objsp <- renderUI({
     req(input$comunidad)
     
-    if (any(input$obj %in% c(2, 3, 6)) ||
-        any(
-          input$indB %in% c(
-            "Organismos > LT_50",
-            "Densidad de especies objetivo",
-            "Biomasa de especies objetivo"
-          )
-        ) ||
-        any(
-          input$indS %in% c(
-            "Arribos de especies objetivo",
-            "Ingresos por arribos de especies objetivo"
-          )
+    if (any(input$obj %in% c(2, 3, 6)) || 
+        any(input$indB %in% c("Organismos > LT_50",
+                              "Densidad de especies objetivo",
+                              "Biomasa de especies objetivo")) ||
+        any(input$indS %in% c("Arribos de especies objetivo",
+                              "Ingresos por arribos de especies objetivo")
         )) {
       sp_list <- rbind(bioInput(), bioInput_i()) %>%
-        filter(Comunidad == input$comunidad,
-               RC == RC()) %>%
+        filter(Comunidad == input$comunidad, RC == RC()) %>%
         group_by(GeneroEspecie) %>%
         summarize(N = n()) %>%
         filter(!is.na(GeneroEspecie))
       
       wellPanel(
         h1("Especies objetivo"),
-        checkboxGroupInput(
+        radioButtons(
           "objsp",
           "Selecciona tus especies objetivo",
           choices = sp_list$GeneroEspecie
