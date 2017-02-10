@@ -21,7 +21,6 @@ ui <- dashboardPage(
   dashboardHeader(title = "MAREA"),
   dashboardSidebar(
     h1("Recursos"),
-    p("Link al ", a("Manual", href = "http://www.turfeffect.org", target = "_blank")),
     p("Link a la ", a("Guía de usuario", href = "http://www.turfeffect.org", target = "_blank")),
     p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
     p("Enviar comentarios a JC Villaseñor a:"),
@@ -30,22 +29,23 @@ ui <- dashboardPage(
   dashboardBody(
     useShinyjs(),
     navbarPage("Marine Reserve Evaluation App",
-      #theme = shinythemes::shinytheme("cerulean"),
+      # theme = shinythemes::shinytheme("cerulean"),
+      # This is how you control background colors with CSS
+      # tags$section(tags$style(".sidebar{background-color: lightblue;}")),
       
       #### First tab starts here ################################################################################
       tabPanel(
-        img(src = "intro.jpg", width = "150px"),
+        img(src = "boton1.gif", width = "150px"),
         mainPanel(
-          img(src = "intro.gif", width = "920px"),
-          p(
-            "Antes de seguir, asegúrate de leer la guía de usuario de la aplicación, así como el manual de evaluación de zonas de no pesca en México Podrás encontrar los recursos en el menú lateral."
-          )
-        ),
-        position = c("right")
+          h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
+             así como el manual de evaluación de zonas de no pesca en México.
+             Podrás encontrar los recursos en el menú lateral."),
+          img(src = "intro.gif", width = "125%")
+        )
       ),
       #### Second tab starts here ################################################################################
       tabPanel(
-        img(src = "objeind.jpg", width = "150px"),
+        img(src = "boton2.gif", width = "150px"),
         sidebarLayout(
           sidebarPanel(
             h1("Objetivos"),
