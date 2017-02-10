@@ -598,10 +598,7 @@ server <- function(input, output, session) {
   
   # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
-    req(input$biophys)
-    req(input$indB)
-    req(input$comunidad)
-    req(input$rc)
+    req(input$biophys, input$indB, input$comunidad, input$rc)
     
     values = list(indB = input$indB,
                   comunidad = input$comunidad)
@@ -611,10 +608,7 @@ server <- function(input, output, session) {
   
   # Define a reactive value for a tibble that stores the analysis results for biophysical INVERT indicators
   results_bio_i <- reactive({
-    req(input$biophys_i)
-    req(input$indB)
-    req(input$comunidad)
-    req(input$rc)
+    req(input$biophys_i, input$indB, input$comunidad, input$rc)
     
     values = list(indB = input$indB,
                   comunidad = input$comunidad)
@@ -625,9 +619,7 @@ server <- function(input, output, session) {
 
   # Define a reactive value for a tibble that stores the analysis results for socioeconomic indicators
   results_soc <- reactive({
-    req(input$socioeco)
-    req(input$indS)
-    req(input$comunidad)
+    req(input$socioeco, input$indS, input$comunidad)
 
     values = list(indS = input$indS,
                   comunidad = input$comunidad)
