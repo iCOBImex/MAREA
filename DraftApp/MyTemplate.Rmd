@@ -115,15 +115,15 @@ rbind(results_bio, results_bio_i, results_soc) %>%
 
 
 ```{r}
-if(!is.na(results$plot[[1]])) {
-  results$plot[[1]]
+if(!is.na(results_bio$plot[[1]])) {
+  results_bio$plot[[1]]
 }
 
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results$model[[1]])){
-  results$model[[1]] %>% 
+if(!is.na(results_bio$model[[1]])){
+  results_bio$model[[1]] %>% 
     stargazer(
       dep.var.labels = "Shannon (H'/transecto)",
       type = "html",
@@ -146,15 +146,15 @@ if(!is.na(results$model[[1]])){
 
 ```{r}
 
-if(!is.na(results$plot[[2]])) {
-  results$plot[[2]]
+if(!is.na(results_bio$plot[[2]])) {
+  results_bio$plot[[2]]
 }
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results$model[[2]])) {
-  results$model[[2]] %>%
+if(!is.na(results_bio$model[[2]])) {
+  results_bio$model[[2]] %>%
     stargazer(
       dep.var.labels = "Riqueza (Spp/transecto)",
       type = "html",
@@ -178,16 +178,16 @@ if(!is.na(results$model[[2]])) {
 ### Densidad
 
 ```{r}
-if(!is.na(results$plot[[4]])) {
-  results$plot[[4]]
+if(!is.na(results_bio$plot[[4]])) {
+  results_bio$plot[[4]]
 }
 
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results$model[[4]])) {
-  results$model[[4]] %>%
+if(!is.na(results_bio$model[[4]])) {
+  results_bio$model[[4]] %>%
     stargazer(
       dep.var.labels = "Densidad (Organismos/transecto)",
       type = "html",
@@ -211,15 +211,15 @@ if(!is.na(results$model[[4]])) {
 ### Nivel trofico
 
 ```{r}
-if(!is.na(results$plot[[6]])){
-  results$plot[[6]]
+if(!is.na(results_bio$plot[[6]])){
+  results_bio$plot[[6]]
 }
 
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results$model[[6]])) {
-  results$model[[6]] %>% 
+if(!is.na(results_bio$model[[6]])) {
+  results_bio$model[[6]] %>% 
     stargazer(
       dep.var.labels = "Nivel trofico",
       type = "html",
@@ -237,20 +237,19 @@ if(!is.na(results$model[[6]])) {
 
 ```
 
-
 ### Biomasa
 
 ```{r}
 
-if (!is.na(results$plot[[7]])) {
-results$plot[[7]]
+if (!is.na(results_bio$plot[[7]])) {
+results_bio$plot[[7]]
 }
 
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results$model[[7]])) {
-  results$model[[7]] %>%
+if(!is.na(results_bio$model[[7]])) {
+  results_bio$model[[7]] %>%
     stargazer(
       dep.var.labels = "Biomasa (Kg/transecto)",
       type = "html",
@@ -275,15 +274,15 @@ if(!is.na(results$model[[7]])) {
 ### Indice de diversidad de Shannon
 
 ```{r}
-if(!is.na(results$plot[[9]])) {
-  results$plot[[9]]
+if(!is.na(results_bio_i$plot[[1]])) {
+  results_bio_i$plot[[1]]
 }
 
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results$model[[9]])){
-  results$model[[9]] %>% 
+if(!is.na(results_bio_i$model[[1]])){
+  results_bio_i$model[[1]] %>% 
     stargazer(
       dep.var.labels = "Shannon (H'/transecto)",
       type = "html",
@@ -306,15 +305,15 @@ if(!is.na(results$model[[9]])){
 
 ```{r}
 
-if(!is.na(results$plot[[10]])) {
-  results$plot[[10]]
+if(!is.na(results_bio_i$plot[[2]])) {
+  results_bio_i$plot[[2]]
 }
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results$model[[10]])) {
-  results$model[[10]] %>%
+if(!is.na(results_bio_i$model[[2]])) {
+  results_bio_i$model[[2]] %>%
     stargazer(
       dep.var.labels = "Riqueza (Spp/transecto)",
       type = "html",
@@ -336,16 +335,16 @@ if(!is.na(results$model[[10]])) {
 ### Densidad
 
 ```{r}
-if(!is.na(results$plot[[11]])) {
-  results$plot[[11]]
+if(!is.na(results_bio_i$plot[[3]])) {
+  results_bio_i$plot[[3]]
 }
 
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results$model[[11]])) {
-  results$model[[11]] %>%
+if(!is.na(results_bio_i$model[[3]])) {
+  results_bio_i$model[[3]] %>%
     stargazer(
       dep.var.labels = "Densidad (Organismos/transecto)",
       type = "html",
