@@ -452,3 +452,62 @@ if(!is.na(results_bio_i$model[[3]])) {
 
 ## Arribos
 
+
+```{r}
+if(!is.na(results_soc$plot[[1]])) {
+  results_soc$plot[[1]]
+}
+
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results_soc$model[[1]])) {
+  results_soc$model[[1]] %>%
+    stargazer(
+      dep.var.labels = "Arribos (Kg/ano)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
+## Ingresos por arribos
+
+```{r}
+if(!is.na(results_soc$plot[[2]])) {
+  results_soc$plot[[2]]
+}
+
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results_soc$model[[2]])) {
+  results_soc$model[[2]] %>%
+    stargazer(
+      dep.var.labels = "Arribos (Kg/ano)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
