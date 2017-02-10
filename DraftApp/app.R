@@ -139,7 +139,7 @@ ui <- dashboardPage(
       #### Fourth tab starts here ################################################################################
       ## I included an offset = 2 to center the elements
       tabPanel(
-        img(src = "select.jpg", width = "150px"),
+        img(src = "boton4.gif", width = "150px"),
         fluidRow(
           column(3, offset = 2,
                  wellPanel(h1("Comunidad"),
@@ -156,7 +156,7 @@ ui <- dashboardPage(
       
       #### Fifth tab starts here ################################################################################
       tabPanel(
-        img(src = "conf.jpg", width = "150px"),
+        img(src = "boton5.gif", width = "150px"),
         fluidPage(
           textOutput("title"),
           
@@ -184,7 +184,7 @@ ui <- dashboardPage(
       
       #### Sixth tab starts here################################################################################
       tabPanel(
-        img(src = "res.jpg", width = "150px"),
+        img(src = "boton6.gif", width = "150px"),
         
         fluidRow(
           column(4, offset = 4,
@@ -204,8 +204,6 @@ ui <- dashboardPage(
                              .butt{color: white;}
                              .butt{font-weight: bold;}
                              .butt{font-size: 200%;}")),
-        # This is how you control background colors with CSS
-        # tags$section(tags$style(".sidebar{background-color: lightblue;}")),
         
         # Insert a global score
         fluidRow(
