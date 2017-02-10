@@ -920,29 +920,23 @@ server <- function(input, output, session) {
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
-      tempReport <-
-        file.path(tempdir(), "MyTemplate.Rmd")
-      file.copy("MyTemplate.Rmd",
-                tempReport,
-                overwrite = TRUE)
+      tempReport <- file.path(tempdir(), "MyTemplate.Rmd")
+      file.copy("MyTemplate.Rmd", tempReport, overwrite = TRUE)
       
       ### Check that all results exist, or generate null results instead
       
       if (isTruthy(input$biophys)){
-        bio1 <- results_bio()
-      } else {
+        bio1 <- results_bio()} else {
         bio1 <- NULL
       }
       
       if (isTruthy(input$biophys_i)){
-        bio2 <- results_bio_i()
-      } else {
+        bio2 <- results_bio_i()} else {
         bio2 <- NULL
       }
       
       if (isTruthy(input$socioeco)){
-        soc <- results_soc()
-      } else {
+        soc <- results_soc()} else {
         soc <- NULL
       }
       
