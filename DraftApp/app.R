@@ -663,7 +663,6 @@ server <- function(input, output, session) {
   
   ######## Toggle Bio output ##################################
   observeEvent(input$toggle_bio, {
-    toggle("Peces")
     toggle("shannon")
     toggle("richness")
     toggle("density")
@@ -673,13 +672,19 @@ server <- function(input, output, session) {
     toggle("TL")
     toggle("orgtl50")
     toggle("natural")
-    toggle("Invertebrados")
     toggle("shannon_i")
     toggle("richness_i")
     toggle("density_i")
   })
   
   ## PECES ################################################
+  
+  # Thu Feb 09 20:46:40 2017 ------------------------------
+  # All this will be modularized. I just dont want to brake it
+  # before we send to adivisors. In theory, about 400 lines of
+  # of code can be saved by modularizing all this. For now, I
+  # hope that the comments above each chunck provide enough
+  # information about what is happening.
   
   ######################### Shannon #######################
   output$shannon <- renderUI({
