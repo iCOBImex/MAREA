@@ -62,14 +62,39 @@ width: 80%;
 
 ```{r}
 
-results <- params$results
+results_bio <- params$results_bio
+
+if(is.null(params$results_bio_i)){
+  results_bio_i <- tibble::tibble(
+    Ind = c("Shannon", "Riqueza", "Densidad", "DensidadObj"),
+    e = NA,
+    p = NA,
+    string = NA,
+    color = NA,
+    model = list(NA),
+    plot = list(NA)
+  )
+} else {
+  results_bio_i <- params$results_bio_i}
+
+if(is.null(params$results_soc)){
+  results_bio_i <- tibble::tibble(
+    Ind = LETTERS[1:4],
+    e = NA,
+    p = NA,
+    string = NA,
+    color = NA,
+    model = list(NA),
+    plot = list(NA)
+  )
+} else {
+  results_soc <- params$results_soc}
   
 ```
 
 
 ```{r, results = 'asis'}
-
-results %>%
+rbind(results_bio, results_bio_i, results_soc) %>%
   filter(!is.na(color)) %>% 
   mutate(Puntaje = paste0("![](",color, ".jpg)")) %>%
   select(Indicador = Ind,
