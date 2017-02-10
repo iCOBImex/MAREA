@@ -643,19 +643,14 @@ server <- function(input, output, session) {
   ######################### General Bio #######################
   output$biores <- renderValueBox({
     
-    if (length(results_bio()) > 1 & length(results_bio_i()) > 1){
-      
+    print(isTruthy(results_bio()))
+
+    if (isTruthy(input$biophys) & isTruthy(input$biophys_i)){
       all_bio_results <- rbind(results_bio(), results_bio_i())
-      
-    } else if (length(results_bio() > 1 & length(results_bio_i()) < 1)){
-      
+    } else if (isTruthy(input$biophys)){
       all_bio_results <- results_bio()
-      
-    } else if (length(results_bio() < 1 & length(results_bio_i()) > 1)){
-      
-      all_bio_results <- results_bio_i()
     }
-      
+  
     biosummary <- all_bio_results %>%
       filter(!is.na(e)) %>%
       mutate(
