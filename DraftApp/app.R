@@ -738,6 +738,34 @@ server <- function(input, output, session) {
     }
   })
   
+  ######################### Obj sp Density ##################
+  output$density_objsp <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB) {
+      valueBox(
+        value = paste("Densidad de", input$objsp),
+        subtitle = results_bio()$string[5],
+        icon = icon("leaf"),
+        color = results_bio()$color[5],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################## Trophic Level #######################
+  output$TL <- renderUI({
+    if ("Nivel trofico" %in% input$indB) {
+      model <- results_bio()$model[[6]] #The model for trophic level is in the sixth element of the model column
+      
+      valueBox(
+        value = "Nivel Trófico",
+        subtitle = results_bio()$string[6],
+        icon = icon("leaf"),
+        color = results_bio()$color[6],
+        width = NULL
+      )
+    }
+  })
+  
   ######################### Biomass #######################
   output$biomass <- renderUI({
     if ("Biomasa" %in% input$indB) {
@@ -751,35 +779,18 @@ server <- function(input, output, session) {
     }
   })
   
-  ######################## Trophic Level #######################
-  output$TL <- renderUI({
-    if ("Nivel trofico" %in% input$indB) {
-      model <- results_bio()$model[[6]] #The model for trophic level is in the sixth element of the model column
-
+  ######################### Obj sp Biomass ################
+  output$biomass_objsp <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB) {
       valueBox(
-        value = "Nivel Trófico",
-        subtitle = results_bio()$string[6],
+        value = paste("Biomasa de", input$objsp),
+        subtitle = results_bio()$string[8],
         icon = icon("leaf"),
-        color = results_bio()$color[6],
+        color = results_bio()$color[8],
         width = NULL
       )
     }
   })
-  
-  ######################### Organisms above TL 50 #######################
-  # output$orgtl50 <- renderUI({
-  #   if ("Organismos > LT_50" %in% input$indB) {
-  # model <- results_bio()$model[[3]] #The model for Organisms > TL 50 is in the third element of the model column
-  #
-  #     valueBox(
-  #       value = "Organismos > LT50",
-  #       subtitle = valueBoxString(model),
-  #       icon = icon("leaf"),
-  #       color = score(model),
-  #       width = NULL
-  #     )
-  #   }
-  # })
   
   ## INVERTEBRADOS ########################################
   
