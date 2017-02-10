@@ -502,7 +502,7 @@ server <- function(input, output, session) {
         any(input$indS %in% c("Arribos de especies objetivo",
                               "Ingresos por arribos de especies objetivo")
         )) {
-      sp_list <- rbind(bioInput(), bioInput_i()) %>%
+      sp_list <- bioInput() %>%
         filter(Comunidad == input$comunidad, RC == RC()) %>%
         group_by(GeneroEspecie) %>%
         summarize(N = n()) %>%
