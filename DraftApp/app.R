@@ -442,7 +442,7 @@ server <- function(input, output, session) {
   output$preview1_i <- renderTable({
     req(input$biophys_i)
     bioInput_i() %>% 
-      dplyr::select(Ano, Comunidad, Sitio, Zona, ProfundidadInicial, Visibilidad, Temperatura, GeneroEspecie, Talla, Abundancia) %>% 
+      dplyr::select(Ano, Comunidad, Sitio, Zona, ProfundidadInicial, Visibilidad, Temperatura, GeneroEspecie, Abundancia) %>% 
       head() %>% 
       xtable()
   })
