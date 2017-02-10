@@ -346,7 +346,8 @@ server <- function(input, output, session) {
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
   FormatoA = read.csv("www/bio_fish.csv", sep = ",")
-  FormatoB = read.csv("www/socio.csv", sep = ",")
+  FormatoB = read.csv("www/bio_invert.csv", sep = ",")
+  FormatoC = read.csv("www/socio.csv", sep = ",")
   
   output$downloadA <- downloadHandler(
     filename = function() {
@@ -358,6 +359,15 @@ server <- function(input, output, session) {
   )
   
   output$downloadB <- downloadHandler(
+    filename = function() {
+      paste("Biophysical", ".csv")
+    },
+    content = function(file) {
+      write.csv(FormatoA, file, row.names = F)
+    }
+  )
+  
+  output$downloadC <- downloadHandler(
     filename = function() {
       paste("Socioeconomic", ".csv")
     },
