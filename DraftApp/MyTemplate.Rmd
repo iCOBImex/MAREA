@@ -78,7 +78,7 @@ if(is.null(params$results_bio_i)){
   results_bio_i <- params$results_bio_i}
 
 if(is.null(params$results_soc)){
-  results_bio_i <- tibble::tibble(
+  results_soc <- tibble::tibble(
     Ind = LETTERS[1:4],
     e = NA,
     p = NA,
