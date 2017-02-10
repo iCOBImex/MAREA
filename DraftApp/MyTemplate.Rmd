@@ -175,6 +175,34 @@ if(!is.na(results_bio$model[[2]])) {
 
 ### Organismos > LT_50
 
+```{r}
+
+if(!is.na(results_bio$plot[[3]])) {
+  results_bio$plot[[3]]
+}
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results_bio$model[[3]])) {
+  results_bio$model[[3]] %>%
+    stargazer(
+      dep.var.labels = "Organismos > LT_50",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
 ### Densidad
 
 ```{r}
