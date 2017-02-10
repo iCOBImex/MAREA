@@ -888,29 +888,33 @@ server <- function(input, output, session) {
   output$totres <- renderValueBox({
     req(input$obj)
     
-    results <- rbind(results_bio(), results_bio_i(), results_soc())
-      
-    if (length(results) > 1){
-      summary <- results %>%
-        filter(!is.na(e)) %>%
-        mutate(
-          Valid = length(e),
-          Positive = (e > 0) * 1,
-          Score = sum(Positive) / Valid * 100
-        ) %>%
-        select(Score) %>%
-        max()
-      
-      valueBox(
-        value = "General",
-        subtitle = paste0(
-          formatC(summary, digits = 0, format = "f"),
-          "% de indicadores positivos"
-        ),
-        icon = icon("globe"),
-        color = gen_score(summary),
-        width = NULL
-      )}
+    if (isTruthy(input$biophys) & isTruthy(input$biophys_i) & isTruthy(input$socioeco)){
+      results <- rbind(results_bio(), results_bio_i(), results_soc())
+    } else if (isTruthy(input$biophys) & isTruthy(input$biophys_i)){
+      results <- rbind(results_bio(), results_bio_i())
+    } else if (isTruthy(input$biophys) & isTruthy(input$socioeco)) {
+      results <- rbind(results_bio(), results_soc())
+    } else if(isTruthy(input$biophys)) {
+      results <- results_bio()
+    }
+    
+    summary <- results %>%
+      filter(!is.na(e)) %>%
+      mutate(
+        Valid = length(e),
+        Positive = (e > 0) * 1,
+        Score = sum(Positive) / Valid * 100
+      ) %>%
+      select(Score) %>%
+      max()
+    
+    valueBox(
+      value = "General",
+      subtitle = paste0(formatC(summary, digits = 1, format = "f"), "% de indicadores positivos"),
+      icon = icon("globe"),
+      color = gen_score(summary),
+      width = NULL
+    )
   })
   
   
