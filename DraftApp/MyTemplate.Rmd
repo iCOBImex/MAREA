@@ -236,6 +236,34 @@ if(!is.na(results_bio$model[[4]])) {
 
 ### Densidad de especies objetivo
 
+```{r}
+if(!is.na(results_bio$plot[[5]])) {
+  results_bio$plot[[5]]
+}
+
+```
+
+```{r, results = 'asis'}
+
+if(!is.na(results_bio$model[[5]])) {
+  results_bio$model[[5]] %>%
+    stargazer(
+      dep.var.labels = "Densidad (Organismos/transecto)",
+      type = "html",
+      dep.var.caption = "",
+      report = "vc*",
+      single.row = T,
+      omit.stat = c("adj.rsq", "n"),
+      digits = 2,
+      df = F,
+      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
+      notes.append = FALSE,
+      star.char = "+"
+    )
+}
+
+```
+
 ### Nivel trofico
 
 ```{r}
