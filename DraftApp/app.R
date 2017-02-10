@@ -712,6 +712,19 @@ server <- function(input, output, session) {
     }
   })
   
+  ######################### Organisms above TL 50 #######################
+  output$orgtl50 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB) {
+      valueBox(
+        value = "Organismos > LT_50",
+        subtitle = results_bio()$string[3],
+        icon = icon("leaf"),
+        color = results_bio()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
   ######################### Density #######################
   output$density <- renderUI({
     if ("Densidad" %in% input$indB) {
