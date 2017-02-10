@@ -225,11 +225,13 @@ ui <- dashboardPage(
                    hidden(
                      uiOutput("shannon"),
                      uiOutput("richness"),
-                     uiOutput("density"),
-                     uiOutput("biomass"),
-                     uiOutput("TL"),
                      uiOutput("orgtl50"),
-                     uiOutput("natural")
+                     uiOutput("density"),
+                     uiOutput("natural"),
+                     uiOutput("density_objsp"),
+                     uiOutput("TL"),
+                     uiOutput("biomass"),
+                     uiOutput("biomass_objsp")
                      ),
                    
                    h2("Invertebrados"),
