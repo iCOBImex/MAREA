@@ -83,24 +83,24 @@ ui <- dashboardPage(
       
       #### Third tab starts here ################################################################################
       tabPanel(
-        img(src = "datos.jpg", width = "150px"),
+        img(src = "boton3.gif", width = "150px"),
         sidebarLayout(
           sidebarPanel(
             fileInput(
               inputId = "biophys",
-              label = "Base biofis peces",
+              label = "Base peces",
               accept = ".csv"
             ),
             
             fileInput(
               inputId = "biophys_i",
-              label = "Base biofis inverts",
+              label = "Base invertebrados",
               accept = ".csv"
             ),
             
             fileInput(
               inputId = "socioeco",
-              label = "Base socioeco",
+              label = "Base socioeconomicos",
               accept = ".csv"
             ),
             
@@ -110,12 +110,15 @@ ui <- dashboardPage(
               accept = ".csv"
             ),
             p(),
-            h2("Sample formats"),
+            h2("Ejemplos"),
             downloadButton('downloadA',
-                           'Biophysical data'),
+                           'Datos peces'),
             p(),
             downloadButton('downloadB',
-                           'Socioeconomic data')
+                           'Datos invertebrados'),
+            p(),
+            downloadButton('downloadC',
+                           'Datos socioeconomicos')
           ),
           mainPanel(
             h2("Vista previa:"),
