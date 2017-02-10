@@ -96,7 +96,7 @@ if(is.null(params$results_soc)){
 ```{r, results = 'asis'}
 rbind(results_bio, results_bio_i, results_soc) %>%
   filter(!is.na(color)) %>% 
-  mutate(Puntaje = paste0("![](",color, ".jpg)")) %>%
+  mutate(Puntaje = paste0("![](",color, ".gif)")) %>%
   select(Indicador = Ind,
          Puntaje) %>%
   knitr::kable()
