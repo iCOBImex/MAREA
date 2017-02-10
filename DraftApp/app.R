@@ -593,7 +593,8 @@ server <- function(input, output, session) {
     req(input$biophys, input$indB, input$comunidad, input$rc)
     
     values = list(indB = input$indB,
-                  comunidad = input$comunidad)
+                  comunidad = input$comunidad,
+                  objsp = input$objsp)
     
     bio_results(values, bioInput(), res.fun(), con.fun())
   })
