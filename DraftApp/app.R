@@ -648,6 +648,7 @@ server <- function(input, output, session) {
   
   ######################### General Bio #######################
   output$biores <- renderValueBox({
+    req(input$biophys)
     
     if (isTruthy(input$biophys) & isTruthy(input$biophys_i)){
       all_bio_results <- rbind(results_bio(), results_bio_i())
