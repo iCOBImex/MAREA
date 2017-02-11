@@ -448,6 +448,7 @@ server <- function(input, output, session) {
   
   ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados ####################################
   
+  ## Definir comunidades disponibles en los datos
   output$comunidad <- renderUI({
     req(input$biophys)
     
@@ -460,30 +461,24 @@ server <- function(input, output, session) {
                  choices = comunidades)
   })
   
-  RC <- reactive({
+  # Generar pares RC para elegir por el usuario
+  output$rc <- renderUI({
     req(input$comunidad)
     
-    pairs <- bioInput() %>%
+    RC <- bioInput() %>%
       filter(Comunidad == input$comunidad) %>%
       group_by(RC) %>%
-      summarize(n())
-    
-    return(pairs$RC)
-  })
-  
-  output$rc <- renderUI({
-    req(input$biophys)
-    
-    pairs <- RC()
+      summarize(n()) %>% 
+      select(RC)
     
     radioButtons("rc",
-                 "Selecciona tus pares Reserva-Control",
-                 choices = pairs)
-    
+                 "Selecciona tu par de Reserva-Control",
+                 choices = RC$RC)
   })
   
+  # Generar lista de especies en bioInput que estan en los sitios seleccionados
   output$objsp <- renderUI({
-    req(input$comunidad)
+    req(input$rc)
     
     if (any(input$obj %in% c(2, 3, 6)) || 
         any(input$indB %in% c("Organismos > LT_50",
@@ -491,64 +486,55 @@ server <- function(input, output, session) {
                               "Biomasa de especies objetivo")) ||
         any(input$indS %in% c("Arribos de especies objetivo",
                               "Ingresos por arribos de especies objetivo")
-        )) {
+        )){
       sp_list <- bioInput() %>%
-        filter(Comunidad == input$comunidad, RC == RC()) %>%
-        group_by(GeneroEspecie) %>%
-        summarize(N = n()) %>%
-        filter(!is.na(GeneroEspecie))
+        filter(!is.na(GeneroEspecie), RC %in% input$rc) %>%
+        select(GeneroEspecie) %>% 
+        unique()
       
       wellPanel(
-        h1("Especies objetivo"),
-        radioButtons(
-          "objsp",
-          "Selecciona tus especies objetivo",
-          choices = sp_list$GeneroEspecie
-        )
+        h1("Especie objetivo"),
+        radioButtons("objsp",
+                     "Selecciona tus especies objetivo",
+                     choices = sp_list$GeneroEspecie)
       )
     }
-    
   })
   
   
   ### Definir tablas de confirmacion ####################################
   
+  ### Definir objetivos seleccionados ####
   output$objss <- renderTable({
     req(input$obj)
     
-    options <- data.frame(
-      Options = c(
-        "Recuperar especies de interés comercial",
-        "Conservar especies en régimen de proteccion especial",
-        "Mejorar la productividad pesquera en aguas adyacentes",
-        "Evitar que se llegue a la sobreexplotacion",
-        "Recuperar especies sobreexplotadas",
-        "Contribuir al mantenimiento de los procesos biologicos",
-        "Preservar la diversidad biologica y los ecosistemas"
-      )
+    # Define a data.frame with all the objectives, because input$obj converts them to numbers
+    # to deal with them easier thoughout the App
+    options <- data.frame(Options = c("Recuperar especies de interés comercial",
+                                      "Conservar especies en régimen de proteccion especial",
+                                      "Mejorar la productividad pesquera en aguas adyacentes",
+                                      "Evitar que se llegue a la sobreexplotacion",
+                                      "Recuperar especies sobreexplotadas",
+                                      "Contribuir al mantenimiento de los procesos biologicos",
+                                      "Preservar la diversidad biologica y los ecosistemas")
     )
     
+    # Extract the selected ones, and add a number before them
     selected <- options[as.numeric(input$obj) - 1, ]
-    
-    selected <-
-      unname(data.frame(paste(seq(
-        1, length(selected)
-      ), "- ", selected)))
-    
+    selected <- unname(data.frame(paste(seq(1, length(selected)), "- ", selected)))
   })
   
+  ### Confirm biophysical indicators ####
   output$indBs <- renderTable({
     req(input$indB)
-    
-    indB <-
-      unname(data.frame(paste(seq(
-        1, length(input$indB)
-      ), "- ", input$indB)))
+    # Extract selected indicators and add a number before them
+    indB <- unname(data.frame(paste(seq(1, length(input$indB)), "- ", input$indB)))
   })
   
+  #### Extract socioeconomic indicators ####
   output$indSs <- renderTable({
     req(input$indS)
-    
+    # Extract selected indicators and add a number before them
     indS <-
       unname(data.frame(paste(seq(
         1, length(input$indS)
@@ -557,7 +543,7 @@ server <- function(input, output, session) {
   
   output$indGs <- renderTable({
     req(input$indG)
-    
+    # Extract selected indicators and add a number before them
     indG <-
       unname(data.frame(paste(seq(
         1, length(input$indG)
@@ -566,34 +552,39 @@ server <- function(input, output, session) {
   
   output$title <- renderText({
     req(input$rc)
-    
-    paste0(
-      "El análisis se generará para la reserva de ",
-      input$rc,
-      " en la comunidad de ",
-      input$comunidad
-    )
+    paste0("El análisis se generará para la reserva de ", input$rc, " en la comunidad de ", input$comunidad)
   })
   
   ### Analisis comienza aqui ####################################
   
-  # Define a reactive value for a reserve site
+  # Define a reactive for a reserve site
   res.fun <- reactive({
-    data.res <- bioInput()
-    as.character(unique(data.res$Sitio[data.res$RC == input$rc &
-                                         !data.res$Zona == "Control"]))
+    req(input$rc)
+    res <- bioInput() %>% 
+      filter(RC == input$rc, !Zona == "Control") %>% 
+      select(Sitio) %>% 
+      unique()
+    
+    res$Sitio
   })
   
-  # Defina a reactive value for a control site
+  # Defina a reactive for a control site
   con.fun <- reactive({
-    data.res <- bioInput()
-    as.character(unique(data.res$Sitio[data.res$RC == input$rc &
-                                         data.res$Zona == "Control"]))
+    req(input$rc)
+    con <- bioInput() %>% 
+      filter(RC == input$rc, Zona == "Control") %>% 
+      select(Sitio) %>% 
+      unique()
+    
+    con$Sitio
   })
   
   # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
     req(input$biophys, input$indB, input$comunidad, input$rc)
+    
+    print(res.fun())
+    print(con.fun())
     
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
@@ -626,12 +617,7 @@ server <- function(input, output, session) {
   output$final_title <- renderText({
     req(input$rc)
     
-    paste0(
-      "Resultados para la reserva de ",
-      input$rc,
-      " en la comunidad de ",
-      input$comunidad
-    )
+    paste0("Resultados para la reserva de ", input$rc, " en la comunidad de ", input$comunidad)
   })
   
   ### Output for biophys indicators ##################################################################
