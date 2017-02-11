@@ -640,6 +640,20 @@ server <- function(input, output, session) {
     soc_results(values, socioInput())
   })
   
+  # Define a reactive value for a tibble that stores the analysis results for governance indicators
+  
+  results_gov <- reactive({
+    req(gobInput())
+    
+    values <- list(indG = input$indG,
+                   comunidad = input$comunidad)
+    
+    gov_results(values, gobInput(), res.fun())
+    
+  })
+  
+  # Define a title for the scorecard dasbhoard
+  
   output$final_title <- renderText({
     req(input$rc)
     
