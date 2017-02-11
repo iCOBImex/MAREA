@@ -525,7 +525,7 @@ server <- function(input, output, session) {
         h1("Especie objetivo"),
         radioButtons("objsp",
                      "Selecciona tus especies objetivo",
-                     choices = sp_list$GeneroEspecie)
+                     choices = sort(sp_list$GeneroEspecie))
       )
     }
   })
