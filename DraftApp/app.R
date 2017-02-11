@@ -744,8 +744,8 @@ server <- function(input, output, session) {
   output$orgtl50 <- renderUI({
     if ("Organismos > LT_50" %in% input$indB) {
       valueBox(
-        value = "Organismos > LT_50",
-        subtitle = results_bio()$string[3],
+        value = input$objsp,
+        subtitle = paste("Organismos > LT50,", results_bio()$string[3]),
         icon = icon("leaf"),
         color = results_bio()$color[3],
         width = NULL
@@ -770,8 +770,8 @@ server <- function(input, output, session) {
   output$density_objsp <- renderUI({
     if ("Densidad de especies objetivo" %in% input$indB) {
       valueBox(
-        value = paste("Densidad de", input$objsp),
-        subtitle = results_bio()$string[5],
+        value = input$objsp,
+        subtitle = paste("Densidad,", results_bio()$string[5]),
         icon = icon("leaf"),
         color = results_bio()$color[5],
         width = NULL
@@ -811,8 +811,8 @@ server <- function(input, output, session) {
   output$biomass_objsp <- renderUI({
     if ("Biomasa de especies objetivo" %in% input$indB) {
       valueBox(
-        value = paste("Biomasa de", input$objsp),
-        subtitle = results_bio()$string[8],
+        value = input$objsp,
+        subtitle = paste("Biomasa,", results_bio()$string[8]),
         icon = icon("leaf"),
         color = results_bio()$color[8],
         width = NULL
