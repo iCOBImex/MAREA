@@ -421,6 +421,22 @@ server <- function(input, output, session) {
     }
   })
   
+  #### Definir datos de gobernananza ####################################
+  
+  socioInput <- reactive({
+    inFile <- input$govern
+    
+    if (is.null(inFile)) {
+      return(NULL)
+      
+    } else {
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F)
+      return(data)
+    }
+  })
+  
+  ### Preview uploaded datasets
+  
   output$preview1 <- renderTable({
     req(input$biophys)
     bioInput() %>% 
@@ -442,9 +458,6 @@ server <- function(input, output, session) {
     head(socioInput()) %>% 
       xtable()
   })
-  
-  #### Definir datos de gobernananza ####################################
-  
   
   ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados ####################################
   
