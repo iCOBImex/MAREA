@@ -921,7 +921,7 @@ server <- function(input, output, session) {
   output$gobres <- renderValueBox({
     valueBox(
       value = "Governance",
-      subtitle = "nothing yet",
+      subtitle = "nothing yet, but I might include something soon. I hope this text is not too long. This text can be even larger, and I think doesnt affect the size of the box.",
       icon = icon("users"),
       color = "red",
       width = NULL
@@ -931,7 +931,21 @@ server <- function(input, output, session) {
   ######## Toggle Gov output ##################################
   
   observeEvent(input$toggle_gov, {
+    toggle("acceso")
   })
+  
+  ######################### Access to fishery
+  
+  output$acceso <- renderValueBox({
+    valueBox(
+      value = "Acceso a pesqueria",
+      subtitle = results_gov()$string[1],
+      icon = icon("users"),
+      color = results_gov()$color[1],
+      width = NULL
+    )
+  })
+  
   
   ### Output for general results ####################################################################
   
