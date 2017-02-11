@@ -261,8 +261,22 @@ ui <- dashboardPage(
             valueBoxOutput("gobres", width = NULL),
             actionButton("toggle_gov",
                          "Mas/Menos",
-                         icon = icon("th-list"))
-            # hidden()
+                         icon = icon("th-list")),
+            hidden(
+              uiOutput("acceso"),
+              uiOutput("pescadores"),
+              uiOutput("reconocimiento"),
+              uiOutput("tipo"),
+              uiOutput("pesca_ilegal"),
+              uiOutput("plan_manejo"),
+              uiOutput("procuracion"),
+              uiOutput("tamano"),
+              uiOutput("razonamiento"),
+              uiOutput("org_pesquera"),
+              uiOutput("representacion"),
+              uiOutput("reglas_internas"),
+              uiOutput("efectividad")
+            )
             )
             )
         )
