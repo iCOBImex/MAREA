@@ -383,14 +383,9 @@ server <- function(input, output, session) {
     
     if (is.null(inFile)) {
       return(NULL)
-      
     } else {
-      data <-
-        read.csv(inFile$datapath,
-                 header = T,
-                 stringsAsFactors = F) %>%
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F) %>%
         filter(!is.na(Comunidad))
-      
       return(data)
     }
   })
@@ -401,14 +396,9 @@ server <- function(input, output, session) {
     
     if (is.null(inFile)) {
       return(NULL)
-      
     } else {
-      data <-
-        read.csv(inFile$datapath,
-                 header = T,
-                 stringsAsFactors = F) %>%
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F) %>%
         filter(!is.na(Comunidad))
-      
       return(data)
     }
   })
