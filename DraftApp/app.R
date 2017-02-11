@@ -351,7 +351,6 @@ server <- function(input, output, session) {
       ),
       selected = indG_sel(as.numeric(input$obj))
     )
-    
   })
   
   #### Cargar datos ######################################################################
@@ -427,17 +426,14 @@ server <- function(input, output, session) {
       return(NULL)
       
     } else {
-      data <-
-        read.csv(inFile$datapath,
-                 header = T,
-                 stringsAsFactors = F)
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F)
       return(data)
     }
   })
   
   #### Definir datos de gobernananza ####################################
   
-  socioInput <- reactive({
+  gobInput <- reactive({
     inFile <- input$govern
     
     if (is.null(inFile)) {
@@ -609,10 +605,7 @@ server <- function(input, output, session) {
   # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
     req(input$biophys, input$indB, input$comunidad, input$rc)
-    
-    print(res.fun())
-    print(con.fun())
-    
+
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
                   objsp = input$objsp)
