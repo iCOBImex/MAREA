@@ -469,6 +469,12 @@ server <- function(input, output, session) {
       xtable()
   })
   
+  output$preview3 <- renderTable({
+    req(input$govern)
+    head(gobInput()) %>% 
+      xtable()
+  })
+  
   ### Definir Comunidades y Reservas-Control reactivas a los datos ingresados ####################################
   
   ## Definir comunidades disponibles en los datos
