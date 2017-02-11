@@ -123,13 +123,13 @@ ui <- dashboardPage(
           mainPanel(
             h2("Vista previa:"),
             tabsetPanel(
-              tabPanel("Biophysica Peces",
+              tabPanel("Peces",
                        tableOutput("preview1")),
-              tabPanel("Biophysical Inverts",
+              tabPanel("Invertebrados",
                        tableOutput("preview1_i")),
-              tabPanel("Socioeconomic",
+              tabPanel("Socioeconomicos",
                        tableOutput("preview2")),
-              tabPanel("Governance",
+              tabPanel("Gobernanza",
                        tableOutput("preview3"))
             )
           )
