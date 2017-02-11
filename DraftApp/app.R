@@ -919,23 +919,28 @@ server <- function(input, output, session) {
   ### Output for governance indicators ####################################################################
   
   output$gobres <- renderValueBox({
-    valueBox(
-      value = "Governance",
-      subtitle = "nothing yet, but I might include something soon. I hope this text is not too long. This text can be even larger, and I think doesnt affect the size of the box.",
-      icon = icon("users"),
-      color = "red",
-      width = NULL
-    )
+    valueBox(value = "Gobernanza",
+             subtitle = "",
+             icon = icon("users"),
+             color = "green",
+             width = NULL)
   })
   
   ######## Toggle Gov output ##################################
   
   observeEvent(input$toggle_gov, {
     toggle("acceso")
+    toggle("reconocimiento")
+    toggle("pesca_ilegal")
+    toggle("plan de manejo")
+    toggle("procuracion")
+    toggle("org_pesquera")
+    toggle("representacion")
+    toggle("reglas_internas")
+    toggle("efectividad")
   })
   
-  ######################### Access to fishery
-  
+  ######################### Access to fishery #######################
   output$acceso <- renderValueBox({
     valueBox(
       value = "Acceso a pesqueria",
@@ -945,6 +950,99 @@ server <- function(input, output, session) {
       width = NULL
     )
   })
+  
+  ######################### Legal recognition of the reserve #######################
+  
+  output$reconocimiento <- renderValueBox({
+    valueBox(
+      value = "Reconocimiento legal",
+      subtitle = results_gov()$string[2],
+      icon = icon("users"),
+      color = results_gov()$color[2],
+      width = NULL
+    )
+  })
+  
+  ######################### Degree of illegal fishing #######################
+  
+  output$pesca_ilegal <- renderValueBox({
+    valueBox(
+      value = "Grado de pesca ilegal",
+      subtitle = results_gov()$string[3],
+      icon = icon("users"),
+      color = results_gov()$color[3],
+      width = NULL
+    )
+  })
+  
+  ######################### Management plan #######################
+  
+  output$plan_manejo <- renderValueBox({
+    valueBox(
+      value = "Plan de manejo",
+      subtitle = results_gov()$string[4],
+      icon = icon("users"),
+      color = results_gov()$color[4],
+      width = NULL
+    )
+  })
+  
+  ######################### Enforcement #######################
+  output$procuracion <- renderValueBox({
+    valueBox(
+      value = "Vigilancia",
+      subtitle = results_gov()$string[5],
+      icon = icon("users"),
+      color = results_gov()$color[5],
+      width = NULL
+    )
+  })
+  
+  ######################### Fishing Organization #######################
+  output$org_pesquera <- renderValueBox({
+    valueBox(
+      value = "Organizacion pesquera",
+      subtitle = results_gov()$string[6],
+      icon = icon("users"),
+      color = results_gov()$color[6],
+      width = NULL
+    )
+  })
+  
+  ######################### Representation #######################
+  output$representacion <- renderValueBox({
+    valueBox(
+      value = "Representacion",
+      subtitle = results_gov()$string[7],
+      icon = icon("users"),
+      color = results_gov()$color[7],
+      width = NULL
+    )
+  })
+   
+  ######################### Internal regulations #######################
+  output$reglas_internas <- renderValueBox({
+    valueBox(
+      value = "Reglamentacion interna",
+      subtitle = results_gov()$string[8],
+      icon = icon("users"),
+      color = results_gov()$color[8],
+      width = NULL
+    )
+  })
+  
+  ######################### Perceived effectiveness #######################
+  
+  output$efectividad <- renderValueBox({
+    valueBox(
+      value = "Efectividad percibida",
+      subtitle = results_gov()$string[9],
+      icon = icon("users"),
+      color = results_gov()$color[9],
+      width = NULL
+    )
+  })
+  
   
   
   ### Output for general results ####################################################################
