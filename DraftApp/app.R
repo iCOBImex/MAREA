@@ -118,7 +118,10 @@ ui <- dashboardPage(
                            'Datos invertebrados'),
             p(),
             downloadButton('downloadC',
-                           'Datos socioeconomicos')
+                           'Datos socioeconomicos'),
+            p(),
+            downloadButton('downloadD',
+                           'Datos gobernanza')
           ),
           mainPanel(
             h2("Vista previa:"),
@@ -361,6 +364,8 @@ server <- function(input, output, session) {
   FormatoA = read.csv("www/bio_fish.csv", sep = ",")
   FormatoB = read.csv("www/bio_invert.csv", sep = ",")
   FormatoC = read.csv("www/socio.csv", sep = ",")
+  FormatoC = read.csv("www/gov.csv", sep = ",")
+  
   
   output$downloadA <- downloadHandler(
     filename = function() {
@@ -376,7 +381,7 @@ server <- function(input, output, session) {
       paste("Biophysical", ".csv")
     },
     content = function(file) {
-      write.csv(FormatoA, file, row.names = F)
+      write.csv(FormatoB, file, row.names = F)
     }
   )
   
@@ -385,7 +390,16 @@ server <- function(input, output, session) {
       paste("Socioeconomic", ".csv")
     },
     content = function(file) {
-      write.csv(FormatoB, file, row.names = F)
+      write.csv(FormatoC, file, row.names = F)
+    }
+  )
+  
+  output$downloadD <- downloadHandler(
+    filename = function() {
+      paste("Governance", ".csv")
+    },
+    content = function(file) {
+      write.csv(FormatoD, file, row.names = F)
     }
   )
   
