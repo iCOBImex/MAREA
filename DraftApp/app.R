@@ -21,7 +21,7 @@ ui <- dashboardPage(
   dashboardHeader(title = "MAREA"),
   dashboardSidebar(
     h1("Recursos"),
-    p("Link a la ", a("Guía de usuario", href = "http://www.turfeffect.org", target = "_blank")),
+    p("Link a la ", a("Guía de usuario", href = "https://github.com/turfeffect/AppDraft/blob/master/MAREA_Guide.pdf", target = "_blank")),
     p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
     p("Enviar comentarios a JC Villaseñor a:"),
     p("juancarlos@turfeffect.org")
