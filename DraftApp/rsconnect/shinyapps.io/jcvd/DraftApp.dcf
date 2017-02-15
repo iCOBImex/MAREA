@@ -3,8 +3,8 @@ title: DraftApp
 account: jcvd
 server: shinyapps.io
 appId: 141767
-bundleId: 706807
+bundleId: 708431
 url: https://jcvd.shinyapps.io/DraftApp/
-when: 1486706528.01526
+when: 1486869569.89488
 asMultiple: FALSE
 asStatic: FALSE
