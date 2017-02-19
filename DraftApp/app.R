@@ -197,7 +197,7 @@ ui <- dashboardPage(
                         # Insert a legend
                         fluidRow(
                           column(5, offset = 3,
-                                 img(src = "legend2.gif", width = "600px")
+                                 img(src = "legend2.gif", width = "125%")
                           ),
                           column(1, offset = 1,
                                  downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
