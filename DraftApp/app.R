@@ -950,11 +950,13 @@ server <- function(input, output, session) {
       )
     }
   })
-
+  
   
   ### Output for governance indicators ####################################################################
   
   output$gobres <- renderValueBox({
+    req(input$gov)
+    
     valueBox(value = "General",
              subtitle = "77.7% de indicadores positivos",
              icon = icon("users"),
