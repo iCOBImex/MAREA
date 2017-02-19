@@ -28,262 +28,268 @@ ui <- dashboardPage(
   ),
   dashboardBody(
     useShinyjs(),
-    navbarPage("Marine Reserve Evaluation App",
-      # theme = shinythemes::shinytheme("cerulean"),
-      # This is how you control background colors with CSS
-      # tags$section(tags$style(".sidebar{background-color: lightblue;}")),
-      
-      #### First tab starts here ################################################################################
-      tabPanel(
-        img(src = "boton1.gif", width = "150px"),
-        mainPanel(
-          h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
+    navbarPage(title = "Marine Reserve Evaluation App", id = "Tabs",
+               
+               #### First tab starts here ################################################################################
+               tabPanel(title = img(src = "boton1.gif", width = "150px"), value = "Intro",
+                        fluidRow(column(1, offset = 10,
+                                        actionButton(inputId = "b1.2", label = "Siguiente", icon = icon("arrow-right"), class = "btn2"))),
+                        mainPanel(
+                          h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
              así como el manual de evaluación de zonas de no pesca en México.
              Podrás encontrar los recursos en el menú lateral."),
-          img(src = "intro.gif", width = "125%")
-        )
-      ),
-      #### Second tab starts here ################################################################################
-      tabPanel(
-        img(src = "boton2.gif", width = "150px"),
-        sidebarLayout(
-          sidebarPanel(
-            h1("Objetivos"),
-            checkboxGroupInput(
-              "obj",
-              "Selecciona tus objetivos",
-              choices = c(
-                "Recuperar especies de interés comercial" = 2,
-                "Conservar especies en régimen de proteccion especial" = 3,
-                "Mejorar la productividad pesquera en aguas adyacentes" = 4,
-                "Evitar que se llegue a la sobreexplotacion" = 5,
-                "Recuperar especies sobreexplotadas" = 6,
-                "Contribuir al mantenimiento de los procesos biologicos" = 7,
-                "Preservar la diversidad biologica y los ecosistemas" = 8
-              )
-            )
-          ),
-          mainPanel(wellPanel(
-            fluidRow(
-              h1("Indicadores"),
-              
-              p(
-                "Basandonos en los objetivos seleccionados, nuestra propuesta de indicadores es la siguiente"
-              ),
-              
-              column(4, wellPanel(uiOutput("indB"))),
-              
-              column(3, wellPanel(uiOutput("indS"))),
-              
-              column(5, wellPanel(uiOutput("indG")))
-            )
-          ))
-        )
-      ),
-      
-      #### Third tab starts here ################################################################################
-      tabPanel(
-        img(src = "boton3.gif", width = "150px"),
-        sidebarLayout(
-          sidebarPanel(
-            fileInput(
-              inputId = "biophys",
-              label = "Base peces",
-              accept = ".csv"
-            ),
-            
-            fileInput(
-              inputId = "biophys_i",
-              label = "Base invertebrados",
-              accept = ".csv"
-            ),
-            
-            fileInput(
-              inputId = "socioeco",
-              label = "Base socioeconomicos",
-              accept = ".csv"
-            ),
-            
-            fileInput(
-              inputId = "govern",
-              label = "Base gobernanza",
-              accept = ".csv"
-            ),
-            p(),
-            h2("Ejemplos"),
-            downloadButton('downloadA',
-                           'Datos peces'),
-            p(),
-            downloadButton('downloadB',
-                           'Datos invertebrados'),
-            p(),
-            downloadButton('downloadC',
-                           'Datos socioeconomicos'),
-            p(),
-            downloadButton('downloadD',
-                           'Datos gobernanza')
-          ),
-          mainPanel(
-            h2("Vista previa:"),
-            tabsetPanel(
-              tabPanel("Peces",
-                       tableOutput("preview1")),
-              tabPanel("Invertebrados",
-                       tableOutput("preview1_i")),
-              tabPanel("Socioeconomicos",
-                       tableOutput("preview2")),
-              tabPanel("Gobernanza",
-                       tableOutput("preview3"))
-            )
-          )
-        )
-      ),
-      
-      #### Fourth tab starts here ################################################################################
-      ## I included an offset = 2 to center the elements
-      tabPanel(
-        img(src = "boton4.gif", width = "150px"),
-        fluidRow(
-          column(3, offset = 2,
-                 wellPanel(h1("Comunidad"),
-                           uiOutput("comunidad"))),
-          
-          column(3, wellPanel(h1("Reserva-Control"),
-                              uiOutput("rc"))),
-          
-          column(3,
-                 uiOutput("objsp"))
-        )
-        
-      ),
-      
-      #### Fifth tab starts here ################################################################################
-      tabPanel(
-        img(src = "boton5.gif", width = "150px"),
-        fluidPage(
-          textOutput("title"),
-          
-          fluidRow(
-            column(3, wellPanel("Objetivos",
-                                tableOutput("objss"))),
-            
-            column(3, wellPanel(
-              "Indicadores biofisicos",
-              tableOutput("indBs")
-            )),
-            
-            column(3, wellPanel(
-              "Indicadores socioeconomicos",
-              tableOutput("indSs")
-            )),
-            
-            column(3, wellPanel(
-              "Indicadores de gobernanza",
-              tableOutput("indGs")
-            ))
-          )
-        )
-      ),
-      
-      #### Sixth tab starts here################################################################################
-      tabPanel(
-        img(src = "boton6.gif", width = "150px"),
-        
-        fluidRow(
-          column(4, offset = 4,
-                 textOutput("final_title")
-          )),
-        
-        # Insert a legend
-        fluidRow(
-          column(5, offset = 3,
-                 img(src = "legend2.gif", width = "600px")
-        ),
-        column(1, offset = 1,
-               downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
-        
-        #Lets define some css syle for the button
-        tags$head(tags$style(".butt{background-color:green;}
+                          img(src = "intro.gif", width = "125%")
+                        )
+               ),
+               #### Second tab starts here ################################################################################
+               tabPanel(title = img(src = "boton2.gif", width = "150px"), value = "Obj",
+                        fluidRow(column(1, offset = 1,
+                                        actionButton(inputId = "b2.1", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
+                                 column(1, offset = 8,
+                                        actionButton(inputId = "b2.3", label = "Siguiente", icon = icon("arrow-right"), class = "btn2")
+                                 )),
+                        sidebarLayout(
+                          sidebarPanel(
+                            h1("Objetivos"),
+                            checkboxGroupInput(
+                              "obj",
+                              "Selecciona tus objetivos",
+                              choices = c(
+                                "Recuperar especies de interés comercial" = 2,
+                                "Conservar especies en régimen de proteccion especial" = 3,
+                                "Mejorar la productividad pesquera en aguas adyacentes" = 4,
+                                "Evitar que se llegue a la sobreexplotacion" = 5,
+                                "Recuperar especies sobreexplotadas" = 6,
+                                "Contribuir al mantenimiento de los procesos biologicos" = 7,
+                                "Preservar la diversidad biologica y los ecosistemas" = 8
+                              )
+                            )
+                          ),
+                          mainPanel(wellPanel(
+                            fluidRow(
+                              h1("Indicadores"),
+                              p("Basandonos en los objetivos seleccionados, nuestra propuesta de indicadores es la siguiente"),
+                              column(4, wellPanel(uiOutput("indB"))),
+                              column(3, wellPanel(uiOutput("indS"))),
+                              column(5, wellPanel(uiOutput("indG")))
+                            )
+                          ))
+                        )
+               ),
+               
+               #### Third tab starts here ################################################################################
+               tabPanel(title = img(src = "boton3.gif", width = "150px"), value = "Data",
+                        fluidRow(column(1, offset = 1,
+                                        actionButton(inputId = "b3.2", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
+                                 column(1, offset = 8,
+                                        actionButton(inputId = "b3.4", label = "Siguiente", icon = icon("arrow-right"), class = "btn2")
+                                 )),
+                        sidebarLayout(
+                          sidebarPanel(
+                            fileInput(
+                              inputId = "biophys",
+                              label = "Base peces",
+                              accept = ".csv"
+                            ),
+                            
+                            fileInput(
+                              inputId = "biophys_i",
+                              label = "Base invertebrados",
+                              accept = ".csv"
+                            ),
+                            
+                            fileInput(
+                              inputId = "socioeco",
+                              label = "Base socioeconomicos",
+                              accept = ".csv"
+                            ),
+                            
+                            fileInput(
+                              inputId = "govern",
+                              label = "Base gobernanza",
+                              accept = ".csv"
+                            ),
+                            p(),
+                            h2("Ejemplos"),
+                            downloadButton('downloadA',
+                                           'Datos peces'),
+                            p(),
+                            downloadButton('downloadB',
+                                           'Datos invertebrados'),
+                            p(),
+                            downloadButton('downloadC',
+                                           'Datos socioeconomicos'),
+                            p(),
+                            downloadButton('downloadD',
+                                           'Datos gobernanza')
+                          ),
+                          mainPanel(
+                            h2("Vista previa:"),
+                            tabsetPanel(
+                              tabPanel("Peces",
+                                       tableOutput("preview1")),
+                              tabPanel("Invertebrados",
+                                       tableOutput("preview1_i")),
+                              tabPanel("Socioeconomicos",
+                                       tableOutput("preview2")),
+                              tabPanel("Gobernanza",
+                                       tableOutput("preview3"))
+                            )
+                          )
+                        )
+               ),
+               
+               #### Fourth tab starts here ################################################################################
+               tabPanel(title = img(src = "boton4.gif", width = "150px"), value = "Select",
+                        fluidRow(column(1, offset = 1,
+                                        actionButton(inputId = "b4.3", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
+                                 column(1, offset = 8,
+                                        actionButton(inputId = "b4.5", label = "Siguiente", icon = icon("arrow-right"), class = "btn2")
+                                 )),
+                        fluidRow(
+                          column(3, offset = 2,
+                                 wellPanel(h1("Comunidad"),
+                                           uiOutput("comunidad"))),
+                          
+                          column(3, wellPanel(h1("Reserva-Control"),
+                                              uiOutput("rc"))),
+                          
+                          column(3, uiOutput("objsp"))
+                        )
+                        
+               ),
+               
+               #### Fifth tab starts here ################################################################################
+               tabPanel(title = img(src = "boton5.gif", width = "150px"), value = "Conf",
+                        fluidPage(
+                          fluidRow(column(1, offset = 1,
+                                          actionButton(inputId = "b5.4", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
+                                   column(1, offset = 8,
+                                          actionButton(inputId = "b5.6", label = "Siguiente", icon = icon("arrow-right"), class = "btn2")
+                                   )),
+                          textOutput("title"),
+                          
+                          fluidRow(
+                            column(3, wellPanel("Objetivos",
+                                                tableOutput("objss"))),
+                            
+                            column(3, wellPanel("Indicadores biofisicos",
+                                                tableOutput("indBs"))),
+                            
+                            column(3, wellPanel("Indicadores socioeconomicos",
+                                                tableOutput("indSs"))),
+                            
+                            column(3, wellPanel("Indicadores de gobernanza",
+                                                tableOutput("indGs")))
+                          )
+                        )
+               ),
+               
+               #### Sixth tab starts here################################################################################
+               tabPanel(title =  img(src = "boton6.gif", width = "150px"), value = "Result",
+                        fluidRow(column(1, offset = 1,
+                                        actionButton(inputId = "b6.5", label = "Anterior", icon = icon("arrow-left"), class = "btn2"))),
+                        fluidRow(
+                          column(4, offset = 4,
+                                 textOutput("final_title")
+                          )),
+                        
+                        # Insert a legend
+                        fluidRow(
+                          column(5, offset = 3,
+                                 img(src = "legend2.gif", width = "600px")
+                          ),
+                          column(1, offset = 1,
+                                 downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
+                        
+                        #Define some css syle for the download button
+                        tags$head(tags$style(".butt{background-color:green;}
                              .butt{color: white;}
                              .butt{font-weight: bold;}
                              .butt{font-size: 200%;}")),
-        
-        # Insert a global score
-        fluidRow(
-          column(4, offset = 4,
-                 wellPanel(
-                   h1("Global", align = "center"),
-                   valueBoxOutput("totres", width = NULL)))),
-        
-        # Insert score by categories
-        fluidRow(
-          column(4,
-                 wellPanel(
-                   h1("Biofisicos", align = "center"),
-                   valueBoxOutput("biores", width = NULL),
-                   actionButton("toggle_bio",
-                                "Mas/Menos",
-                                icon = icon("th-list")),
-                   
-                   h2("Peces"),
-                   hidden(
-                     uiOutput("shannon"),
-                     uiOutput("richness"),
-                     uiOutput("orgtl50"),
-                     uiOutput("density"),
-                     uiOutput("natural"),
-                     uiOutput("density_objsp"),
-                     uiOutput("TL"),
-                     uiOutput("biomass"),
-                     uiOutput("biomass_objsp")
-                     ),
-                   
-                   h2("Invertebrados"),
-                   hidden(
-                     uiOutput("shannon_i"),
-                     uiOutput("richness_i"),
-                     uiOutput("density_i")
-                   )
-                 )),
-          
-          column(4,
-                 wellPanel(
-                   h1("Socioeconomicos", align = "center"),
-                   valueBoxOutput("socres", width = NULL),
-                   actionButton("toggle_soc",
-                                "Mas/Menos",
-                                icon = icon("th-list")),
-                   hidden(
-                     uiOutput("landings", width = NULL),
-                     uiOutput("income", width = NULL)
-                   )
-                 )),
-          
-          column(4, wellPanel(
-            h1("Gobernanza", align = "center"),
-            valueBoxOutput("gobres", width = NULL),
-            actionButton("toggle_gov",
-                         "Mas/Menos",
-                         icon = icon("th-list")),
-            hidden(
-              uiOutput("acceso"),
-              uiOutput("pescadores"),
-              uiOutput("reconocimiento"),
-              uiOutput("tipo"),
-              uiOutput("pesca_ilegal"),
-              uiOutput("plan_manejo"),
-              uiOutput("procuracion"),
-              uiOutput("tamano"),
-              uiOutput("razonamiento"),
-              uiOutput("org_pesquera"),
-              uiOutput("representacion"),
-              uiOutput("reglas_internas"),
-              uiOutput("efectividad")
-            )
-            )
-            )
-        )
-      )
+                        
+                        #Define some css syle for the download button
+                        tags$head(tags$style(".btn2{background-color:#429ef4;}
+                                    .btn2{color: white;}
+                                    .btn2{font-weight: bold;}
+                                    .btn2{font-size: 125%;}")),
+                        
+                        # Insert a global score
+                        fluidRow(
+                          column(4, offset = 4,
+                                 wellPanel(
+                                   h1("Global", align = "center"),
+                                   valueBoxOutput("totres", width = NULL)))),
+                        
+                        # Insert score by categories
+                        fluidRow(
+                          column(4,
+                                 wellPanel(
+                                   h1("Biofisicos", align = "center"),
+                                   valueBoxOutput("biores", width = NULL),
+                                   actionButton("toggle_bio",
+                                                "Mas/Menos",
+                                                icon = icon("th-list")),
+                                   
+                                   h2("Peces"),
+                                   hidden(
+                                     uiOutput("shannon"),
+                                     uiOutput("richness"),
+                                     uiOutput("orgtl50"),
+                                     uiOutput("density"),
+                                     uiOutput("natural"),
+                                     uiOutput("density_objsp"),
+                                     uiOutput("TL"),
+                                     uiOutput("biomass"),
+                                     uiOutput("biomass_objsp")
+                                   ),
+                                   
+                                   h2("Invertebrados"),
+                                   hidden(
+                                     uiOutput("shannon_i"),
+                                     uiOutput("richness_i"),
+                                     uiOutput("density_i")
+                                   )
+                                 )),
+                          
+                          column(4,
+                                 wellPanel(
+                                   h1("Socioeconomicos", align = "center"),
+                                   valueBoxOutput("socres", width = NULL),
+                                   actionButton("toggle_soc",
+                                                "Mas/Menos",
+                                                icon = icon("th-list")),
+                                   hidden(
+                                     uiOutput("landings", width = NULL),
+                                     uiOutput("income", width = NULL)
+                                   )
+                                 )),
+                          
+                          column(4, wellPanel(
+                            h1("Gobernanza", align = "center"),
+                            valueBoxOutput("gobres", width = NULL),
+                            actionButton("toggle_gov",
+                                         "Mas/Menos",
+                                         icon = icon("th-list")),
+                            hidden(
+                              uiOutput("acceso"),
+                              uiOutput("pescadores"),
+                              uiOutput("reconocimiento"),
+                              uiOutput("tipo"),
+                              uiOutput("pesca_ilegal"),
+                              uiOutput("plan_manejo"),
+                              uiOutput("procuracion"),
+                              uiOutput("tamano"),
+                              uiOutput("razonamiento"),
+                              uiOutput("org_pesquera"),
+                              uiOutput("representacion"),
+                              uiOutput("reglas_internas"),
+                              uiOutput("efectividad")
+                            )
+                          )
+                          )
+                        )
+               )
     )
   )
 )
@@ -293,6 +299,22 @@ ui <- dashboardPage(
 ###########################################################################
 
 server <- function(input, output, session) {
+  
+  #### Manage the buttons to go back and forth ####
+  # The way to read this is that b1.2 changes from tab 1 to tab 2. As
+  # b6.5 changes from tab 6 to tab 5.
+  
+  observeEvent(input$b1.2, {updateNavbarPage(session, "Tabs", selected = "Obj")})
+  observeEvent(input$b2.1, {updateNavbarPage(session, "Tabs", selected = "Intro")})
+  observeEvent(input$b2.3, {updateNavbarPage(session, "Tabs", selected = "Data")})
+  observeEvent(input$b3.2, {updateNavbarPage(session, "Tabs", selected = "Obj")})
+  observeEvent(input$b3.4, {updateNavbarPage(session, "Tabs", selected = "Select")})
+  observeEvent(input$b4.3, {updateNavbarPage(session, "Tabs", selected = "Data")})
+  observeEvent(input$b4.5, {updateNavbarPage(session, "Tabs", selected = "Conf")})
+  observeEvent(input$b5.4, {updateNavbarPage(session, "Tabs", selected = "Select")})
+  observeEvent(input$b5.6, {updateNavbarPage(session, "Tabs", selected = "Result")})
+  observeEvent(input$b6.5, {updateNavbarPage(session, "Tabs", selected = "Conf")})
+  
   ##### Definir indicadores reactivos a los objetivos ######################################################
   
   # Definir Indicadores Biofisicos
