@@ -209,7 +209,7 @@ ui <- dashboardPage(
                              .butt{font-size: 200%;}")),
                         
                         #Define some css syle for the download button
-                        tags$head(tags$style(".btn2{background-color:#429ef4;}
+                        tags$head(tags$style(".btn2{background-color:#1C5C90;}
                                     .btn2{color: white;}
                                     .btn2{font-weight: bold;}
                                     .btn2{font-size: 125%;}")),
