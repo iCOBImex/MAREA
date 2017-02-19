@@ -647,7 +647,7 @@ server <- function(input, output, session) {
   # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
     req(input$biophys, input$indB, input$comunidad, input$rc)
-
+    
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
                   objsp = input$objsp)
@@ -665,11 +665,11 @@ server <- function(input, output, session) {
     bio_results_i(values, bioInput_i(), res.fun(), con.fun())
   })
   
-
+  
   # Define a reactive value for a tibble that stores the analysis results for socioeconomic indicators
   results_soc <- reactive({
     req(input$socioeco, input$indS, input$comunidad)
-
+    
     values = list(indS = input$indS,
                   comunidad = input$comunidad)
     
@@ -707,7 +707,7 @@ server <- function(input, output, session) {
     } else if (isTruthy(input$biophys)){
       all_bio_results <- results_bio()
     }
-  
+    
     biosummary <- all_bio_results %>%
       filter(!is.na(e)) %>%
       mutate(
@@ -901,14 +901,14 @@ server <- function(input, output, session) {
   ### Output for socioeco indicators ####################################################################
   ### General Soc ####################
   output$socres <- renderValueBox({
-      socsummary <- results_soc() %>%
+    socsummary <- results_soc() %>%
       filter(!is.na(e)) %>%
       mutate(
         Valid = length(e),
         Positive = (e > 0) * 1,
         Score = sum(Positive) / Valid * 100) %>%
       select(Score) %>%
-        max()
+      max()
     
     valueBox(
       value = "General",
@@ -916,7 +916,7 @@ server <- function(input, output, session) {
       icon = icon("money"),
       color = gen_score(socsummary)
     )
-
+    
   })
   
   ######## Toggle Soc output ##################################
@@ -924,7 +924,7 @@ server <- function(input, output, session) {
     toggle("landings")
     toggle("income")
   })
-
+  
   ######################### Landings #######################
   output$landings <- renderUI({
     if ("Arribos" %in% input$indS) {
@@ -937,7 +937,7 @@ server <- function(input, output, session) {
       )
     }
   })
-
+  
   ######################### Income from landings #######################
   output$income <- renderUI({
     if ("Ingresos por arribos" %in% input$indS) {
@@ -1055,7 +1055,7 @@ server <- function(input, output, session) {
       width = NULL
     )
   })
-   
+  
   ######################### Internal regulations #######################
   output$reglas_internas <- renderValueBox({
     valueBox(
@@ -1132,18 +1132,18 @@ server <- function(input, output, session) {
       
       if (isTruthy(input$biophys)){
         bio1 <- results_bio()} else {
-        bio1 <- NULL
-      }
+          bio1 <- NULL
+        }
       
       if (isTruthy(input$biophys_i)){
         bio2 <- results_bio_i()} else {
-        bio2 <- NULL
-      }
+          bio2 <- NULL
+        }
       
       if (isTruthy(input$socioeco)){
         soc <- results_soc()} else {
-        soc <- NULL
-      }
+          soc <- NULL
+        }
       
       # Set up parameters to pass to Rmd document
       params <- list(title = paste("Reporte para", input$rc, input$comunidad),
