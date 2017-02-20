@@ -26,9 +26,10 @@ ui <- dashboardPage(
     p("Enviar comentarios a JC Villaseñor a:"),
     p("juancarlos@turfeffect.org")
   ),
+  
   dashboardBody(
     useShinyjs(),
-    navbarPage(title = "Marine Reserve Evaluation App", id = "Tabs",
+    navbarPage(title = "Marine Reserve Evaluation App", id = "Tabs", theme = "myCSS.css",
                
                #### First tab starts here ################################################################################
                tabPanel(title = img(src = "boton1.gif", width = "150px"), value = "Intro",
