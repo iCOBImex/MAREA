@@ -1,0 +1,26 @@
+/* This is a comment */
+.butt{background-color:green;}
+.butt{color: white;}
+.butt{font-weight: bold;}
+.butt{font-size: 200%;}
+
+/* This is a comment */
+.btn2{background-color:#1C5C90;}
+.btn2{color: white;}
+.btn2{font-weight: bold;}
+.btn2{font-size: 125%;}
+
+/* This is a comment */
+.alert-warning, .bg-yellow, .callout.callout-warning, .label-warning, .modal-warning .modal-body {background-color: #f9ec22!important;}
+
+/* This is a comment */
+.alert-danger, .alert-error, .bg-red, .callout.callout-danger, .label-danger, .modal-danger .modal-body {background-color: #ED1C24!important;}
+
+/* This is a comment */
+.alert-success, .bg-green, .callout.callout-success, .label-success, .modal-success .modal-body {background-color: #38B449!important;}
+
+/* This is a comment */                       
+.bg-olive {background-color: #166433!important;}
+                        
+/* This is a comment */                        
+.bg-orange {background-color: #F05A28!important;}
