@@ -203,18 +203,6 @@ ui <- dashboardPage(
                           column(1, offset = 1,
                                  downloadButton('reporte', 'Descargar Reporte', class = "butt"))),
                         
-                        #Define some css syle for the download button
-                        tags$head(tags$style(".butt{background-color:green;}
-                             .butt{color: white;}
-                             .butt{font-weight: bold;}
-                             .butt{font-size: 200%;}")),
-                        
-                        #Define some css syle for the download button
-                        tags$head(tags$style(".btn2{background-color:#1C5C90;}
-                                    .btn2{color: white;}
-                                    .btn2{font-weight: bold;}
-                                    .btn2{font-size: 125%;}")),
-                        
                         # Insert a global score
                         fluidRow(
                           column(4, offset = 4,
