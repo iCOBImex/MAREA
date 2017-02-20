@@ -699,10 +699,9 @@ server <- function(input, output, session) {
     
     biosummary <- all_bio_results %>%
       filter(!is.na(e)) %>%
-      mutate(
-        Valid = length(e),
-        Positive = (e > 0) * 1,
-        Score = sum(Positive) / Valid * 100) %>%
+      mutate(Valid = length(e),
+             Positive = (e > 0) * 1,
+             Score = sum(Positive) / Valid * 100) %>%
       select(Score) %>%
       max()
     
