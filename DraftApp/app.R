@@ -375,7 +375,7 @@ server <- function(input, output, session) {
   FormatoA = read.csv("www/bio_fish.csv", sep = ",")
   FormatoB = read.csv("www/bio_invert.csv", sep = ",")
   FormatoC = read.csv("www/socio.csv", sep = ",")
-  FormatoC = read.csv("www/gov.csv", sep = ",")
+  FormatoD = read.csv("www/gov.csv", sep = ",")
   
   
   output$downloadA <- downloadHandler(
@@ -943,7 +943,7 @@ server <- function(input, output, session) {
   ### Output for governance indicators ####################################################################
   
   output$gobres <- renderValueBox({
-    req(input$gov)
+    req(input$govern)
     
     valueBox(value = "General",
              subtitle = "77.7% de indicadores positivos",
