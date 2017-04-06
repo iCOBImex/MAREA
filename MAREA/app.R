@@ -380,7 +380,7 @@ server <- function(input, output, session) {
   
   output$downloadA <- downloadHandler(
     filename = function() {
-      paste("Biophysical", ".csv")
+      paste0("Biophysical", ".csv")
     },
     content = function(file) {
       write.csv(FormatoA, file, row.names = F)
@@ -389,7 +389,7 @@ server <- function(input, output, session) {
   
   output$downloadB <- downloadHandler(
     filename = function() {
-      paste("Biophysical", ".csv")
+      paste0("Biophysical", ".csv")
     },
     content = function(file) {
       write.csv(FormatoB, file, row.names = F)
@@ -398,7 +398,7 @@ server <- function(input, output, session) {
   
   output$downloadC <- downloadHandler(
     filename = function() {
-      paste("Socioeconomic", ".csv")
+      paste0("Socioeconomic", ".csv")
     },
     content = function(file) {
       write.csv(FormatoC, file, row.names = F)
@@ -407,7 +407,7 @@ server <- function(input, output, session) {
   
   output$downloadD <- downloadHandler(
     filename = function() {
-      paste("Governance", ".csv")
+      paste0("Governance", ".csv")
     },
     content = function(file) {
       write.csv(FormatoD, file, row.names = F)
@@ -1135,11 +1135,17 @@ server <- function(input, output, session) {
           soc <- NULL
         }
       
+      if (isTruthy(input$gov)){
+        gov <- results_gov()} else {
+          gov <- NULL
+        }
+      
       # Set up parameters to pass to Rmd document
       params <- list(title = paste("Reporte para", input$rc, input$comunidad),
                      results_bio = bio1,
                      results_bio_i = bio2,
-                     results_soc = soc)
+                     results_soc = soc,
+                     results_gov = gov)
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
