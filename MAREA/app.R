@@ -153,7 +153,13 @@ ui <- dashboardPage(
                                            uiOutput("comunidad"))),
                           
                           column(3, wellPanel(h1("Reserva-Control"),
-                                              uiOutput("rc"))),
+                                              uiOutput("rc")),
+                                 wellPanel(numericInput("ano.imp",
+                                                        "Año de implementacion",
+                                                        value = 2010,
+                                                        min = 2000,
+                                                        max = 2100,
+                                                        step = 1))),
                           
                           column(3, uiOutput("objsp"))
                         )
