@@ -645,7 +645,8 @@ server <- function(input, output, session) {
     
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
-                  objsp = input$objsp)
+                  objsp = input$objsp,
+                  ano.imp = input$ano.imp)
     
     bio_results(values, bioInput(), res.fun(), con.fun())
   })
@@ -704,7 +705,7 @@ server <- function(input, output, session) {
     }
     
     biosummary <- all_bio_results %>%
-      filter(!is.na(e)) %>%
+      dplyr::filter(!is.na(e)) %>%
       mutate(Valid = length(e),
              Positive = (e > 0) * 1,
              Score = sum(Positive) / Valid * 100) %>%
