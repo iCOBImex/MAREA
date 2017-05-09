@@ -1,14 +1,14 @@
 ---
+subtitle: "Producido por MAREA"
+author: "Visite: www.turfeffect.org/apps"
 output: 
-    html_document: 
+    pdf_document: 
       fig_caption: yes
       number_sections: yes
       toc: yes
-      toc_float:
-        collapsed: no
-        smooth_scroll: no
+      toc_depth: 4
 params:
-  title: ""
+  title: "Reporte A"
   results_bio: ""
   results_bio_i: ""
   results_soc: ""
@@ -31,9 +31,32 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(MPAtools)
   library(stargazer)
+  library(shiny)
 })
 
 ```
+
+
+# Acerca del reporte
+
+*Acentos y caracteres especiales omitidos*
+
+  - Resumen y leyenda
+  
+  - Resumen de muestreo
+  
+  - Modelos utilizados
+  
+  - Par Figura - Tabla
+  
+      - Interpretacion de las figuras
+      
+      - Interpretacion de las tablas
+  
+  - Mensajes y advertencias
+  
+  \clearpage
+
 
 <style type="text/css">
 .table {
@@ -43,21 +66,13 @@ width: 80%;
 }
 </style>
 
-*Este documento fue generado por el paquete [`MPAtools`](https://github.com/turfeffect/MPAtools), uno de los entregables del grupo [TURFeffect](www.turfeffect.org). Los resultados presentados son una version preliminar del software que se esta desarrollando, y no recomendamos la toma de decisiones basado en la informacion aqui presentada*
-
-*Acentos y caracteres especiales omitidos*
-
 # Resumen
 
 <center>
 
 **Leyenda**
 
-----
-
 ![](legend2.gif)
-
-----
 
 </center>
 
@@ -115,6 +130,7 @@ rbind(results_bio, results_bio_i, results_soc) %>%
 
 ```
 
+\clearpage
 
 # Ecologicos
 
@@ -133,7 +149,7 @@ if(!is.na(results_bio$model[[1]])){
   results_bio$model[[1]] %>% 
     stargazer(
       dep.var.labels = "Shannon (H'/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -142,7 +158,7 @@ if(!is.na(results_bio$model[[1]])){
       df = F,
       notes = "+p < 0.1, ++p<0.05, +++p<0.001",
       notes.append = FALSE,
-      star.char = "+"
+      header = F
     )
 }
 
@@ -163,7 +179,7 @@ if(!is.na(results_bio$model[[2]])) {
   results_bio$model[[2]] %>%
     stargazer(
       dep.var.labels = "Riqueza (Spp/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -193,7 +209,7 @@ if(!is.na(results_bio$model[[3]])) {
   results_bio$model[[3]] %>%
     stargazer(
       dep.var.labels = "Organismos > LT_50",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -223,7 +239,7 @@ if(!is.na(results_bio$model[[4]])) {
   results_bio$model[[4]] %>%
     stargazer(
       dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -253,7 +269,7 @@ if(!is.na(results_bio$model[[5]])) {
   results_bio$model[[5]] %>%
     stargazer(
       dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -282,7 +298,7 @@ if(!is.na(results_bio$model[[6]])) {
   results_bio$model[[6]] %>% 
     stargazer(
       dep.var.labels = "Nivel trofico",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -313,7 +329,7 @@ if(!is.na(results_bio$model[[7]])) {
   results_bio$model[[7]] %>%
     stargazer(
       dep.var.labels = "Biomasa (Kg/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -345,7 +361,7 @@ if(!is.na(results_bio$model[[8]])) {
   results_bio$model[[8]] %>%
     stargazer(
       dep.var.labels = "Biomasa (Kg/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -377,7 +393,7 @@ if(!is.na(results_bio_i$model[[1]])){
   results_bio_i$model[[1]] %>% 
     stargazer(
       dep.var.labels = "Shannon (H'/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -409,7 +425,7 @@ if(!is.na(results_bio_i$model[[2]])) {
   results_bio_i$model[[2]] %>%
     stargazer(
       dep.var.labels = "Riqueza (Spp/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -439,7 +455,7 @@ if(!is.na(results_bio_i$model[[3]])) {
   results_bio_i$model[[3]] %>%
     stargazer(
       dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -472,7 +488,7 @@ if(!is.na(results_soc$model[[1]])) {
   results_soc$model[[1]] %>%
     stargazer(
       dep.var.labels = "Arribos (Kg/ano)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
@@ -502,7 +518,7 @@ if(!is.na(results_soc$model[[2]])) {
   results_soc$model[[2]] %>%
     stargazer(
       dep.var.labels = "Arribos (Kg/ano)",
-      type = "html",
+      type = "latex",
       dep.var.caption = "",
       report = "vc*",
       single.row = T,
