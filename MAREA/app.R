@@ -1116,14 +1116,14 @@ server <- function(input, output, session) {
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
     # Define a filename based on the input
-    filename = c("ReporteTURFeffect.html"),
+    filename = c("ReporteTURFeffect.pdf"),
     
     content = function(file) {
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
-      tempReport <- file.path(tempdir(), "MyTemplate.Rmd")
-      file.copy("MyTemplate.Rmd", tempReport, overwrite = TRUE)
+      tempReport <- file.path(tempdir(), "pdfTemplate.Rmd")
+      file.copy("pdfTemplate.Rmd", tempReport, overwrite = TRUE)
       
       ### Check that all results exist, or generate null results instead
       
@@ -1160,7 +1160,7 @@ server <- function(input, output, session) {
       
       withProgress(message = "Generando reporte", value = 0.5, {
         rmarkdown::render(
-          input = "MyTemplate.Rmd",
+          input = "pdfTemplate.Rmd",
           params = params,
           output_file = file,
           envir = new.env(parent = globalenv())
