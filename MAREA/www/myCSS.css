@@ -1,14 +1,17 @@
 /* Define download button colors*/
-.butt{background-color:green;}
-.butt{color: white;}
-.butt{font-weight: bold;}
-.butt{font-size: 200%;}
+.butt{
+    background-color:green;
+    color: white;
+    font-weight: bold;
+    font-size: 200%;}
 
 /* Define next prev button colors */
-.btn2{background-color:#1C5C90;}
-.btn2{color: white;}
-.btn2{font-weight: bold;}
-.btn2{font-size: 125%;}
+.btn2{
+    background-color:#1C5C90;
+    color: white;
+    font-weight: bold;
+    font-size: 125%;
+}
 
 /* Define dark green*/                       
 .bg-olive {background-color: #166433!important;}
@@ -25,3 +28,41 @@
 
 /* Define red*/
 .alert-danger, .alert-error, .bg-red, .callout.callout-danger, .label-danger, .modal-danger .modal-body {background-color: #ED1C24!important;}
+
+/* Define appearance of active tab*/
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #FFF;
+    background-color: #1C5C90;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+/* Define appearance of innactive tab*/
+.navbar-default .navbar-nav>li>a {
+    color: #FFF;
+    background-color: #1A7CBE;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+/* Define color or top bar*/
+.skin-blue .main-header .navbar {
+    background-color: #1A7CBE;
+}
+
+/* Define color of logo area*/
+.skin-blue .main-header .logo {
+    background-color: white;
+    color: #fff;
+    border-bottom: 0 solid transparent;
+}
+
+/*Define color of hober over logo area (same)*/
+.skin-blue .main-header .logo:hover {
+    background-color: #FFF;
+}
+
+/* Define color of toggle side bar*/
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #1C5C90;
+}

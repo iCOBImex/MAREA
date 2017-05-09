@@ -18,7 +18,7 @@ library(xtable)
 # Define UI for application that draws a histogram
 
 ui <- dashboardPage(
-  dashboardHeader(title = "MAREA"),
+  dashboardHeader(title = img(src = "MAREAlogo.gif", width = "55px")),
   dashboardSidebar(
     h1("Recursos"),
     p("Link a la ", a("Guía de usuario", href = "https://github.com/turfeffect/AppDraft/blob/master/MAREA_Guide.pdf", target = "_blank")),
@@ -29,10 +29,10 @@ ui <- dashboardPage(
   
   dashboardBody(
     useShinyjs(),
-    navbarPage(title = "Marine Reserve Evaluation App", id = "Tabs", theme = "myCSS.css",
+    navbarPage(title = "Evaluacion de Reservas Marinas", id = "Tabs", theme = "myCSS.css",
                
                #### First tab starts here ################################################################################
-               tabPanel(title = img(src = "boton1.gif", width = "150px"), value = "Intro",
+               tabPanel(title = "(1) Introduccion", value = "Intro",
                         fluidRow(column(1, offset = 10,
                                         actionButton(inputId = "b1.2", label = "Siguiente", icon = icon("arrow-right"), class = "btn2"))),
                         mainPanel(
@@ -43,7 +43,9 @@ ui <- dashboardPage(
                         )
                ),
                #### Second tab starts here ################################################################################
-               tabPanel(title = img(src = "boton2.gif", width = "150px"), value = "Obj",
+               tabPanel(title = "(2) Objetivos e Indicadores",
+                          #img(src = "boton2.gif", width = "150px")
+                          value = "Obj",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b2.1", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
                                  column(1, offset = 8,
@@ -79,7 +81,7 @@ ui <- dashboardPage(
                ),
                
                #### Third tab starts here ################################################################################
-               tabPanel(title = img(src = "boton3.gif", width = "150px"), value = "Data",
+               tabPanel(title = "(3) Datos", value = "Data",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b3.2", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
                                  column(1, offset = 8,
@@ -141,7 +143,7 @@ ui <- dashboardPage(
                ),
                
                #### Fourth tab starts here ################################################################################
-               tabPanel(title = img(src = "boton4.gif", width = "150px"), value = "Select",
+               tabPanel(title = "(4) Seleccionar Reserva", value = "Select",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b4.3", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
                                  column(1, offset = 8,
@@ -167,7 +169,7 @@ ui <- dashboardPage(
                ),
                
                #### Fifth tab starts here ################################################################################
-               tabPanel(title = img(src = "boton5.gif", width = "150px"), value = "Conf",
+               tabPanel(title = "(5) Confirmar", value = "Conf",
                         fluidPage(
                           fluidRow(column(1, offset = 1,
                                           actionButton(inputId = "b5.4", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
@@ -193,7 +195,7 @@ ui <- dashboardPage(
                ),
                
                #### Sixth tab starts here################################################################################
-               tabPanel(title =  img(src = "boton6.gif", width = "150px"), value = "Result",
+               tabPanel(title = "(6) Resultados", value = "Result",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b6.5", label = "Anterior", icon = icon("arrow-left"), class = "btn2"))),
                         fluidRow(
