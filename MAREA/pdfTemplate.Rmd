@@ -198,7 +198,7 @@ if(!is.na(results_bio$model[[2]])) {
 ```{r}
 
 if(!is.na(results_bio$plot[[3]])) {
-  cat("### Organismos > LT_50\n")
+  cat("### Organismos maduros\n")
   results_bio$plot[[3]]
 }
 ```
@@ -208,7 +208,7 @@ if(!is.na(results_bio$plot[[3]])) {
 if(!is.na(results_bio$model[[3]])) {
   results_bio$model[[3]] %>%
     stargazer(
-      dep.var.labels = "Organismos > LT_50",
+      dep.var.labels = "Organismos > LTm",
       type = "latex",
       dep.var.caption = "",
       report = "vc*",
