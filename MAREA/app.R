@@ -18,7 +18,7 @@ library(xtable)
 # Define UI for application that draws a histogram
 
 ui <- dashboardPage(
-  dashboardHeader(title = img(src = "MAREAlogo.gif", width = "55px")),
+  dashboardHeader(title = img(src = "MAREAlogo.gif", height = "52px")),
   dashboardSidebar(
     h1("Recursos"),
     p("Link a la ", a("Guía de usuario", href = "https://github.com/turfeffect/AppDraft/blob/master/MAREA_Guide.pdf", target = "_blank")),
