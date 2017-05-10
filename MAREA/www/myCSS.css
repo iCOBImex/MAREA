@@ -45,6 +45,13 @@
     font-size: 125%;
 }
 
+.navbar-default .navbar-nav>li>a:hover {
+    color: #FFF;
+    background-color: #1C5C90;
+    font-weight: bold;
+    font-size: 125%;
+}
+
 /* Define color or top bar*/
 .skin-blue .main-header .navbar {
     background-color: #1A7CBE;
@@ -65,4 +72,10 @@
 /* Define color of toggle side bar*/
 .skin-blue .main-header .navbar .sidebar-toggle:hover {
     background-color: #1C5C90;
+}
+
+/*Define background color of sidebar*/
+.skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
+    background-color: #1c5c90;
+    font-weight: bold;
 }
