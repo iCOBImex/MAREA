@@ -137,157 +137,127 @@ rbind(results_bio, results_bio_i, results_soc) %>%
 ## Peces
 
 ```{r, fig.cap="Indice de diversidad de Shannon"}
-if(!is.na(results_bio$plot[[1]])) {
-  cat("### Indice de diversidad de Shannon\n")
-  results_bio$plot[[1]]
-}
-
+if(!is.na(results_bio$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
+  results_bio$plot[[1]]}
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results_bio$model[[1]])){
-reg_table(model = results_bio$model[[1]],
-          title = "Tabla de regresion para el Indice de Diversidad de Shannon",
-          dep.var.labels = "Shannon (H'/transecto)")
-}
-
+if(!is.na(results_bio$model[[1]])){reg_table(model = results_bio$model[[1]],
+                                             title = "Tabla de regresion para el Indice de Diversidad de Shannon",
+                                             dep.var.labels = "Shannon (H'/transecto)")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[1]])) {cat("\\clearpage")}
 ```
 
-```{r}
-
-if(!is.na(results_bio$plot[[2]])) {
-  cat("### Riqueza\n")
-  results_bio$plot[[2]]
-}
+```{r, fig.cap = "Riqueza especifica"}
+if(!is.na(results_bio$plot[[2]])) {cat("### Riqueza\n")
+  results_bio$plot[[2]]}
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results_bio$model[[2]])) {
-  
-  reg_table(model = results_bio$model[[2]],
-            title = "Tabla de regresion para riqueza especifica",
-            dep.var.labels = "Riqueza (Spp/transecto")
-}
-
+if(!is.na(results_bio$model[[2]])) {reg_table(model = results_bio$model[[2]],
+                                              title = "Tabla de regresion para riqueza especifica",
+                                              dep.var.labels = "Riqueza (Spp/transecto")}
 ```
 
-
 ```{r}
+if(!is.na(results_bio$plot[[2]])) {cat("\\clearpage")}
+```
 
-if(!is.na(results_bio$plot[[3]])) {
-  cat("### Organismos maduros\n")
-  results_bio$plot[[3]]
-}
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros\n")
+  results_bio$plot[[3]]}
 ```
 
 ```{r, results = 'asis'}
 
-if(!is.na(results_bio$model[[3]])) {
-  
-  reg_table(results_bio$model[[3]],
-            title = "Tabla de regresion para organizmos maduros",
-            dep.var.labels = "Organismos > Lm")
-}
-
+if(!is.na(results_bio$model[[3]])) {reg_table(results_bio$model[[3]],
+                                              title = "Tabla de regresion para organizmos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
 ```
 
+```{r}
+if(!is.na(results_bio$plot[[3]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos"}
+if(!is.na(results_bio$plot[[4]])) {cat("### Densidad\n")
+  results_bio$plot[[4]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[4]])) {reg_table(results_bio$model[[4]],
+                                              title = "Tabla de regresion para Densidad de organismos",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
 
 ```{r}
-if(!is.na(results_bio$plot[[4]])) {
-  cat("### Densidad\n")
-  results_bio$plot[[4]]
-}
+if(!is.na(results_bio$plot[[4]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[5]])) {cat("### Densidad de especies objetivo\n")
+  results_bio$plot[[5]]}
 
 ```
 
 ```{r, results = 'asis'}
-
-if(!is.na(results_bio$model[[4]])) {
-  reg_table(results_bio$model[[4]],
-            title = "Tabla de regresion para Densidad de organismos",
-            dep.var.labels = "Densidad (Organismos/transecto)")
-}
-
+if(!is.na(results_bio$model[[5]])) {reg_table(results_bio$model[[5]],
+                                              title = "Tabla de regresion para Densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
+```{r}
+if(!is.na(results_bio$plot[[5]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Nivel trofico medio"}
+if(!is.na(results_bio$plot[[6]])){cat("### Nivel trofico\n")
+  results_bio$plot[[6]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[6]])) {reg_table(results_bio$model[[6]],
+                                              title = "Tabla de regresion para nivel trofico medio",
+                                              dep.var.labels = "Nivel trofico")}
+```
 
 ```{r}
-if(!is.na(results_bio$plot[[5]])) {
-  cat("### Densidad de especies objetivo\n")
-  results_bio$plot[[5]]
-}
+if(!is.na(results_bio$plot[[6]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Biomasa"}
+if (!is.na(results_bio$plot[[7]])) {cat("### Biomasa\n")
+  results_bio$plot[[7]]}
 
 ```
 
 ```{r, results = 'asis'}
-
-if(!is.na(results_bio$model[[5]])) {
-  reg_table(results_bio$model[[5]],
-            title = "Tabla de regresion para Densidad de especies objetivo",
-            dep.var.labels = "Densidad (Organismos/transecto)")
-}
-
+if(!is.na(results_bio$model[[7]])) {reg_table(results_bio$model[[7]],
+                                              title = "Tabla de regresion para Biomasa",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
 ```
 
-
 ```{r}
-if(!is.na(results_bio$plot[[6]])){
-  cat("### Nivel trofico\n")
-  results_bio$plot[[6]]
-}
+if(!is.na(results_bio$plot[[7]])) {cat("\\clearpage")}
+```
 
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[8]])) {cat("### Biomasa de especies objetivo\n")
+  results_bio$plot[[8]]}
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results_bio$model[[6]])) {
-  reg_table(results_bio$model[[6]],
-            title = "Tabla de regresion para nivel trofico medio",
-            dep.var.labels = "Nivel trofico")
-}
-
+if(!is.na(results_bio$model[[8]])) {reg_table(results_bio$model[[8]],
+                                              title = "Tabla de regresion para Biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
 ```
-
 
 ```{r}
-
-if (!is.na(results_bio$plot[[7]])) {
-  cat("### Biomasa\n")
-  results_bio$plot[[7]]
-}
-
-```
-
-```{r, results = 'asis'}
-if(!is.na(results_bio$model[[7]])) {
-  reg_table(results_bio$model[[7]],
-            title = "Tabla de regresion para Biomasa",
-            dep.var.labels = "Biomasa (Kg/transecto)")
-}
-
-```
-
-
-```{r}
-
-if (!is.na(results_bio$plot[[8]])) {
-  cat("### Biomasa de especies objetivo\n")
-  results_bio$plot[[8]]
-}
-
-```
-
-```{r, results = 'asis'}
-if(!is.na(results_bio$model[[8]])) {
-  reg_table(results_bio$model[[8]],
-            title = "Tabla de regresion para Biomasa de especies objetivo",
-            dep.var.labels = "Biomasa (Kg/transecto)")
-}
-
+if(!is.na(results_bio$plot[[8]])) {cat("\\clearpage")}
 ```
 
 ## Invertebrados
