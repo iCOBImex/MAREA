@@ -72,7 +72,7 @@ width: 80%;
 
 **Leyenda**
 
-![](legend2.gif)
+![Leyenda para el resumen de indicadores.](legend2.gif)
 
 </center>
 
@@ -136,7 +136,7 @@ rbind(results_bio, results_bio_i, results_soc) %>%
 
 ## Peces
 
-```{r}
+```{r, fig.cap="Indice de diversidad de Shannon"}
 if(!is.na(results_bio$plot[[1]])) {
   cat("### Indice de diversidad de Shannon\n")
   results_bio$plot[[1]]
@@ -146,24 +146,16 @@ if(!is.na(results_bio$plot[[1]])) {
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[1]])){
-  results_bio$model[[1]] %>% 
-    stargazer(
-      dep.var.labels = "Shannon (H'/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      header = F
-    )
+reg_table(model = results_bio$model[[1]],
+          title = "Tabla de regresion para el Indice de Diversidad de Shannon",
+          dep.var.labels = "Shannon (H'/transecto)")
 }
 
 ```
 
+```{r}
+if(!is.na(results_bio$plot[[1]])) {cat("\\clearpage")}
+```
 
 ```{r}
 
@@ -176,20 +168,10 @@ if(!is.na(results_bio$plot[[2]])) {
 ```{r, results = 'asis'}
 
 if(!is.na(results_bio$model[[2]])) {
-  results_bio$model[[2]] %>%
-    stargazer(
-      dep.var.labels = "Riqueza (Spp/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  
+  reg_table(model = results_bio$model[[2]],
+            title = "Tabla de regresion para riqueza especifica",
+            dep.var.labels = "Riqueza (Spp/transecto")
 }
 
 ```
@@ -206,20 +188,10 @@ if(!is.na(results_bio$plot[[3]])) {
 ```{r, results = 'asis'}
 
 if(!is.na(results_bio$model[[3]])) {
-  results_bio$model[[3]] %>%
-    stargazer(
-      dep.var.labels = "Organismos > LTm",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  
+  reg_table(results_bio$model[[3]],
+            title = "Tabla de regresion para organizmos maduros",
+            dep.var.labels = "Organismos > Lm")
 }
 
 ```
@@ -236,20 +208,9 @@ if(!is.na(results_bio$plot[[4]])) {
 ```{r, results = 'asis'}
 
 if(!is.na(results_bio$model[[4]])) {
-  results_bio$model[[4]] %>%
-    stargazer(
-      dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  reg_table(results_bio$model[[4]],
+            title = "Tabla de regresion para Densidad de organismos",
+            dep.var.labels = "Densidad (Organismos/transecto)")
 }
 
 ```
@@ -266,20 +227,9 @@ if(!is.na(results_bio$plot[[5]])) {
 ```{r, results = 'asis'}
 
 if(!is.na(results_bio$model[[5]])) {
-  results_bio$model[[5]] %>%
-    stargazer(
-      dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  reg_table(results_bio$model[[5]],
+            title = "Tabla de regresion para Densidad de especies objetivo",
+            dep.var.labels = "Densidad (Organismos/transecto)")
 }
 
 ```
@@ -295,24 +245,12 @@ if(!is.na(results_bio$plot[[6]])){
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[6]])) {
-  results_bio$model[[6]] %>% 
-    stargazer(
-      dep.var.labels = "Nivel trofico",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
-  }
+  reg_table(results_bio$model[[6]],
+            title = "Tabla de regresion para nivel trofico medio",
+            dep.var.labels = "Nivel trofico")
+}
 
 ```
-
 
 
 ```{r}
@@ -326,25 +264,12 @@ if (!is.na(results_bio$plot[[7]])) {
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[7]])) {
-  results_bio$model[[7]] %>%
-    stargazer(
-      dep.var.labels = "Biomasa (Kg/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  reg_table(results_bio$model[[7]],
+            title = "Tabla de regresion para Biomasa",
+            dep.var.labels = "Biomasa (Kg/transecto)")
 }
 
 ```
-
-
 
 
 ```{r}
@@ -358,27 +283,14 @@ if (!is.na(results_bio$plot[[8]])) {
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[8]])) {
-  results_bio$model[[8]] %>%
-    stargazer(
-      dep.var.labels = "Biomasa (Kg/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
+  reg_table(results_bio$model[[8]],
+            title = "Tabla de regresion para Biomasa de especies objetivo",
+            dep.var.labels = "Biomasa (Kg/transecto)")
 }
 
 ```
 
 ## Invertebrados
-
-
 
 ```{r}
 if(!is.na(results_bio_i$plot[[1]])) {
