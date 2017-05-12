@@ -143,7 +143,7 @@ if(!is.na(results_bio$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[1]])){reg_table(model = results_bio$model[[1]],
-                                             title = "Tabla de regresion para el Indice de Diversidad de Shannon",
+                                             title = "Tabla de regresion para el indice de diversidad de Shannon",
                                              dep.var.labels = "Shannon (H'/transecto)")}
 ```
 
@@ -175,7 +175,7 @@ if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros\n")
 ```{r, results = 'asis'}
 
 if(!is.na(results_bio$model[[3]])) {reg_table(results_bio$model[[3]],
-                                              title = "Tabla de regresion para organizmos maduros",
+                                              title = "Tabla de regresion para densidad organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
@@ -190,7 +190,7 @@ if(!is.na(results_bio$plot[[4]])) {cat("### Densidad\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[4]])) {reg_table(results_bio$model[[4]],
-                                              title = "Tabla de regresion para Densidad de organismos",
+                                              title = "Tabla de regresion para densidad de organismos",
                                               dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
@@ -206,7 +206,7 @@ if(!is.na(results_bio$plot[[5]])) {cat("### Densidad de especies objetivo\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[5]])) {reg_table(results_bio$model[[5]],
-                                              title = "Tabla de regresion para Densidad de especies objetivo",
+                                              title = "Tabla de regresion para densidad de especies objetivo",
                                               dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
@@ -237,7 +237,7 @@ if (!is.na(results_bio$plot[[7]])) {cat("### Biomasa\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[7]])) {reg_table(results_bio$model[[7]],
-                                              title = "Tabla de regresion para Biomasa",
+                                              title = "Tabla de regresion para biomasa",
                                               dep.var.labels = "Biomasa (Kg/transecto)")}
 ```
 
@@ -252,7 +252,7 @@ if (!is.na(results_bio$plot[[8]])) {cat("### Biomasa de especies objetivo\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[8]])) {reg_table(results_bio$model[[8]],
-                                              title = "Tabla de regresion para Biomasa de especies objetivo",
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
                                               dep.var.labels = "Biomasa (Kg/transecto)")}
 ```
 
@@ -263,98 +263,40 @@ if(!is.na(results_bio$plot[[8]])) {cat("\\clearpage")}
 ## Invertebrados
 
 ```{r}
-if(!is.na(results_bio_i$plot[[1]])) {
-  cat("### Indice de diversidad de Shannon\n")
-  results_bio_i$plot[[1]]
-}
-
+if(!is.na(results_bio_i$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
+  results_bio_i$plot[[1]]}
 ```
 
 ```{r, results = 'asis'}
-if(!is.na(results_bio_i$model[[1]])){
-  results_bio_i$model[[1]] %>% 
-    stargazer(
-      dep.var.labels = "Shannon (H'/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
-}
-
+if(!is.na(results_bio_i$model[[1]])){reg_table(results_bio_i$model[[1]],
+                                               title = "Tabla de regresion para indice de diversidad de Shannon",
+                                               dep.var.labels = "Shannon (H'/transecto)")}
 ```
-
-
-
 
 ```{r}
-
-if(!is.na(results_bio_i$plot[[2]])) {
-  cat("### Riqueza\n")
-  results_bio_i$plot[[2]]
-}
+if(!is.na(results_bio_i$plot[[2]])) {cat("### Riqueza\n")
+  results_bio_i$plot[[2]]}
 ```
 
 ```{r, results = 'asis'}
-
-if(!is.na(results_bio_i$model[[2]])) {
-  results_bio_i$model[[2]] %>%
-    stargazer(
-      dep.var.labels = "Riqueza (Spp/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
-}
-
+if(!is.na(results_bio_i$model[[2]])) {reg_table(results_bio_i$model[[2]],
+                                               title = "Tabla de regresion para riqueza especifica",
+                                               dep.var.labels = "Riqueza (Spp/transecto)")}
 ```
-
 
 ```{r}
-if(!is.na(results_bio_i$plot[[3]])) {
-  cat("### Densidad\n")
-  results_bio_i$plot[[3]]
-}
-
+if(!is.na(results_bio_i$plot[[3]])) {cat("### Densidad\n")
+  results_bio_i$plot[[3]]}
 ```
 
 ```{r, results = 'asis'}
-
-if(!is.na(results_bio_i$model[[3]])) {
-  results_bio_i$model[[3]] %>%
-    stargazer(
-      dep.var.labels = "Densidad (Organismos/transecto)",
-      type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
-      single.row = T,
-      omit.stat = c("adj.rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
-    )
-}
-
+if(!is.na(results_bio_i$model[[3]])) {reg_table(results_bio_i$model[[3]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
 
 # Socioeconomicos
-
 
 ```{r}
 if(!is.na(results_soc$plot[[1]])) {
