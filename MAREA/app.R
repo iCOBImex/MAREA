@@ -390,7 +390,7 @@ server <- function(input, output, session) {
   
   output$downloadA <- downloadHandler(
     filename = function() {
-      paste0("Biophysical", ".csv")
+      paste0("Biophysical_fish", ".csv")
     },
     content = function(file) {
       write.csv(FormatoA, file, row.names = F)
@@ -399,7 +399,7 @@ server <- function(input, output, session) {
   
   output$downloadB <- downloadHandler(
     filename = function() {
-      paste0("Biophysical", ".csv")
+      paste0("Biophysical_invert", ".csv")
     },
     content = function(file) {
       write.csv(FormatoB, file, row.names = F)
