@@ -8,7 +8,7 @@ output:
       toc: yes
       toc_depth: 4
 params:
-  title: "Reporte A"
+  title: ""
   results_bio: ""
   results_bio_i: ""
   results_soc: ""
