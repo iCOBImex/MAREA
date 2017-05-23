@@ -1159,7 +1159,8 @@ server <- function(input, output, session) {
                      results_bio = bio1,
                      results_bio_i = bio2,
                      results_soc = soc,
-                     results_gov = gov)
+                     results_gov = list(data = gobInput(),
+                                    results = gov))
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
@@ -1171,7 +1172,6 @@ server <- function(input, output, session) {
           params = params,
           output_file = file,
           envir = new.env(parent = globalenv())
-          
         )
         incProgress(0.5)
       })
