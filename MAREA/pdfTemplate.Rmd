@@ -337,132 +337,303 @@ if(!is.na(results_soc$model[[2]])) {
 
 ```
 
-# Gobernanza
+\clearpage
 
+# Governance
 
-```{r}
-results_gov <- tibble(Ind = c("Acceso a la pesqueria",
-                          "Reconocimiento legal de la reserva",
-                          "Grado de pesca ilegal",
-                          "Plan de manejo",
-                          "Procuracion de la reserva",
-                          "Tipo de organizacion pesquera",
-                          "Representacion",
-                          "Reglamentacion interna",
-                          "Efectividad percibida"),
-                  e = NA,
-                  p = NA,
-                  string = NA,
-                  color = NA,
-                  model = list(NA),
-                  plot = list(NA))
+## Resumen demografico
 
-  results_gov$e[1] <- 1
-  results_gov$string[1] <- c("Bien! Tu concesion promueve la extraccion sustentable de tus recursos.")
-  results_gov$color[1] <- c("olive")
+El questionario de governanza se realizo en `r dim(gov)[1]` miembros de la comunidad. Los demograficos basicos son:
 
-  results_gov$e[2] <- 0
-  results_gov$string[2] <- c("Es bueno que esten en proceso. Reconocer su reserva legalmente es importante para fortalecer su procuracion.")
-  results_gov$color[2] <- c("yellow")
+```{r, fig.height = 7.5, fig.width = 8}
+gender <- ggplot(gov, aes(x = Gender)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Genero")
 
-  results_gov$e[3] <- 1
-  results_gov$string[3] <- c("La pesca ilegal suele disminuir las abundancias y biomasas de tus recursos.")
-  results_gov$color[3] <- c("green")
+age <- ggplot(gov, aes(x = Age)) +
+  geom_histogram(fill = "steelblue", binwidth = 5, color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Edad")
 
-  results_gov$e[4] <- 0
-  results_gov$string[4] <- c("Tienes un Estudio Tecnico Justificativo, pero seria mejor tener todas las reglas por escrito en un solo lugar.")
-  results_gov$color[4] <- c("yellow")
+occ <- ggplot(gov, aes(x = Occupation)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Ocupacion")
 
-  results_gov$e[5] <- 1
-  results_gov$string[5] <- c("Bien! La vigilancia comunitaria ayuda a mantener fuera a los piratas.")
-  results_gov$color[5] <- c("olive")
+TonC <- ggplot(gov, aes(x = TimeOnCommunity)) +
+  geom_histogram(fill = "steelblue", color = "black", binwidth = 5) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Tiempo en la comunidad")
 
-  results_gov$e[6] <- 1
-  results_gov$string[6] <- c("Bien! Las cooperativas promueven el dialogo entre pescadores y la extraccion sustentable de tus recursos.")
-  results_gov$color[6] <- c("olive")
+education <- ggplot(gov, aes(x = Education)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Nivel de educacion")
 
-  results_gov$e[7] <- 1
-  results_gov$string[7] <- c("Bien! Al tener alta representacion durante el diseno dela reserva, te aseguras de que mas gente este enterada del proceso.")
-  results_gov$color[7] <- c("olive")
+cobi_diver <- ggplot(gov, aes(x = Diver)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Buzo de COBI")
 
-  results_gov$e[8] <- 1
-  results_gov$string[8] <- c("Bien! Las reglas internas de tu organizacion pesquera evitan malos comportamientos y sobreexplotacion de recursos.")
-  results_gov$color[8] <- c("olive")
-
-  results_gov$e[9] <- 1
-  results_gov$string[9] <- c("Bien! Es bueno saber que la mayoria considera que la reserva funciona.")
-  results_gov$color[9] <- c("olive")
+grid.arrange(gender, age, occ, TonC, education, cobi_diver)
 
 ```
+
+\clearpage
 
 ## Acceso a la pesqueria
 
+El acceso a la pesqueria se maneja por medio de: `r filter(gov, !is.na(Q7)) %>% {unique(.$Q7)}`.
+
+## Numero de pescadores
+
 ```{r}
 
-cat(results_gov$string[1])
+gov$Q10Aft <- c(20, 20, NA, 10)
+gov$Q10Bef <- c(10, 10, NA, 15)
 
+gov %>% 
+  select(contains("Q10")) %>% 
+  set_names(c("Antes", "Despues")) %>% 
+  gather(Dim, Value) %>% 
+  filter(!is.na(Value)) %>% 
+  ggplot(aes(x = Dim, y = Value)) +
+  geom_boxplot(fill = "steelblue") +
+  stat_summary(geom = "point", fun.y = mean, color = "black", size = 10, pch = "*") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Numero de pescadores")
 ```
+
 
 ## Reconocimiento legal de la reserva
 
+**MESSAGE HERE**
+
 ```{r}
-
-cat(results_gov$string[2])
-
+gov %>% 
+  select(contains("Q5")) %>% 
+  set_names(c("Reconocida", "En proceso", "En tramite")) %>% 
+  gather(Dim, Value) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Reconocimiento legal de la reserva")
 ```
+
+\clearpage
+
+## Tipo de reserva
+
+**MISSING FROM DATABASE SO FAR**
 
 ## Grado de pesca ilegal
 
-```{r}
+```{r, fig.height = 10, fig.width = 8}
+q13 <- ggplot(gov, aes(x = Q13)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Vigilancia y procuracion percivida")
 
-cat(results_gov$string[3])
+q14 <- gov %>% 
+  select(contains("Q14")) %>% 
+  set_names(c("De la comunidad en ZNP", "Foraneo en ZNP", "De la comunidad fuera de ZNP", "Foraneo fuera de ZNP")) %>% 
+  gather(Dim, Value) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Pesca ilegal dentro y fuera de la reserva por miembros de la comunidad y foraneos") +
+  coord_flip()
+
+q19 <- gov %>% 
+  select(contains("Q19")) %>% 
+  set_names(c("Antes", "Despues")) %>% 
+  gather(Dim, Value) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Pesca ilegal en la region")
+
+q20 <- gov %>% 
+  select(contains("Q20")) %>% 
+  set_names(c("Yo pesco dentro de la ZNP", "Otros pescan dentro de la ZNP", "Foraneos pescan dentro de la ZNP")) %>% 
+  gather(Dim, Value) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Percepcion de infractores")
+
+grid.arrange(q13, q14, q19, q20, ncol = 1)
 
 ```
+
+\clearpage
 
 ## Plan de manejo
 
 ```{r}
+gov %>% 
+  select(Q6) %>% 
+  gather(Dim, Value) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Existe un plan de manejo?")
+```
 
-cat(results_gov$string[4])
+\clearpage
+
+## Procuracion y vigilancia de la reserva
+
+Los principales actores para la procuracion y vigilancia son: `r filter(gov, !is.na(Q4_3)) %>% {unique(.$Q4_3)}`.
+
+La vigilancia se hace por medio de: `r filter(gov, !is.na(Q8)) %>% {unique(.$Q8)}`.
+
+```{r, fig.height = 7.5, fig.width = 8}
+
+q15 <- gov %>% 
+  ggplot(aes(x = Q15)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Percepcion de la procuracion por el gobierno")
+
+q16 <- gov %>% 
+  ggplot(aes(x = Q16)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "La procuracion funciona mejor cuando el gobierno esta involucrado")
+
+q17 <- gov %>% 
+  ggplot(aes(x = Q17)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "La procuracion funciona mejor cuando la comunidad esta involucrada")
+
+grid.arrange(q15, q16, q17)
 
 ```
 
-## Procuracion de la reserva
+\clearpage
+
+## Tamano de la reserva
+
+**MISSING FROM DATABASE SO FAR**
+
+## Razonamiento para el diseno de la reserva
 
 ```{r}
+gov$Q2_Reason <- "blah blah blah blah blah"
 
-cat(results_gov$string[5])
-
-```
-
-## Tipo de organizacion pesquera
-
-```{r}
-
-cat(results_gov$string[6])
+gov %>% 
+  mutate(Sujeto = 1:length(Interviewee)) %>% 
+  select(Sujeto, Razon = Q2_Reason) %>% 
+  knitr::kable()
 
 ```
+
+\clearpage
+
+## Pertenencia y Tipo de organizacion pesquera
+
+Los siguientes tipos de organizaciones pesqueras existen: `r filter(gov, !is.na(Q1)) %>% {unique(.$Q1)}`.
 
 ## Representacion
 
-```{r}
+La creacion de las reservas fue **motivada** por: `r filter(gov, !is.na(Q3)) %>% {unique(.$Q3)}`.
 
-cat(results_gov$string[7])
+El **manejo** de las reservas se lleva a cabo por: `r filter(gov, !is.na(Q4_1)) %>% {unique(.$Q4_1)}`.
 
-```
+El **monitoreo** de las reservas se lleva a cabo por: `r filter(gov, !is.na(Q4_2)) %>% {unique(.$Q4_2)}`.
+
+Las **decisiones** se toman por: `r filter(gov, !is.na(Q12)) %>% {unique(.$Q12)}`.
+
+Tambien deberian de participar: `r filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_1)}`.
 
 ## Reglamentacion interna
 
 ```{r}
-
-cat(results_gov$string[8])
-
+gov %>% 
+  filter(!is.na(Q9)) %>% 
+  ggplot(aes(x = Q9)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Reglamentacion interna")
 ```
+
 
 ## Efectividad percibida
 
-```{r}
+```{r, fig.height = 10, fig.width = 8}
 
-cat(results_gov$string[9])
+q21_1 <- gov %>% 
+  select(contains("Q21_1")) %>% 
+  set_names(c("Riqueza", "Tallas", "Densidad", "Biomasa", "Abundancia de depredadores")) %>% 
+  gather(Dim, Value) %>% 
+  filter(!is.na(Value)) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Cambios biologicos") +
+  coord_flip()
+
+q21_2 <- gov %>% 
+  select(contains("Q21_2")) %>% 
+  set_names(c("Total landings", "Managed species landings", "Fisheries revenue", "Alternative economic activities")) %>% 
+  gather(Dim, Value) %>% 
+  filter(!is.na(Value)) %>% 
+  ggplot(aes(x = Value)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  facet_grid(~Dim) +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Socioeconomic changes")
+
+q21_3 <- gov %>% 
+  ggplot(aes(x = Q21_3)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Local governance")
+
+q22 <- gov %>% 
+  ggplot(aes(x = Q22)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Impacto general")
+
+q23 <- gov %>% 
+  ggplot(aes(x = Q23)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  theme_bw() +
+  labs(x = "") +
+  ggtitle(label = "Percepcion de efectividad")
+
+grid.arrange(q21_1, q21_2, q21_3, q22, q23, ncol = 1)
 
 ```
+
+
