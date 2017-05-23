@@ -28,14 +28,16 @@ knitr::opts_chunk$set(echo = F, fig.height = 3, warning = F, message = F, result
 ```{r cargar paquetes}
 
 suppressPackageStartupMessages({
-  library(tidyverse)
+  library(gridExtra)
   library(MPAtools)
   library(stargazer)
   library(shiny)
+  library(tidyverse)
 })
 
 ```
 
+\clearpage
 
 # Acerca del reporte
 
