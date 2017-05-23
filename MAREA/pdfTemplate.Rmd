@@ -99,29 +99,16 @@ if(is.null(params$results_soc)){
 } else {
   results_soc <- params$results_soc}
 
-
-results_gov <- tibble::tibble(
-  Ind = "Acceso a la pesqueria",
-  e = NA,
-  p = NA,
-  string = "Bien! Tu concesion promueve la extraccion sustentable de tus recursos.",
-  color = NA,
-  model = list(NA),
-  plot = list(NA)
-)
+results_gov <- params$results_gov$results
+gov <- params$results_gov$data
   
 ```
 
-
-```{r, results = 'asis'}
-rbind(results_bio, results_bio_i, results_soc) %>%
-  filter(!is.na(color)) %>% 
-  mutate(Puntaje = paste0("![](",color, ".gif)")) %>%
-  select(Indicador = Ind,
-         Puntaje) %>%
-  knitr::kable()
-
+```{r}
+summary_table(results_bio, results_bio_i, results_soc, results_soc) %>% 
+  knitr::kable(align = "r")
 ```
+
 
 \clearpage
 
