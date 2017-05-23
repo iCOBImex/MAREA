@@ -57,16 +57,7 @@ suppressPackageStartupMessages({
   
   - Mensajes y advertencias
   
-  \clearpage
-
-
-<style type="text/css">
-.table {
-
-width: 80%;
-
-}
-</style>
+\clearpage
 
 # Resumen
 
