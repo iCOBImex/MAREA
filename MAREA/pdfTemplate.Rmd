@@ -140,7 +140,7 @@ if(!is.na(results_bio$plot[[2]])) {cat("### Riqueza\n")
 
 if(!is.na(results_bio$model[[2]])) {reg_table(model = results_bio$model[[2]],
                                               title = "Tabla de regresion para riqueza especifica",
-                                              dep.var.labels = "Riqueza (Spp/transecto")}
+                                              dep.var.labels = "Riqueza (Spp/transecto)")}
 ```
 
 ```{r}
