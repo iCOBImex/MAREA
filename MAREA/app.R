@@ -44,8 +44,8 @@ ui <- dashboardPage(
                ),
                #### Second tab starts here ################################################################################
                tabPanel(title = "(2) Objetivos e Indicadores",
-                          #img(src = "boton2.gif", width = "150px")
-                          value = "Obj",
+                        #img(src = "boton2.gif", width = "150px")
+                        value = "Obj",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b2.1", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
                                  column(1, offset = 8,
