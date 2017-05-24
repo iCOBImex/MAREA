@@ -957,23 +957,34 @@ server <- function(input, output, session) {
   output$gobres <- renderValueBox({
     req(input$govern)
     
-    valueBox(value = "General",
-             subtitle = "77.7% de indicadores positivos",
-             icon = icon("users"),
-             color = "green",
-             width = NULL)
+    govsummary <- results_gov() %>%
+      filter(!is.na(e)) %>%
+      mutate(
+        Valid = length(e),
+        Score = sum(e) / Valid * 100) %>%
+      select(Score) %>%
+      max()
+    
+    valueBox(
+      value = "General",
+      subtitle = paste0(formatC(govsummary, digits = 1, format = "f"), "% de indicadores positivos"),
+      icon = icon("money"),
+      color = gen_score(govsummary)
+    )
   })
   
   ######## Toggle Gov output ##################################
   
   observeEvent(input$toggle_gov, {
     toggle("acceso")
+    toggle("pescadores")
     toggle("reconocimiento")
+    toggle("tipo")
     toggle("pesca_ilegal")
-    toggle("plan de manejo")
+    toggle("plan_manejo")
     toggle("procuracion")
+    toggle("tamano")
     toggle("org_pesquera")
-    toggle("representacion")
     toggle("reglas_internas")
     toggle("efectividad")
   })
