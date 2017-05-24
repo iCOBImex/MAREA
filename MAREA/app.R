@@ -277,9 +277,7 @@ ui <- dashboardPage(
                               uiOutput("plan_manejo"),
                               uiOutput("procuracion"),
                               uiOutput("tamano"),
-                              uiOutput("razonamiento"),
                               uiOutput("org_pesquera"),
-                              uiOutput("representacion"),
                               uiOutput("reglas_internas"),
                               uiOutput("efectividad")
                             )
