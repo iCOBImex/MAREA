@@ -1190,7 +1190,7 @@ server <- function(input, output, session) {
                      results_bio_i = bio2,
                      results_soc = soc,
                      results_gov = list(data = gobInput(),
-                                    results = gov))
+                                        results = gov))
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
