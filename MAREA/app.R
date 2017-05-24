@@ -1000,14 +1000,36 @@ server <- function(input, output, session) {
     )
   })
   
+  ######################### Number of fishers #######################
+  output$pescadores <- renderValueBox({
+    valueBox(
+      value = "Numero de pescadores",
+      subtitle = results_gov()$string[2],
+      icon = icon("users"),
+      color = results_gov()$color[2],
+      width = NULL
+    )
+  })
+  
   ######################### Legal recognition of the reserve #######################
   
   output$reconocimiento <- renderValueBox({
     valueBox(
       value = "Reconocimiento legal",
-      subtitle = results_gov()$string[2],
+      subtitle = results_gov()$string[3],
       icon = icon("users"),
-      color = results_gov()$color[2],
+      color = results_gov()$color[3],
+      width = NULL
+    )
+  })
+  
+  ######################### Type of reserve #######################
+  output$tipo <- renderValueBox({
+    valueBox(
+      value = "Tipo de reserva",
+      subtitle = results_gov()$string[4],
+      icon = icon("users"),
+      color = results_gov()$color[4],
       width = NULL
     )
   })
@@ -1017,9 +1039,9 @@ server <- function(input, output, session) {
   output$pesca_ilegal <- renderValueBox({
     valueBox(
       value = "Grado de pesca ilegal",
-      subtitle = results_gov()$string[3],
+      subtitle = results_gov()$string[5],
       icon = icon("users"),
-      color = results_gov()$color[3],
+      color = results_gov()$color[5],
       width = NULL
     )
   })
@@ -1029,9 +1051,9 @@ server <- function(input, output, session) {
   output$plan_manejo <- renderValueBox({
     valueBox(
       value = "Plan de manejo",
-      subtitle = results_gov()$string[4],
+      subtitle = results_gov()$string[6],
       icon = icon("users"),
-      color = results_gov()$color[4],
+      color = results_gov()$color[6],
       width = NULL
     )
   })
@@ -1039,10 +1061,21 @@ server <- function(input, output, session) {
   ######################### Enforcement #######################
   output$procuracion <- renderValueBox({
     valueBox(
-      value = "Vigilancia",
-      subtitle = results_gov()$string[5],
+      value = "Procuracion y vigilancia",
+      subtitle = results_gov()$string[7],
       icon = icon("users"),
-      color = results_gov()$color[5],
+      color = results_gov()$color[7],
+      width = NULL
+    )
+  })
+  
+  ######################### Size of reserve #######################
+  output$tamano <- renderValueBox({
+    valueBox(
+      value = "Tamano de la reserva",
+      subtitle = results_gov()$string[8],
+      icon = icon("users"),
+      color = results_gov()$color[8],
       width = NULL
     )
   })
@@ -1051,20 +1084,9 @@ server <- function(input, output, session) {
   output$org_pesquera <- renderValueBox({
     valueBox(
       value = "Organizacion pesquera",
-      subtitle = results_gov()$string[6],
+      subtitle = results_gov()$string[9],
       icon = icon("users"),
-      color = results_gov()$color[6],
-      width = NULL
-    )
-  })
-  
-  ######################### Representation #######################
-  output$representacion <- renderValueBox({
-    valueBox(
-      value = "Representacion",
-      subtitle = results_gov()$string[7],
-      icon = icon("users"),
-      color = results_gov()$color[7],
+      color = results_gov()$color[9],
       width = NULL
     )
   })
@@ -1073,9 +1095,9 @@ server <- function(input, output, session) {
   output$reglas_internas <- renderValueBox({
     valueBox(
       value = "Reglamentacion interna",
-      subtitle = results_gov()$string[8],
+      subtitle = results_gov()$string[10],
       icon = icon("users"),
-      color = results_gov()$color[8],
+      color = results_gov()$color[10],
       width = NULL
     )
   })
@@ -1085,13 +1107,12 @@ server <- function(input, output, session) {
   output$efectividad <- renderValueBox({
     valueBox(
       value = "Efectividad percibida",
-      subtitle = results_gov()$string[9],
+      subtitle = results_gov()$string[11],
       icon = icon("users"),
-      color = results_gov()$color[9],
+      color = results_gov()$color[11],
       width = NULL
     )
   })
-  
   
   
   ### Output for general results ####################################################################
