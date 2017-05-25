@@ -8,7 +8,8 @@ output:
       toc: yes
       toc_depth: 4
 params:
-  title: ""
+  comunidad: ""
+  reserva: ""
   results_bio: ""
   results_bio_i: ""
   results_soc: ""
@@ -16,7 +17,7 @@ params:
 ---
 
 ---
-title: `r params$title`
+title: `r paste("Reporte para", params$reserva, "en", params$comunidad)`
 ---
 
 ```{r setup, include=FALSE}
