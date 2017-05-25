@@ -10,6 +10,7 @@ output:
 params:
   comunidad: ""
   reserva: ""
+  rc: ""
   results_bio: ""
   results_bio_i: ""
   results_soc: ""
@@ -17,7 +18,7 @@ params:
 ---
 
 ---
-title: `r paste("Reporte para", params$reserva, "en", params$comunidad)`
+title: `r paste("Reporte para", params$rc, "en", params$comunidad)`
 ---
 
 ```{r setup, include=FALSE}
@@ -73,11 +74,21 @@ suppressPackageStartupMessages({
 
 ```{r}
 
-results_bio <- params$results_bio
+if(is.null(params$results_bio)){
+  results_bio <- tibble::tibble(
+    Ind = NA,
+    e = NA,
+    p = NA,
+    string = NA,
+    color = NA,
+    model = list(NA),
+    plot = list(NA)
+  )
+} else {results_bio <- params$results_bio}
 
 if(is.null(params$results_bio_i)){
   results_bio_i <- tibble::tibble(
-    Ind = c("Shannon", "Riqueza", "Densidad", "DensidadObj"),
+    Ind = c(1, 2, 3),
     e = NA,
     p = NA,
     string = NA,
@@ -89,7 +100,7 @@ if(is.null(params$results_bio_i)){
 
 if(is.null(params$results_soc)){
   results_soc <- tibble::tibble(
-    Ind = LETTERS[1:4],
+    Ind = c(1,2),
     e = NA,
     p = NA,
     string = NA,
@@ -101,7 +112,7 @@ if(is.null(params$results_soc)){
 
 if(is.null(params$results_gov$results)){
   results_gov <- tibble::tibble(
-    Ind = LETTERS[1:12],
+    Ind = seq(1,13),
     e = NA,
     p = NA,
     string = NA,
@@ -351,11 +362,11 @@ if(!is.na(results_soc$model[[2]])) {
 
 \clearpage
 
-# Governance
+# Gobernanza
 
 ## Resumen demografico
 
-El questionario de governanza se realizo en `r dim(gov)[1]` miembros de la comunidad. Los demograficos basicos son:
+El questionario de gobernanza se realizo en `r dim(gov)[1]` miembros de la comunidad. Los demograficos basicos son:
 
 ```{r, fig.height = 7.5, fig.width = 8}
 gender <- ggplot(gov, aes(x = Gender)) +
