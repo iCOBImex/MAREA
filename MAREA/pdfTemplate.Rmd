@@ -359,43 +359,48 @@ El questionario de governanza se realizo en `r dim(gov)[1]` miembros de la comun
 
 ```{r, fig.height = 7.5, fig.width = 8}
 gender <- ggplot(gov, aes(x = Gender)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Genero")
+  ggtitle(label = "Genero") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 age <- ggplot(gov, aes(x = Age)) +
-  geom_histogram(fill = "steelblue", binwidth = 5, color = "black") +
+  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", binwidth = 5, color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Edad")
+  ggtitle(label = "Edad") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 occ <- ggplot(gov, aes(x = Occupation)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Ocupacion")
+  ggtitle(label = "Ocupacion") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 TonC <- ggplot(gov, aes(x = TimeOnCommunity)) +
-  geom_histogram(fill = "steelblue", color = "black", binwidth = 5) +
+  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black", binwidth = 5) +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Tiempo en la comunidad")
+  ggtitle(label = "Tiempo en la comunidad") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 education <- ggplot(gov, aes(x = Education)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Nivel de educacion")
+  ggtitle(label = "Nivel de educacion") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 cobi_diver <- ggplot(gov, aes(x = Diver)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Buzo de COBI")
+  ggtitle(label = "Buzo de COBI") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 grid.arrange(gender, age, occ, TonC, education, cobi_diver)
-
 ```
 
 \clearpage
