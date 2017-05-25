@@ -381,10 +381,10 @@ server <- function(input, output, session) {
   #### Formatos de prueba disponibles ##########################
   options(shiny.maxRequestSize = 200 * 1024 ^ 2)
   
-  FormatoA = read.csv("www/bio_fish.csv", sep = ",")
-  FormatoB = read.csv("www/bio_invert.csv", sep = ",")
-  FormatoC = read.csv("www/socio.csv", sep = ",")
-  FormatoD = read.csv("www/gov.csv", sep = ",")
+  FormatoA = read.csv("www/bio_fish.csv", sep = ",", stringsAsFactors = F)
+  FormatoB = read.csv("www/bio_invert.csv", sep = ",", stringsAsFactors = F)
+  FormatoC = read.csv("www/socio.csv", sep = ",", stringsAsFactors = F)
+  FormatoD = read.csv("www/gov.csv", sep = ",", stringsAsFactors = F, na.strings = "")
   
   
   output$downloadA <- downloadHandler(
