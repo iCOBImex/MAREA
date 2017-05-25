@@ -430,17 +430,24 @@ gov %>%
 
 **MESSAGE HERE**
 
+Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
+
 ```{r}
 gov %>% 
-  select(contains("Q5")) %>% 
-  set_names(c("Reconocida", "En proceso", "En tramite")) %>% 
-  gather(Dim, Value) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  select(Interviewee, contains("Q5")) %>% 
+  set_names(c("Interviewee", "Reconocida", "En proceso", "Interesados")) %>% 
+  gather(Dim, Value, -Interviewee) %>% 
+  mutate(N = length(unique(Interviewee))) %>% 
+  group_by(Dim, Value, N) %>% 
+  count() %>%   
+  mutate(n = n/N) %>% 
+  ggplot(aes(x = Value, y = n)) +
+  geom_col(fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Reconocimiento legal de la reserva")
+  ggtitle(label = "Reconocimiento legal de la reserva") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 ```
 
 \clearpage
