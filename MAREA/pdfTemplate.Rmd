@@ -420,7 +420,15 @@ grid.arrange(gender, age, occ, TonC, education, cobi_diver)
 
 El acceso a la pesqueria se maneja por medio de: `r filter(gov, !is.na(Q7)) %>% {unique(.$Q7)}`.
 
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[1]]))
+```
+
 ## Numero de pescadores
+
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[2]]))
+```
 
 ```{r}
 gov %>% 
@@ -439,7 +447,9 @@ gov %>%
 
 ## Reconocimiento legal de la reserva
 
-**MESSAGE HERE**
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[3]]))
+```
 
 Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
 
@@ -467,7 +477,17 @@ gov %>%
 
 **MISSING FROM DATABASE SO FAR**
 
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[4]]))
+```
+
+\clearpage
+
 ## Grado de pesca ilegal
+
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[5]]))
+```
 
 ```{r, fig.height = 10, fig.width = 8}
 q13 <- ggplot(gov, aes(x = Q13)) +
@@ -522,6 +542,10 @@ grid.arrange(q13, q14, q19, q20, ncol = 1)
 
 ## Plan de manejo
 
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[6]]))
+```
+
 Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
 
 ```{r}
@@ -539,6 +563,10 @@ gov %>%
 \clearpage
 
 ## Procuracion y vigilancia de la reserva
+
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[7]]))
+```
 
 Los principales actores para la procuracion y vigilancia son: `r filter(gov, !is.na(Q4_3)) %>% {unique(.$Q4_3)}`.
 
@@ -579,7 +607,15 @@ grid.arrange(q15, q16, q17)
 
 **MISSING FROM DATABASE SO FAR**
 
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[8]]))
+```
+
 ## Razonamiento para el diseno de la reserva
+
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[9]]))
+```
 
 ```{r}
 gov$Q2_Reason <- "blah blah blah blah blah"
@@ -612,6 +648,10 @@ Tambien deberian de participar: `r filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_
 ## Reglamentacion interna
 
 ```{r}
+cat(paste0("Mensaje: ",results_gov$string[[10]]))
+```
+
+```{r}
 gov %>% 
   filter(!is.na(Q9)) %>% 
   ggplot(aes(x = Q9)) +
@@ -622,8 +662,13 @@ gov %>%
   scale_y_continuous(labels = percent)
 ```
 
+\clearpage
 
 ## Efectividad percibida
+
+```{r}
+cat(paste0("Mensaje: ",results_gov$string[[11]]))
+```
 
 ```{r, fig.height = 10, fig.width = 8}
 
