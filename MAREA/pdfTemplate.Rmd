@@ -460,44 +460,48 @@ gov %>%
 
 ```{r, fig.height = 10, fig.width = 8}
 q13 <- ggplot(gov, aes(x = Q13)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Vigilancia y procuracion percivida")
+  ggtitle(label = "Vigilancia y procuracion percivida") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q14 <- gov %>% 
   select(contains("Q14")) %>% 
   set_names(c("De la comunidad en ZNP", "Foraneo en ZNP", "De la comunidad fuera de ZNP", "Foraneo fuera de ZNP")) %>% 
   gather(Dim, Value) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
   ggtitle(label = "Pesca ilegal dentro y fuera de la reserva por miembros de la comunidad y foraneos") +
-  coord_flip()
+  coord_flip() +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q19 <- gov %>% 
   select(contains("Q19")) %>% 
   set_names(c("Antes", "Despues")) %>% 
   gather(Dim, Value) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Pesca ilegal en la region")
+  ggtitle(label = "Pesca ilegal en la region") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q20 <- gov %>% 
   select(contains("Q20")) %>% 
   set_names(c("Yo pesco dentro de la ZNP", "Otros pescan dentro de la ZNP", "Foraneos pescan dentro de la ZNP")) %>% 
   gather(Dim, Value) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Percepcion de infractores")
+  ggtitle(label = "Percepcion de infractores") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 grid.arrange(q13, q14, q19, q20, ncol = 1)
 
@@ -507,15 +511,18 @@ grid.arrange(q13, q14, q19, q20, ncol = 1)
 
 ## Plan de manejo
 
+Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
+
 ```{r}
 gov %>% 
   select(Q6) %>% 
   gather(Dim, Value) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Existe un plan de manejo?")
+  ggtitle(label = "Existe un plan de manejo?") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 ```
 
 \clearpage
@@ -527,30 +534,32 @@ Los principales actores para la procuracion y vigilancia son: `r filter(gov, !is
 La vigilancia se hace por medio de: `r filter(gov, !is.na(Q8)) %>% {unique(.$Q8)}`.
 
 ```{r, fig.height = 7.5, fig.width = 8}
-
 q15 <- gov %>% 
   ggplot(aes(x = Q15)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Percepcion de la procuracion por el gobierno")
+  ggtitle(label = "Percepcion de la procuracion por el gobierno") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q16 <- gov %>% 
   ggplot(aes(x = Q16)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
   labs(x = "") +
-  ggtitle(label = "La procuracion funciona mejor cuando el gobierno esta involucrado")
+  ggtitle(label = "La procuracion funciona mejor cuando el gobierno esta involucrado") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q17 <- gov %>% 
   ggplot(aes(x = Q17)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "La procuracion funciona mejor cuando la comunidad esta involucrada")
+  ggtitle(label = "La procuracion funciona mejor cuando la comunidad esta involucrada") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 grid.arrange(q15, q16, q17)
-
 ```
 
 \clearpage
@@ -595,10 +604,11 @@ Tambien deberian de participar: `r filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_
 gov %>% 
   filter(!is.na(Q9)) %>% 
   ggplot(aes(x = Q9)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Reglamentacion interna")
+  ggtitle(label = "Reglamentacion interna") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 ```
 
 
@@ -612,12 +622,13 @@ q21_1 <- gov %>%
   gather(Dim, Value) %>% 
   filter(!is.na(Value)) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
   ggtitle(label = "Cambios biologicos") +
-  coord_flip()
+  coord_flip() +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q21_2 <- gov %>% 
   select(contains("Q21_2")) %>% 
@@ -625,32 +636,36 @@ q21_2 <- gov %>%
   gather(Dim, Value) %>% 
   filter(!is.na(Value)) %>% 
   ggplot(aes(x = Value)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   facet_grid(~Dim) +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Socioeconomic changes")
+  ggtitle(label = "Socioeconomic changes") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q21_3 <- gov %>% 
   ggplot(aes(x = Q21_3)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Local governance")
+  ggtitle(label = "Local governance") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q22 <- gov %>% 
   ggplot(aes(x = Q22)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Impacto general")
+  ggtitle(label = "Impacto general") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 q23 <- gov %>% 
   ggplot(aes(x = Q23)) +
-  geom_bar(fill = "steelblue", color = "black") +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
   theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Percepcion de efectividad")
+  ggtitle(label = "Percepcion de efectividad") +
+  labs(x = "", y = "Proporcion") +
+  scale_y_continuous(labels = percent)
 
 grid.arrange(q21_1, q21_2, q21_3, q22, q23, ncol = 1)
 
