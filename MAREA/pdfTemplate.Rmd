@@ -412,10 +412,6 @@ El acceso a la pesqueria se maneja por medio de: `r filter(gov, !is.na(Q7)) %>% 
 ## Numero de pescadores
 
 ```{r}
-
-gov$Q10Aft <- c(20, 20, NA, 10)
-gov$Q10Bef <- c(10, 10, NA, 15)
-
 gov %>% 
   select(contains("Q10")) %>% 
   set_names(c("Antes", "Despues")) %>% 
