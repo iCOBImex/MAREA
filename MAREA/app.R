@@ -431,7 +431,7 @@ server <- function(input, output, session) {
     if (is.null(inFile)) {
       return(NULL)
     } else {
-      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F) %>%
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F, strip.white = T) %>%
         filter(!is.na(Comunidad))
       return(data)
     }
@@ -444,7 +444,7 @@ server <- function(input, output, session) {
     if (is.null(inFile)) {
       return(NULL)
     } else {
-      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F) %>%
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F, strip.white = T) %>%
         filter(!is.na(Comunidad))
       return(data)
     }
@@ -458,9 +458,8 @@ server <- function(input, output, session) {
     
     if (is.null(inFile)) {
       return(NULL)
-      
     } else {
-      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F)
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F, strip.white = T)
       return(data)
     }
   })
@@ -472,9 +471,8 @@ server <- function(input, output, session) {
     
     if (is.null(inFile)) {
       return(NULL)
-      
     } else {
-      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F)
+      data <- read.csv(inFile$datapath, header = T, stringsAsFactors = F, strip.white = T, na.strings = "")
       return(data)
     }
   })
@@ -686,7 +684,6 @@ server <- function(input, output, session) {
                    comunidad = input$comunidad)
     
     gov_results(values, gobInput(), res.fun())
-    
   })
   
   # Define a title for the scorecard dasbhoard
