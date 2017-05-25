@@ -33,6 +33,7 @@ suppressPackageStartupMessages({
   library(MPAtools)
   library(stargazer)
   library(shiny)
+  library(scales)
   library(tidyverse)
 })
 
