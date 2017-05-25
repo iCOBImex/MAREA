@@ -85,8 +85,7 @@ if(is.null(params$results_bio_i)){
     model = list(NA),
     plot = list(NA)
   )
-} else {
-  results_bio_i <- params$results_bio_i}
+} else {results_bio_i <- params$results_bio_i}
 
 if(is.null(params$results_soc)){
   results_soc <- tibble::tibble(
@@ -98,16 +97,27 @@ if(is.null(params$results_soc)){
     model = list(NA),
     plot = list(NA)
   )
-} else {
-  results_soc <- params$results_soc}
+} else {results_soc <- params$results_soc}
 
-results_gov <- params$results_gov$results
-gov <- params$results_gov$data
+if(is.null(params$results_gov$results)){
+  results_gov <- tibble::tibble(
+    Ind = LETTERS[1:12],
+    e = NA,
+    p = NA,
+    string = NA,
+    color = NA,
+    model = list(NA),
+    plot = list(NA)
+  )
+} else {results_gov <- params$results_gov$results}
+
+gov <- params$results_gov$data %>%
+    filter(Community == params$comunidad, Q2_Name %in% c(params$reserva, NA))
   
 ```
 
 ```{r}
-summary_table(results_bio, results_bio_i, results_soc, results_soc) %>% 
+summary_table(results_bio, results_bio_i, results_soc, results_gov) %>% 
   knitr::kable(align = "r")
 ```
 
