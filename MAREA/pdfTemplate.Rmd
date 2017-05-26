@@ -46,19 +46,58 @@ suppressPackageStartupMessages({
 
 *Acentos y caracteres especiales omitidos*
 
-  - Resumen y leyenda
-  
-  - Resumen de muestreo
-  
-  - Modelos utilizados
-  
-  - Par Figura - Tabla
-  
-      - Interpretacion de las figuras
-      
-      - Interpretacion de las tablas
-  
-  - Mensajes y advertencias
+Este reporte tecnico fue producido por (MAREA)[www.turfeffect.org/apps], una aplicacion desarrollada por el grupo (TURFeffect)[www.turfeffect.org] para evaluar la efectividad de reservas marinas en Mexico. A continuacion, te proporcionamos una breve descripcion de lo que encontraras en el reporte, junto con indicaciones de como leer e interpretar lsa graficas y tablas generadas.
+
+**Resumen y leyenda**
+
+Lo primero que veras en el reporte es un resumen, similar al que se produjo como "scorecard" dentro de MAREA. A cada indicador se le asocia un color. Los colores posibles son rojo, naranja, amarillo, verde y olivo. Junto con el resumen, te proporcionamos una leyenda con la que puedes interpretar estos colores. Los colores se definen utilizando el signo o sentido (positivo o negativo) del termino de efectividad (descrito a cotninuacion) y su significancia estadistica. Si tienes dudas, consulta nuestra (Guia para la evaluacion de zonas de no pesca en Mexico)[http://www.turfeffect.org/our-project].
+
+**Modelos utilizados**
+
+Para estimar la efectividad de la reserva en los indicadores numericos utilizamos modelos de regresion lineal multiple. Los coeficientes se estiman por medio de minimos cuadrados ordinarios y errores estandar robustos a muestras heterocedasticas.
+
+Para los indicadores biofisicos el modelo es
+
+$$I_{i,t} = \beta_0 + \Sigma_{t = 2}^{T} \gamma_{i,t} Ano_t + \beta_2 Zona_i + \beta_3 Zona_i + Post_{i,t} + \omega_{i,t}+\epsilon_{i,t}$$
+
+ En el caso de los indicadores socioeconomicos, que no cuentan con un control de referencia, el modelo toma la forma:
+
+$$I_{i,t} = \beta_0 + \beta_3 Zona_i \times Post_{i,t} + \epsilon_{i,t}$$
+Donde $\omega$ representa a las covariables como:
+
+$$\omega_{i,t} = \beta_4T_{i,t} + \beta_5V_{i,t} + \beta_6P_{i,t}$$
+
+Donde:
+
+  $i$ y $t$ son subindices indicando transecto y ano, respectivamente
+
+  $I$ es el valor del indicador
+
+  $Ano$ es una variable dummy para los anos, codificando el primer ano como el nivel de referencia
+
+  $Zona$ es una variable dummy indicando el tratamiento (*i.e.* control o reserva) utilizando control como el nivel de referencia
+
+  $Post$ es una variable dummy para pre / post la implementacion de la reserva, utilizando antes como el nivel de referencia
+
+  $T$ es la temperatura del agua ($C$) observada durante el transecto
+
+  $V$ es la visibilidad horizontal (m) en el transecto
+
+  $P$ es la profundidad (m) a la que se realizo el transecto, y
+
+  $\epsilon$ es el error asociado a la regresion
+
+En ocasiones los buzos monitores olvidan registrar una o varias de las covariables (Temperatura, Visibilidad o Profundidad) durante el buceo. Esto se traduciria en eliminar el transecto entero del analisis y perder informacion valiosa. Sin embargo, MAREA ayuda a evitar esto eliminando covariables en lugar de observaciones. Por default, las tres covariables son incluidas. Si el incluir una de ellas representa perder mas del 10% de las muestras, MAREA la descarta. Por lo tanto, es posible que algunas tablas de regresion tengan informacion para diferentes covariables.
+
+Para los indicadores descriptivos, proveemos una sintesis de las encuestas realizadas junto con mensajes basados en una revision literaria.
+
+**Pares Figura - Tabla**
+
+Para cada uno de los indicadores numericos generamos una grafica y una tabla. Las figuras presentan series de tiempo de cada indicador. Los puntos son ajustados verticalmente para mejorar la visualizacion, pero se debe de entender que los muestreos se realizan de manera anual. La informacion de la reserva aparecera en rojo, y la de la(s) zona(s) control en azul. En cuanto a las tablas, presentamos las estimaciones de todos los coeficientes de las variables utilizadas en la regresion lineal. El termino **Efecto** representa el efecto que ha tenido la reserva en cada indicador.
+
+**Observas algo raro?**
+
+Si notas alguna inconsistencia en el reporte, o tienes problemas con MAREA, reporta tu problema a contact@turfeffect.org. Sera util si proporcioans tus datos asi como capturas de pantalla y los objetivos / indicadores seleccionados. Esto nos permitira replicar los posibles problemas y rastrear su causa para poder solucionarlos.
   
 \clearpage
 
