@@ -171,12 +171,19 @@ summary_table(results_bio, results_bio_i, results_soc, results_gov) %>%
   knitr::kable(align = "r")
 ```
 
-
 \clearpage
 
-# Ecologicos
+<!-- # Ecologicos -->
 
-## Peces
+```{r}
+if(!is.null(params$results_bio)|!is.null(params$results_bio_i)){cat("# Ecologicos\n")}
+```
+
+<!-- ## Peces -->
+
+```{r}
+if(!is.null(params$results_bio)){cat("## Peces\n")}
+```
 
 ```{r, fig.cap="Indice de diversidad de Shannon"}
 if(!is.na(results_bio$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
@@ -302,7 +309,11 @@ if(!is.na(results_bio$model[[8]])) {reg_table(results_bio$model[[8]],
 if(!is.na(results_bio$plot[[8]])) {cat("\\clearpage")}
 ```
 
-## Invertebrados
+<!-- ## Invertebrados -->
+
+```{r}
+if(!is.null(params$results_bio_i)){cat("## Invertebrados\n")}
+```
 
 ```{r}
 if(!is.na(results_bio_i$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
@@ -337,433 +348,454 @@ if(!is.na(results_bio_i$model[[3]])) {reg_table(results_bio_i$model[[3]],
                                                dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
+<!-- Socioeconomicos  -->
 
-# Socioeconomicos
+```{r}
+if(!is.null(params$results_soc)){cat("# Socioeconomicos\n")}
+```
 
 ```{r}
 if(!is.na(results_soc$plot[[1]])) {
   cat("## Arribos\n")
   results_soc$plot[[1]]
 }
-
 ```
 
 ```{r, results = 'asis'}
-
 if(!is.na(results_soc$model[[1]])) {
   results_soc$model[[1]] %>%
     stargazer(
       dep.var.labels = "Arribos (Kg/ano)",
+      header = F,
       type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
+      dep.var.caption = "Indicador",
+      report = "vcs*",
+      omit.stat = "rsq",
       single.row = T,
-      omit.stat = c("rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
+      intercept.bottom = F, 
+      star.cutoffs = c(0.1, 0.05, 0.001)
     )
 }
-
 ```
-
 
 ```{r}
 if(!is.na(results_soc$plot[[2]])) {
   cat("## Ingresos por arribos\n")
   results_soc$plot[[2]]
 }
-
 ```
 
 ```{r, results = 'asis'}
-
 if(!is.na(results_soc$model[[2]])) {
   results_soc$model[[2]] %>%
     stargazer(
-      dep.var.labels = "Arribos (Kg/ano)",
+      dep.var.labels = "Ingresos por arribos (pesos/ano)",
+      header = F,
       type = "latex",
-      dep.var.caption = "",
-      report = "vc*",
+      dep.var.caption = "Indicador",
+      report = "vcs*",
+      omit.stat = "rsq",
       single.row = T,
-      omit.stat = c("rsq", "n"),
-      digits = 2,
-      df = F,
-      notes = "+p < 0.1, ++p<0.05, +++p<0.001",
-      notes.append = FALSE,
-      star.char = "+"
+      intercept.bottom = F, 
+      star.cutoffs = c(0.1, 0.05, 0.001)
     )
 }
-
 ```
 
-\clearpage
+<!-- Gobernanza -->
 
-# Gobernanza
-
-## Resumen demografico
-
-El questionario de gobernanza se realizo en `r dim(gov)[1]` miembros de la comunidad. Los demograficos basicos son:
+```{r}
+if(!is.null(params$results_gov)){cat("\\clearpage")}
+```
 
 ```{r, fig.height = 7.5, fig.width = 8}
-gender <- ggplot(gov, aes(x = Gender)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Genero") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-age <- ggplot(gov, aes(x = Age)) +
-  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", binwidth = 5, color = "black") +
-  theme_bw() +
-  ggtitle(label = "Edad") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-occ <- ggplot(gov, aes(x = Occupation)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Ocupacion") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-TonC <- ggplot(gov, aes(x = TimeOnCommunity)) +
-  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black", binwidth = 5) +
-  theme_bw() +
-  ggtitle(label = "Tiempo en la comunidad") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-education <- ggplot(gov, aes(x = Education)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Nivel de educacion") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-cobi_diver <- ggplot(gov, aes(x = Diver)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Buzo de COBI") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-grid.arrange(gender, age, occ, TonC, education, cobi_diver)
+if(!is.null(params$results_gov)){
+  cat("# Gobernanza\n")
+  cat("## Resumen demografico\n")
+  cat(paste("El questionario de gobernanza se realizo en", dim(gov)[1], "miembros de la comunidad. Los demograficos basicos son:\n"))
+  
+  gender <- ggplot(gov, aes(x = Gender)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Genero") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  age <- ggplot(gov, aes(x = Age)) +
+    geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", binwidth = 5, color = "black") +
+    theme_bw() +
+    ggtitle(label = "Edad") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  occ <- ggplot(gov, aes(x = Occupation)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Ocupacion") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  TonC <- ggplot(gov, aes(x = TimeOnCommunity)) +
+    geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black", binwidth = 5) +
+    theme_bw() +
+    ggtitle(label = "Tiempo en la comunidad") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  education <- ggplot(gov, aes(x = Education)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Nivel de educacion") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  cobi_diver <- ggplot(gov, aes(x = Diver)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Buzo de COBI") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  grid.arrange(gender, age, occ, TonC, education, cobi_diver)
+  
+  cat("\\clearpage")
+  }
 ```
 
-\clearpage
-
-## Acceso a la pesqueria
-
-El acceso a la pesqueria se maneja por medio de: `r filter(gov, !is.na(Q7)) %>% {unique(.$Q7)}`.
+<!-- Acceso a la pesqueria -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[1]]))
+if(!is.na(results_gov$e[[1]])){
+  cat("## Acceso a la pesqueria\n")
+  cat(paste("El acceso a la pesqueria se maneja por medio de:", filter(gov, !is.na(Q7)) %>% {unique(.$Q7)}, ".\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[1]],"\n"))
+  cat("\\clearpage")
+}
 ```
 
-## Numero de pescadores
+<!-- Numero de pescadores -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[2]]))
+if(!is.na(results_gov$e[[2]])){
+  cat("## Numero de pescadores\n")
+  cat(paste0("Mensaje: ",results_gov$string[[2]], "\n"))
+  
+  gov %>% 
+    select(contains("Q10")) %>% 
+    set_names(c("Antes", "Despues")) %>% 
+    gather(Dim, Value) %>% 
+    filter(!is.na(Value)) %>% 
+    ggplot(aes(x = Dim, y = Value)) +
+    geom_boxplot(fill = "steelblue") +
+    stat_summary(geom = "point", fun.y = mean, color = "black", size = 10, pch = "*") +
+    theme_bw() +
+    labs(x = "") +
+    ggtitle(label = "Numero de pescadores")
+  
+  cat("\\clearpage")
+}
 ```
+
+<!-- Reconocimiento legal de la reserva -->
 
 ```{r}
-gov %>% 
-  select(contains("Q10")) %>% 
-  set_names(c("Antes", "Despues")) %>% 
-  gather(Dim, Value) %>% 
-  filter(!is.na(Value)) %>% 
-  ggplot(aes(x = Dim, y = Value)) +
-  geom_boxplot(fill = "steelblue") +
-  stat_summary(geom = "point", fun.y = mean, color = "black", size = 10, pch = "*") +
-  theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "Numero de pescadores")
+if(!is.na(results_gov$e[[3]])){
+  cat("## Reconocimiento legal de la reserva\n")
+  cat(paste0("Mensaje: ",results_gov$string[[3]],"\n"))
+  
+  gov %>% 
+    select(Interviewee, contains("Q5")) %>% 
+    set_names(c("Interviewee", "Reconocida", "En proceso", "Interesados")) %>% 
+    gather(Dim, Value, -Interviewee) %>% 
+    mutate(N = length(unique(Interviewee))) %>% 
+    group_by(Dim, Value, N) %>% 
+    count() %>%   
+    mutate(n = n/N) %>% 
+    ggplot(aes(x = Value, y = n)) +
+    geom_col(fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Reconocimiento legal de la reserva") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  cat("\\clearpage")
+}
 ```
 
-
-## Reconocimiento legal de la reserva
+<!-- Tipo de reserva -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[3]]))
+if(!is.na(results_gov$e[[4]])){
+  cat("## Tipo de reserva\n")
+  cat(paste0("Mensaje: ",results_gov$string[[4]], "\n"))
+  cat("\\clearpage")
+}
 ```
 
-Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
-
-```{r}
-gov %>% 
-  select(Interviewee, contains("Q5")) %>% 
-  set_names(c("Interviewee", "Reconocida", "En proceso", "Interesados")) %>% 
-  gather(Dim, Value, -Interviewee) %>% 
-  mutate(N = length(unique(Interviewee))) %>% 
-  group_by(Dim, Value, N) %>% 
-  count() %>%   
-  mutate(n = n/N) %>% 
-  ggplot(aes(x = Value, y = n)) +
-  geom_col(fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Reconocimiento legal de la reserva") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-```
-
-\clearpage
-
-## Tipo de reserva
-
-**MISSING FROM DATABASE SO FAR**
-
-```{r}
-cat(paste0("Mensaje: ",results_gov$string[[4]]))
-```
-
-\clearpage
-
-## Grado de pesca ilegal
-
-```{r}
-cat(paste0("Mensaje: ",results_gov$string[[5]]))
-```
+<!-- Grado de pesca ilegal -->
 
 ```{r, fig.height = 10, fig.width = 8}
-q13 <- ggplot(gov, aes(x = Q13)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Vigilancia y procuracion percivida") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q14 <- gov %>% 
-  select(contains("Q14")) %>% 
-  set_names(c("De la comunidad en ZNP", "Foraneo en ZNP", "De la comunidad fuera de ZNP", "Foraneo fuera de ZNP")) %>% 
-  gather(Dim, Value) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Pesca ilegal dentro y fuera de la reserva por miembros de la comunidad y foraneos") +
-  coord_flip() +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q19 <- gov %>% 
-  select(contains("Q19")) %>% 
-  set_names(c("Antes", "Despues")) %>% 
-  gather(Dim, Value) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Pesca ilegal en la region") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q20 <- gov %>% 
-  select(contains("Q20")) %>% 
-  set_names(c("Yo pesco dentro de la ZNP", "Otros pescan dentro de la ZNP", "Foraneos pescan dentro de la ZNP")) %>% 
-  gather(Dim, Value) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Percepcion de infractores") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-grid.arrange(q13, q14, q19, q20, ncol = 1)
-
+if(!is.na(results_gov$e[[5]])){
+  cat("## Grado de pesca ilegal\n")
+  cat(paste0("Mensaje: ",results_gov$string[[5]]))
+  cat("\n")
+  
+  q13 <- ggplot(gov, aes(x = Q13)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Vigilancia y procuracion percivida") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q14 <- gov %>% 
+    select(contains("Q14")) %>% 
+    set_names(c("De la comunidad en ZNP", "Foraneo en ZNP", "De la comunidad fuera de ZNP", "Foraneo fuera de ZNP")) %>% 
+    gather(Dim, Value) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Pesca ilegal dentro y fuera de la reserva por miembros de la comunidad y foraneos") +
+    coord_flip() +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q19 <- gov %>% 
+    select(contains("Q19")) %>% 
+    set_names(c("Antes", "Despues")) %>% 
+    gather(Dim, Value) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Pesca ilegal en la region") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q20 <- gov %>% 
+    select(contains("Q20")) %>% 
+    set_names(c("Yo pesco dentro de la ZNP", "Otros pescan dentro de la ZNP", "Foraneos pescan dentro de la ZNP")) %>% 
+    gather(Dim, Value) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Percepcion de infractores") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  grid.arrange(q13, q14, q19, q20, ncol = 1)
+  
+  cat("\\clearpage")
+}
 ```
 
-\clearpage
-
-## Plan de manejo
+<!-- Plan de manejo -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[6]]))
+if(!is.na(results_gov$e[[6]])){
+  cat("## Plan de manejo\n")
+  cat(paste0("Mensaje: ",results_gov$string[[6]]))
+  cat("\n")
+  
+  gov %>% 
+    select(Q6) %>% 
+    gather(Dim, Value) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Existe un plan de manejo?") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  cat("\\clearpage")
+}
 ```
 
-Ask CAIO if `NA` means not answered or that he/she didnt have to answer to know if I should `na.rm = T`
-
-```{r}
-gov %>% 
-  select(Q6) %>% 
-  gather(Dim, Value) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Existe un plan de manejo?") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-```
-
-\clearpage
-
-## Procuracion y vigilancia de la reserva
-
-```{r}
-cat(paste0("Mensaje: ",results_gov$string[[7]]))
-```
-
-Los principales actores para la procuracion y vigilancia son: `r filter(gov, !is.na(Q4_3)) %>% {unique(.$Q4_3)}`.
-
-La vigilancia se hace por medio de: `r filter(gov, !is.na(Q8)) %>% {unique(.$Q8)}`.
+<!-- Procuracion y vigilancia de la reserva -->
 
 ```{r, fig.height = 7.5, fig.width = 8}
-q15 <- gov %>% 
-  ggplot(aes(x = Q15)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Percepcion de la procuracion por el gobierno") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q16 <- gov %>% 
-  ggplot(aes(x = Q16)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  labs(x = "") +
-  ggtitle(label = "La procuracion funciona mejor cuando el gobierno esta involucrado") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q17 <- gov %>% 
-  ggplot(aes(x = Q17)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "La procuracion funciona mejor cuando la comunidad esta involucrada") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-grid.arrange(q15, q16, q17)
+if(!is.na(results_gov$e[[1]])){
+  cat("## Procuracion y vigilancia de la reserva\n")
+  cat(paste0("Mensaje: ",results_gov$string[[7]],"\n"))
+  cat("\n")
+  cat(paste("Los principales actores para la procuracion y vigilancia son:", filter(gov, !is.na(Q4_3)) %>% {unique(.$Q4_3)}, ".\n"))
+  cat("\n")
+  cat(paste("La vigilancia se hace por medio de:", filter(gov, !is.na(Q8)) %>% {unique(.$Q8)}, ".\n"))
+  cat("\n")
+  
+  q15 <- gov %>% 
+    ggplot(aes(x = Q15)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Percepcion de la procuracion por el gobierno") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q16 <- gov %>% 
+    ggplot(aes(x = Q16)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    labs(x = "") +
+    ggtitle(label = "La procuracion funciona mejor cuando el gobierno esta involucrado") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q17 <- gov %>% 
+    ggplot(aes(x = Q17)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "La procuracion funciona mejor cuando la comunidad esta involucrada") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  grid.arrange(q15, q16, q17)
+  
+  cat("\\clearpage")
+}
 ```
 
-\clearpage
-
-## Tamano de la reserva
-
-**MISSING FROM DATABASE SO FAR**
+<!-- Tamano de la reserva -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[8]]))
+if(!is.na(results_gov$e[[1]])){
+  cat("## Tamano de la reserva\n")
+  cat(paste0("Mensaje: ",results_gov$string[[8]], "\n"))
+  
+  cat("\\clearpage")
+}
 ```
 
-## Razonamiento para el diseno de la reserva
+ <!-- Razonamiento para el diseno de la reserva -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[9]]))
+if(!is.na(results_gov$e[[1]])){
+  cat("## Razonamiento para el diseno de la reserva\n")
+
+  gov$Q2_Reason <- "blah blah blah blah blah"
+  
+  gov %>% 
+    mutate(Sujeto = 1:length(Interviewee)) %>% 
+    select(Sujeto, Razon = Q2_Reason) %>% 
+    knitr::kable()
+  
+  cat("\\clearpage")
+}
 ```
+
+<!-- Pertenencia y Tipo de organizacion pesquera -->
 
 ```{r}
-gov$Q2_Reason <- "blah blah blah blah blah"
-
-gov %>% 
-  mutate(Sujeto = 1:length(Interviewee)) %>% 
-  select(Sujeto, Razon = Q2_Reason) %>% 
-  knitr::kable()
-
+if(!is.na(results_gov$e[[1]])){
+  cat("## Pertenencia y Tipo de organizacion pesquera\n")
+  cat(paste0("Mensaje: ",results_gov$string[[9]],"\n"))
+  cat(paste("Los siguientes tipos de organizaciones pesqueras existen:", filter(gov, !is.na(Q1)) %>% {unique(.$Q1)},".\n"))
+  
+  cat("\\clearpage")
+}
 ```
 
-\clearpage
-
-## Pertenencia y Tipo de organizacion pesquera
-
-Los siguientes tipos de organizaciones pesqueras existen: `r filter(gov, !is.na(Q1)) %>% {unique(.$Q1)}`.
-
-## Representacion
-
-La creacion de las reservas fue **motivada** por: `r filter(gov, !is.na(Q3)) %>% {unique(.$Q3)}`.
-
-El **manejo** de las reservas se lleva a cabo por: `r filter(gov, !is.na(Q4_1)) %>% {unique(.$Q4_1)}`.
-
-El **monitoreo** de las reservas se lleva a cabo por: `r filter(gov, !is.na(Q4_2)) %>% {unique(.$Q4_2)}`.
-
-Las **decisiones** se toman por: `r filter(gov, !is.na(Q12)) %>% {unique(.$Q12)}`.
-
-Tambien deberian de participar: `r filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_1)}`.
-
-## Reglamentacion interna
+<!-- Representacion -->
 
 ```{r}
-cat(paste0("Mensaje: ",results_gov$string[[10]]))
+if(!is.na(results_gov$e[[1]])){
+  cat("## Representacion\n")
+  cat(paste("La creacion de las reservas fue **motivada** por:", filter(gov, !is.na(Q3)) %>% {unique(.$Q3)}, ".\n"))
+  cat("\n")
+  cat(paste("El **manejo** de las reservas se lleva a cabo por:", filter(gov, !is.na(Q4_1)) %>% {unique(.$Q4_1)}, "\n"))
+  cat("\n")
+  cat(paste("El **monitoreo** de las reservas se lleva a cabo por:", filter(gov, !is.na(Q4_2)) %>% {unique(.$Q4_2)}, ".\n"))
+  cat("\n")
+  cat(paste("Las **decisiones** se toman por:", filter(gov, !is.na(Q12)) %>% {unique(.$Q12)},".\n"))
+  cat("\n")
+  cat(paste("Tambien deberian de participar:", filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_1)}, "\n"))
+  
+  cat("\\clearpage")
+}
 ```
+
+<!-- Reglamentacion interna -->
 
 ```{r}
-gov %>% 
-  filter(!is.na(Q9)) %>% 
-  ggplot(aes(x = Q9)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Reglamentacion interna") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
+if(!is.na(results_gov$e[[10]])){
+  cat("## Reglamentacion interna\n")
+  cat(paste0("Mensaje: ",results_gov$string[[10]],"\n"))
+  
+  gov %>% 
+    filter(!is.na(Q9)) %>% 
+    ggplot(aes(x = Q9)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Reglamentacion interna") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  cat("\\clearpage")
+}
 ```
 
-\clearpage
-
-## Efectividad percibida
-
-```{r}
-cat(paste0("Mensaje: ",results_gov$string[[11]]))
-```
+<!-- Efectiviudad percibida  -->
 
 ```{r, fig.height = 10, fig.width = 8}
-
-q21_1 <- gov %>% 
-  select(contains("Q21_1")) %>% 
-  set_names(c("Riqueza", "Tallas", "Densidad", "Biomasa", "Abundancia de depredadores")) %>% 
-  gather(Dim, Value) %>% 
-  filter(!is.na(Value)) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Cambios biologicos") +
-  coord_flip() +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q21_2 <- gov %>% 
-  select(contains("Q21_2")) %>% 
-  set_names(c("Total landings", "Managed species landings", "Fisheries revenue", "Alternative economic activities")) %>% 
-  gather(Dim, Value) %>% 
-  filter(!is.na(Value)) %>% 
-  ggplot(aes(x = Value)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  facet_grid(~Dim) +
-  theme_bw() +
-  ggtitle(label = "Socioeconomic changes") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q21_3 <- gov %>% 
-  ggplot(aes(x = Q21_3)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Local governance") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q22 <- gov %>% 
-  ggplot(aes(x = Q22)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Impacto general") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-q23 <- gov %>% 
-  ggplot(aes(x = Q23)) +
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
-  theme_bw() +
-  ggtitle(label = "Percepcion de efectividad") +
-  labs(x = "", y = "Proporcion") +
-  scale_y_continuous(labels = percent)
-
-grid.arrange(q21_1, q21_2, q21_3, q22, q23, ncol = 1)
-
+if(!is.na(results_gov$e[[11]])){
+  cat("## Efectividad percibida\n")
+  cat(paste0("Mensaje: ",results_gov$string[[11]],"\n"))
+  cat("\n")
+  
+  q21_1 <- gov %>% 
+    select(contains("Q21_1")) %>% 
+    set_names(c("Riqueza", "Tallas", "Densidad", "Biomasa", "Abundancia de depredadores")) %>% 
+    gather(Dim, Value) %>% 
+    filter(!is.na(Value)) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Cambios biologicos") +
+    coord_flip() +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q21_2 <- gov %>% 
+    select(contains("Q21_2")) %>% 
+    set_names(c("Total landings", "Managed species landings", "Fisheries revenue", "Alternative economic activities")) %>% 
+    gather(Dim, Value) %>% 
+    filter(!is.na(Value)) %>% 
+    ggplot(aes(x = Value)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    facet_grid(~Dim) +
+    theme_bw() +
+    ggtitle(label = "Socioeconomic changes") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q21_3 <- gov %>% 
+    ggplot(aes(x = Q21_3)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Local governance") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q22 <- gov %>% 
+    ggplot(aes(x = Q22)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Impacto general") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  q23 <- gov %>% 
+    ggplot(aes(x = Q23)) +
+    geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+    theme_bw() +
+    ggtitle(label = "Percepcion de efectividad") +
+    labs(x = "", y = "Proporcion") +
+    scale_y_continuous(labels = percent)
+  
+  grid.arrange(q21_1, q21_2, q21_3, q22, q23, ncol = 1)
+}
 ```
 
 
