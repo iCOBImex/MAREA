@@ -159,7 +159,7 @@ ui <- dashboardPage(
                                  wellPanel(numericInput("ano.imp",
                                                         "Año de implementacion",
                                                         value = 2010,
-                                                        min = 2000,
+                                                        min = 1990,
                                                         max = 2100,
                                                         step = 1))),
                           
