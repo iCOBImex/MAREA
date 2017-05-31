@@ -1,11 +1,3 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
 library(shinydashboard)
@@ -15,7 +7,6 @@ library(MPAtools)
 library(tidyverse)
 library(xtable)
 
-my_min <- 1
 my_max <- 8
 
 # Define UI for application that draws a histogram
