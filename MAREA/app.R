@@ -226,13 +226,10 @@ ui <- dashboardPage(
                                    hidden(
                                      uiOutput("shannon"),
                                      uiOutput("richness"),
-                                     uiOutput("orgtl50"),
                                      uiOutput("density"),
                                      uiOutput("natural"),
-                                     uiOutput("density_objsp"),
                                      uiOutput("TL"),
-                                     uiOutput("biomass"),
-                                     uiOutput("biomass_objsp")
+                                     uiOutput("biomass")
                                    ),
                                    
                                    h2("Invertebrados"),
@@ -240,6 +237,41 @@ ui <- dashboardPage(
                                      uiOutput("shannon_i"),
                                      uiOutput("richness_i"),
                                      uiOutput("density_i")
+                                   ),
+                                   
+                                   h2("Especies objetivo"),
+                                   h3("Organismos maduros (peces)"),
+                                   hidden(
+                                     uiOutput("orgtl50_1"),
+                                     uiOutput("orgtl50_2"),
+                                     uiOutput("orgtl50_3"),
+                                     uiOutput("orgtl50_4"),
+                                     uiOutput("orgtl50_5"),
+                                     uiOutput("orgtl50_6"),
+                                     uiOutput("orgtl50_7"),
+                                     uiOutput("orgtl50_8")
+                                   ),
+                                   h3("Biomasa (peces)"),
+                                   hidden(
+                                     uiOutput("biomass_objsp_1"),
+                                     uiOutput("biomass_objsp_2"),
+                                     uiOutput("biomass_objsp_3"),
+                                     uiOutput("biomass_objsp_4"),
+                                     uiOutput("biomass_objsp_5"),
+                                     uiOutput("biomass_objsp_6"),
+                                     uiOutput("biomass_objsp_7"),
+                                     uiOutput("biomass_objsp_8")
+                                   ),
+                                   h3("Densidad"),
+                                   hidden(
+                                     uiOutput("density_objsp_1"),
+                                     uiOutput("density_objsp_2"),
+                                     uiOutput("density_objsp_3"),
+                                     uiOutput("density_objsp_4"),
+                                     uiOutput("density_objsp_5"),
+                                     uiOutput("density_objsp_6"),
+                                     uiOutput("density_objsp_7"),
+                                     uiOutput("density_objsp_8")
                                    )
                                  )),
                           
