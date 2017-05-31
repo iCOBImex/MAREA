@@ -15,6 +15,9 @@ library(MPAtools)
 library(tidyverse)
 library(xtable)
 
+my_min <- 1
+my_max <- 8
+
 # Define UI for application that draws a histogram
 
 ui <- dashboardPage(
@@ -541,25 +544,32 @@ server <- function(input, output, session) {
   output$objsp <- renderUI({
     req(input$rc)
     
-    if (any(input$obj %in% c(2, 3, 6)) || 
-        any(input$indB %in% c("Organismos > LT_50",
+    if (any(input$obj %in% c(2, 3, 6),  
+            input$indB %in% c("Organismos > LT_50",
                               "Densidad de especies objetivo",
-                              "Biomasa de especies objetivo")) ||
-        any(input$indS %in% c("Arribos de especies objetivo",
+                              "Biomasa de especies objetivo"), 
+            input$indS %in% c("Arribos de especies objetivo",
                               "Ingresos por arribos de especies objetivo")
         )){
-      sp_list <- bioInput() %>%
-        filter(!is.na(GeneroEspecie), RC %in% input$rc) %>%
-        select(GeneroEspecie) %>% 
-        unique()
+      
+      sp_list <- sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc)
       
       wellPanel(
         h1("Especie objetivo"),
-        radioButtons("objsp",
-                     "Selecciona tus especies objetivo",
-                     choices = sort(sp_list$GeneroEspecie))
+        checkboxGroupInput("objsp",
+                           "Selecciona tus especies objetivo",
+                           choices = sp_list,
+                           selected = sp_list[1])
       )
     }
+  })
+  
+  # Limitar el numero de especies objetivo a 8
+  
+  observe({
+    req(input$rc)
+    if(length(input$objsp) > my_max){updateCheckboxGroupInput(session, "objsp", selected = tail(input$objsp, my_max))}
+    if(length(input$objsp) < my_min){updateCheckboxGroupInput(session, "objsp", selected = sp_list[1])}
   })
   
   
