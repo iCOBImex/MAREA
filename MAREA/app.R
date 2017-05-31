@@ -575,24 +575,27 @@ server <- function(input, output, session) {
                               "Ingresos por arribos de especies objetivo")
         )){
       
-      sp_list <- sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc)
+      obj_sp_list <- sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc)
       
       wellPanel(
         h1("Especie objetivo"),
         checkboxGroupInput("objsp",
                            "Selecciona tus especies objetivo",
-                           choices = sp_list,
-                           selected = sp_list[1])
+                           choices = obj_sp_list$sp,
+                           selected = obj_sp_list$sp[1])
       )
     }
   })
   
   # Limitar el numero de especies objetivo a 8
-  
   observe({
     req(input$rc)
     if(length(input$objsp) > my_max){updateCheckboxGroupInput(session, "objsp", selected = tail(input$objsp, my_max))}
-    if(length(input$objsp) < my_min){updateCheckboxGroupInput(session, "objsp", selected = sp_list[1])}
+  })
+  
+  objective_species <- reactive({
+    sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc) %>% 
+      filter(sp %in% input$objsp)
   })
   
   
