@@ -713,7 +713,6 @@ server <- function(input, output, session) {
   })
   
   # Define a reactive value for a tibble that stores the analysis results for governance indicators
-  
   results_gov <- reactive({
     req(gobInput())
     
@@ -724,11 +723,43 @@ server <- function(input, output, session) {
   })
   
   # Define a title for the scorecard dasbhoard
-  
   output$final_title <- renderText({
     req(input$rc)
     
     paste0("Resultados para la reserva de ", input$rc, " en la comunidad de ", input$comunidad)
+  })
+  
+  # Separate results of objective species
+  results_obj <- reactive({
+    
+    results <- results_bio() %>%
+      mutate(class = "fish")
+    
+    if (isTruthy(input$biophys_i)){
+      invert <- results_bio_i() %>% 
+        mutate(class = "invert")
+      results <- rbind(results, invert)
+    } 
+    
+    results <- results[grepl(x = results$Ind, pattern = "Obj"),] %>% 
+      filter(!is.na(e))
+    
+    return(results)
+  })
+  
+  results_obj_lt <- reactive({
+    results <- results_obj()[grepl(x = results_obj()$Ind, pattern = "LT"),]
+    return(results)
+  })
+  
+  results_obj_d <- reactive({
+    results <- results_obj()[grepl(x = results_obj()$Ind, pattern = "Densidad"),]
+    return(results)
+  })
+  
+  results_obj_b <- reactive({
+    results <- results_obj()[grepl(x = results_obj()$Ind, pattern = "Biomasa"),]
+    return(results)
   })
   
   ### Output for biophys indicators ##################################################################
@@ -764,25 +795,48 @@ server <- function(input, output, session) {
     toggle("shannon")
     toggle("richness")
     toggle("density")
-    toggle("density_objsp")
     toggle("biomass")
-    toggle("biomass_objsp")
     toggle("TL")
-    toggle("orgtl50")
     toggle("natural")
+    
     toggle("shannon_i")
     toggle("richness_i")
     toggle("density_i")
+    
+    toggle("orgtl50_1")
+    toggle("density_objsp_1")
+    toggle("biomass_objsp_1")
+    
+    toggle("orgtl50_2")
+    toggle("density_objsp_2")
+    toggle("biomass_objsp_2")
+    
+    toggle("orgtl50_3")
+    toggle("density_objsp_3")
+    toggle("biomass_objsp_3")
+    
+    toggle("orgtl50_4")
+    toggle("density_objsp_4")
+    toggle("biomass_objsp_4")
+    
+    toggle("orgtl50_5")
+    toggle("density_objsp_5")
+    toggle("biomass_objsp_5")
+    
+    toggle("orgtl50_6")
+    toggle("density_objsp_6")
+    toggle("biomass_objsp_6")
+    
+    toggle("orgtl50_7")
+    toggle("density_objsp_7")
+    toggle("biomass_objsp_7")
+    
+    toggle("orgtl50_8")
+    toggle("density_objsp_8")
+    toggle("biomass_objsp_8")
   })
   
   ## PECES ################################################
-  
-  # Thu Feb 09 20:46:40 2017 ------------------------------
-  # All this will be modularized. I just dont want to brake it
-  # before we send to adivisors. In theory, about 400 lines of
-  # of code can be saved by modularizing all this. For now, I
-  # hope that the comments above each chunck provide enough
-  # information about what is happening.
   
   ######################### Shannon #######################
   output$shannon <- renderUI({
@@ -810,19 +864,6 @@ server <- function(input, output, session) {
     }
   })
   
-  ######################### Organisms above TL 50 #######################
-  output$orgtl50 <- renderUI({
-    if ("Organismos > LT_50" %in% input$indB) {
-      valueBox(
-        value = input$objsp,
-        subtitle = paste("Organismos > LT50,", results_bio()$string[3]),
-        icon = icon("leaf"),
-        color = results_bio()$color[3],
-        width = NULL
-      )
-    }
-  })
-  
   ######################### Density #######################
   output$density <- renderUI({
     if ("Densidad" %in% input$indB) {
@@ -831,19 +872,6 @@ server <- function(input, output, session) {
         subtitle = results_bio()$string[4],
         icon = icon("leaf"),
         color = results_bio()$color[4],
-        width = NULL
-      )
-    }
-  })
-  
-  ######################### Obj sp Density ##################
-  output$density_objsp <- renderUI({
-    if ("Densidad de especies objetivo" %in% input$indB) {
-      valueBox(
-        value = input$objsp,
-        subtitle = paste("Densidad,", results_bio()$string[5]),
-        icon = icon("leaf"),
-        color = results_bio()$color[5],
         width = NULL
       )
     }
@@ -872,19 +900,6 @@ server <- function(input, output, session) {
         subtitle = results_bio()$string[7],
         icon = icon("leaf"),
         color = results_bio()$color[7],
-        width = NULL
-      )
-    }
-  })
-  
-  ######################### Obj sp Biomass ################
-  output$biomass_objsp <- renderUI({
-    if ("Biomasa de especies objetivo" %in% input$indB) {
-      valueBox(
-        value = input$objsp,
-        subtitle = paste("Biomasa,", results_bio()$string[8]),
-        icon = icon("leaf"),
-        color = results_bio()$color[8],
         width = NULL
       )
     }
@@ -931,6 +946,319 @@ server <- function(input, output, session) {
     }
   })
   
+  ## Especies objetivo ########################################
+  
+  ######################### Organisms above TL 50 1 #######################
+  output$orgtl50_1 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 0) {
+      valueBox(
+        value = input$objsp[1],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[1]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[1],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 2 #######################
+  output$orgtl50_2 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 1) {
+      valueBox(
+        value = input$objsp[2],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[2]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[2],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 3 #######################
+  output$orgtl50_3 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 2) {
+      valueBox(
+        value = input$objsp[3],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[3]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 4 #######################
+  output$orgtl50_4 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 3) {
+      valueBox(
+        value = input$objsp[4],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[4]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[4],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 5 #######################
+  output$orgtl50_5 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 4) {
+      valueBox(
+        value = input$objsp[5],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[5]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[5],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 6 #######################
+  output$orgtl50_6 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 5) {
+      valueBox(
+        value = input$objsp[6],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[6]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[6],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 7 #######################
+  output$orgtl50_7 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 6) {
+      valueBox(
+        value = input$objsp[7],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[7]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[7],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Organisms above TL 50 8 #######################
+  output$orgtl50_8 <- renderUI({
+    if ("Organismos > LT_50" %in% input$indB & dim(results_obj_lt())[1] > 7) {
+      valueBox(
+        value = input$objsp[8],
+        subtitle = paste("Organismos > LT50,", results_obj_lt()$string[8]),
+        icon = icon("leaf"),
+        color = results_obj_lt()$color[8],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 1 ################
+  output$biomass_objsp_1 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 0) {
+      valueBox(
+        value = input$objsp[1],
+        subtitle = paste("Biomasa,", results_obj_b()$string[1]),
+        icon = icon("leaf"),
+        color = results_bio()$color[1],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 2 ################
+  output$biomass_objsp_2 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 1) {
+      valueBox(
+        value = input$objsp[2],
+        subtitle = paste("Biomasa,", results_obj_b()$string[2]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[2],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 3 ################
+  output$biomass_objsp_3 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 2) {
+      valueBox(
+        value = input$objsp[3],
+        subtitle = paste("Biomasa,", results_obj_b()$string[3]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 4 ################
+  output$biomass_objsp_4 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 3) {
+      valueBox(
+        value = input$objsp[4],
+        subtitle = paste("Biomasa,", results_obj_b()$string[4]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[4],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 5 ################
+  output$biomass_objsp_5 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 4) {
+      valueBox(
+        value = input$objsp[5],
+        subtitle = paste("Biomasa,", results_obj_b()$string[5]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[5],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 6 ################
+  output$biomass_objsp_6 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 5) {
+      valueBox(
+        value = input$objsp[6],
+        subtitle = paste("Biomasa,", results_obj_b()$string[6]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[6],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 7 ################
+  output$biomass_objsp_7 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 6) {
+      valueBox(
+        value = input$objsp[7],
+        subtitle = paste("Biomasa,", results_obj_b()$string[7]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[7],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Biomass 8 ################
+  output$biomass_objsp_8 <- renderUI({
+    if ("Biomasa de especies objetivo" %in% input$indB & dim(results_obj_b())[1] > 7) {
+      valueBox(
+        value = input$objsp[8],
+        subtitle = paste("Biomasa,", results_obj_b()$string[8]),
+        icon = icon("leaf"),
+        color = results_obj_b()$color[8],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 1 ##################
+  output$density_objsp_1 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 0) {
+      valueBox(
+        value = input$objsp[1],
+        subtitle = paste("Densidad,", results_obj_d()$string[1]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[1],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 2 ##################
+  output$density_objsp_2 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 1) {
+      valueBox(
+        value = input$objsp[2],
+        subtitle = paste("Densidad,", results_obj_d()$string[2]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[2],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 3 ##################
+  output$density_objsp_3 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 2) {
+      valueBox(
+        value = input$objsp[3],
+        subtitle = paste("Densidad,", results_obj_d()$string[3]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 4 ##################
+  output$density_objsp_4 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 3) {
+      valueBox(
+        value = input$objsp[4],
+        subtitle = paste("Densidad,", results_obj_d()$string[4]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[4],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 5 ##################
+  output$density_objsp_5 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 4) {
+      valueBox(
+        value = input$objsp[5],
+        subtitle = paste("Densidad,", results_obj_d()$string[5]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[5],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 6 ##################
+  output$density_objsp_6 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 5) {
+      valueBox(
+        value = input$objsp[6],
+        subtitle = paste("Densidad,", results_obj_d()$string[6]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[6],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 7 ##################
+  output$density_objsp_7 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 6) {
+      valueBox(
+        value = input$objsp[7],
+        subtitle = paste("Densidad,", results_obj_d()$string[7]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[7],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Obj sp Density 8 ##################
+  output$density_objsp_8 <- renderUI({
+    if ("Densidad de especies objetivo" %in% input$indB & dim(results_obj_d())[1] > 7) {
+      valueBox(
+        value = input$objsp[8],
+        subtitle = paste("Densidad,", results_obj_d()$string[8]),
+        icon = icon("leaf"),
+        color = results_obj_d()$color[8],
+        width = NULL
+      )
+    }
+  })
   
   ### Output for socioeco indicators ####################################################################
   ### General Soc ####################
