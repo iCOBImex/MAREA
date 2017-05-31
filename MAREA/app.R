@@ -659,30 +659,28 @@ server <- function(input, output, session) {
     req(input$rc)
     res <- bioInput() %>% 
       filter(RC == input$rc, !Zona == "Control") %>% 
-      select(Sitio) %>% 
+      {.$Sitio} %>% 
       unique()
-    
-    res$Sitio
   })
   
-  # Defina a reactive for a control site
+  # Define a reactive for a control site
   con.fun <- reactive({
     req(input$rc)
     con <- bioInput() %>% 
       filter(RC == input$rc, Zona == "Control") %>% 
-      select(Sitio) %>% 
+      {.$Sitio} %>% 
       unique()
-    
-    con$Sitio
   })
   
   # Define a reactive value for a tibble that stores the analysis results for biophysical FISH indicators
   results_bio <- reactive({
     req(input$biophys, input$indB, input$comunidad, input$rc)
     
+    fish_species <-  filter(objective_species(), class == "fish")
+    
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
-                  objsp = input$objsp,
+                  objsp = fish_species,
                   ano.imp = input$ano.imp)
     
     bio_results(values, bioInput(), res.fun(), con.fun())
@@ -692,8 +690,11 @@ server <- function(input, output, session) {
   results_bio_i <- reactive({
     req(input$biophys_i, input$indB, input$comunidad, input$rc)
     
+    invert_species <-  filter(objective_species(), class == "invert")
+    
     values = list(indB = input$indB,
                   comunidad = input$comunidad,
+                  objsp = invert_species,
                   ano.imp = input$ano.imp)
     
     bio_results_i(values, bioInput_i(), res.fun(), con.fun())
