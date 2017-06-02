@@ -18,12 +18,19 @@ ui <- dashboardPage(
     p("Link a la ", a("Guía de usuario", href = "https://github.com/turfeffect/AppDraft/blob/master/MAREA_Guide.pdf", target = "_blank")),
     p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
     p("Enviar comentarios a JC Villaseñor a:"),
-    p("juancarlos@turfeffect.org")
+    p("juancarlos@turfeffect.org"),
+    p(""),
+    bookmarkButton(),
+    p(""),
+    tags$div(id="google_translate_element",
+             tags$script(src = "google_translate.js"),
+             tags$script(src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"))
   ),
   
   dashboardBody(
     useShinyjs(),
     navbarPage(title = "Evaluacion de Reservas Marinas", id = "Tabs", theme = "myCSS.css",
+               
                
                #### First tab starts here ################################################################################
                tabPanel(title = "(1) Introduccion", value = "Intro",
@@ -38,7 +45,6 @@ ui <- dashboardPage(
                ),
                #### Second tab starts here ################################################################################
                tabPanel(title = "(2) Objetivos e Indicadores",
-                        #img(src = "boton2.gif", width = "150px")
                         value = "Obj",
                         fluidRow(column(1, offset = 1,
                                         actionButton(inputId = "b2.1", label = "Anterior", icon = icon("arrow-left"), class = "btn2")),
@@ -285,6 +291,31 @@ ui <- dashboardPage(
                                    hidden(
                                      uiOutput("landings", width = NULL),
                                      uiOutput("income", width = NULL)
+                                   ),
+                                   
+                                   h2("Especies objetivo"),
+                                   h3("Arribos"),
+                                   hidden(
+                                     uiOutput("landings_objsp_1"),
+                                     uiOutput("landings_objsp_2"),
+                                     uiOutput("landings_objsp_3"),
+                                     uiOutput("landings_objsp_4"),
+                                     uiOutput("landings_objsp_5"),
+                                     uiOutput("landings_objsp_6"),
+                                     uiOutput("landings_objsp_7"),
+                                     uiOutput("landings_objsp_8")
+                                   ),
+                                   
+                                   h3("Ingresos"),
+                                   hidden(
+                                     uiOutput("income_objsp_1"),
+                                     uiOutput("income_objsp_2"),
+                                     uiOutput("income_objsp_3"),
+                                     uiOutput("income_objsp_4"),
+                                     uiOutput("income_objsp_5"),
+                                     uiOutput("income_objsp_6"),
+                                     uiOutput("income_objsp_7"),
+                                     uiOutput("income_objsp_8")
                                    )
                                  )),
                           
@@ -323,10 +354,8 @@ server <- function(input, output, session) {
   
   addClass(selector = "body", class = "sidebar-collapse")
   
-  
   #### Manage the buttons to go back and forth ####
-  # The way to read this is that b1.2 changes from tab 1 to tab 2. As
-  # b6.5 changes from tab 6 to tab 5.
+  # The way to read this is that b1.2 changes from tab 1 to tab 2. As b6.5 changes from tab 6 to tab 5.
   
   observeEvent(input$b1.2, {updateNavbarPage(session, "Tabs", selected = "Obj")})
   observeEvent(input$b2.1, {updateNavbarPage(session, "Tabs", selected = "Intro")})
@@ -567,8 +596,7 @@ server <- function(input, output, session) {
   output$objsp <- renderUI({
     req(input$rc)
     
-    if (any(input$obj %in% c(2, 3, 6),  
-            input$indB %in% c("Organismos > LT_50",
+    if (any(input$indB %in% c("Organismos > LT_50",
                               "Densidad de especies objetivo",
                               "Biomasa de especies objetivo"), 
             input$indS %in% c("Arribos de especies objetivo",
@@ -707,6 +735,7 @@ server <- function(input, output, session) {
     
     values = list(indS = input$indS,
                   comunidad = input$comunidad,
+                  objsp = objective_species(),
                   ano.imp = input$ano.imp)
     
     soc_results(values, socioInput())
@@ -1059,7 +1088,7 @@ server <- function(input, output, session) {
         value = input$objsp[1],
         subtitle = paste("Biomasa,", results_obj_b()$string[1]),
         icon = icon("leaf"),
-        color = results_bio()$color[1],
+        color = results_obj_b()$color[1],
         width = NULL
       )
     }
@@ -1285,6 +1314,22 @@ server <- function(input, output, session) {
   observeEvent(input$toggle_soc, {
     toggle("landings")
     toggle("income")
+    toggle("landings_objsp_1")
+    toggle("landings_objsp_2")
+    toggle("landings_objsp_3")
+    toggle("landings_objsp_4")
+    toggle("landings_objsp_5")
+    toggle("landings_objsp_6")
+    toggle("landings_objsp_7")
+    toggle("landings_objsp_8")
+    toggle("income_objsp_1")
+    toggle("income_objsp_2")
+    toggle("income_objsp_3")
+    toggle("income_objsp_4")
+    toggle("income_objsp_5")
+    toggle("income_objsp_6")
+    toggle("income_objsp_7")
+    toggle("income_objsp_8")
   })
   
   ######################### Landings #######################
@@ -1574,4 +1619,4 @@ server <- function(input, output, session) {
 }
 
 # Run the application
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server, enableBookmarking = "url")
