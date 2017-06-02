@@ -185,6 +185,8 @@ if(!is.null(params$results_bio)|!is.null(params$results_bio_i)){cat("# Ecologico
 if(!is.null(params$results_bio)){cat("## Peces\n")}
 ```
 
+<!-- ### Shannon -->
+
 ```{r, fig.cap="Indice de diversidad de Shannon"}
 if(!is.na(results_bio$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
   results_bio$plot[[1]]}
@@ -200,13 +202,14 @@ if(!is.na(results_bio$model[[1]])){reg_table(model = results_bio$model[[1]],
 if(!is.na(results_bio$plot[[1]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Riqueza -->
+
 ```{r, fig.cap = "Riqueza especifica"}
 if(!is.na(results_bio$plot[[2]])) {cat("### Riqueza\n")
   results_bio$plot[[2]]}
 ```
 
 ```{r, results = 'asis'}
-
 if(!is.na(results_bio$model[[2]])) {reg_table(model = results_bio$model[[2]],
                                               title = "Tabla de regresion para riqueza especifica",
                                               dep.var.labels = "Riqueza (Spp/transecto)")}
@@ -216,6 +219,8 @@ if(!is.na(results_bio$model[[2]])) {reg_table(model = results_bio$model[[2]],
 if(!is.na(results_bio$plot[[2]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Organismos Maduros -->
+
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros 1\n")
   results_bio$plot[[3]]}
@@ -223,13 +228,15 @@ if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros 1\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[3]])) {reg_table(results_bio$model[[3]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[3]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 2 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[9]])) {cat("### Organismos maduros 2\n")
@@ -238,13 +245,15 @@ if(!is.na(results_bio$plot[[9]])) {cat("### Organismos maduros 2\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[9]])) {reg_table(results_bio$model[[9]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[9]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 3 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[10]])) {cat("### Organismos maduros 3\n")
@@ -253,13 +262,15 @@ if(!is.na(results_bio$plot[[10]])) {cat("### Organismos maduros 3\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[10]])) {reg_table(results_bio$model[[10]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[10]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 4 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[11]])) {cat("### Organismos maduros 4\n")
@@ -268,13 +279,15 @@ if(!is.na(results_bio$plot[[11]])) {cat("### Organismos maduros 4\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[11]])) {reg_table(results_bio$model[[11]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[11]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 5 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[12]])) {cat("### Organismos maduros 5\n")
@@ -283,13 +296,15 @@ if(!is.na(results_bio$plot[[12]])) {cat("### Organismos maduros 5\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[12]])) {reg_table(results_bio$model[[12]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[12]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 6 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[13]])) {cat("### Organismos maduros 6\n")
@@ -298,13 +313,15 @@ if(!is.na(results_bio$plot[[13]])) {cat("### Organismos maduros 6\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[13]])) {reg_table(results_bio$model[[13]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[13]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 7 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[14]])) {cat("### Organismos maduros 7\n")
@@ -313,13 +330,15 @@ if(!is.na(results_bio$plot[[14]])) {cat("### Organismos maduros 7\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[14]])) {reg_table(results_bio$model[[14]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[14]])) {cat("\\clearpage")}
 ```
+
+<!-- Organismos maduros 8 -->
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
 if(!is.na(results_bio$plot[[15]])) {cat("### Organismos maduros 8\n")
@@ -328,13 +347,15 @@ if(!is.na(results_bio$plot[[15]])) {cat("### Organismos maduros 8\n")
 
 ```{r, results = 'asis'}
 if(!is.na(results_bio$model[[15]])) {reg_table(results_bio$model[[15]],
-                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              title = "Tabla de regresion para densidad de organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
 ```
 
 ```{r}
 if(!is.na(results_bio$plot[[15]])) {cat("\\clearpage")}
 ```
+
+<!-- ### Densidad Organismos -->
 
 ```{r, fig.cap = "Densidad de organismos"}
 if(!is.na(results_bio$plot[[4]])) {cat("### Densidad\n")
@@ -351,8 +372,10 @@ if(!is.na(results_bio$model[[4]])) {reg_table(results_bio$model[[4]],
 if(!is.na(results_bio$plot[[4]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Densidad objetivo 1 -->
+
 ```{r, fig.cap = "Densidad de especies objetivo"}
-if(!is.na(results_bio$plot[[5]])) {cat("### Densidad de especies objetivo\n")
+if(!is.na(results_bio$plot[[5]])) {cat("### Densidad de especies objetivo 1\n")
   results_bio$plot[[5]]}
 
 ```
@@ -366,6 +389,134 @@ if(!is.na(results_bio$model[[5]])) {reg_table(results_bio$model[[5]],
 ```{r}
 if(!is.na(results_bio$plot[[5]])) {cat("\\clearpage")}
 ```
+
+<!-- ### Densidad objetivo 2 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[23]])) {cat("### Densidad de especies objetivo 2\n")
+  results_bio$plot[[23]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[23]])) {reg_table(results_bio$model[[23]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[23]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 3 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[24]])) {cat("### Densidad de especies objetivo 3\n")
+  results_bio$plot[[24]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[24]])) {reg_table(results_bio$model[[24]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[24]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 4 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[25]])) {cat("### Densidad de especies objetivo 4\n")
+  results_bio$plot[[25]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[25]])) {reg_table(results_bio$model[[25]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[25]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 5 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[26]])) {cat("### Densidad de especies objetivo 5\n")
+  results_bio$plot[[26]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[26]])) {reg_table(results_bio$model[[26]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[26]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 6 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[27]])) {cat("### Densidad de especies objetivo 6\n")
+  results_bio$plot[[27]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[27]])) {reg_table(results_bio$model[[27]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[27]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 7 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[28]])) {cat("### Densidad de especies objetivo 7\n")
+  results_bio$plot[[28]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[28]])) {reg_table(results_bio$model[[28]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[28]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 8 -->
+
+```{r, fig.cap = "Densidad de especies objetivo"}
+if(!is.na(results_bio$plot[[29]])) {cat("### Densidad de especies objetivo 8\n")
+  results_bio$plot[[29]]}
+
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[29]])) {reg_table(results_bio$model[[29]],
+                                              title = "Tabla de regresion para densidad de especies objetivo",
+                                              dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[29]])) {cat("\\clearpage")}
+```
+
+<!-- ### Nivel trofico -->
 
 ```{r, fig.cap = "Nivel trofico medio"}
 if(!is.na(results_bio$plot[[6]])){cat("### Nivel trofico\n")
@@ -382,10 +533,11 @@ if(!is.na(results_bio$model[[6]])) {reg_table(results_bio$model[[6]],
 if(!is.na(results_bio$plot[[6]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Biomasa -->
+
 ```{r, fig.cap = "Biomasa"}
 if (!is.na(results_bio$plot[[7]])) {cat("### Biomasa\n")
   results_bio$plot[[7]]}
-
 ```
 
 ```{r, results = 'asis'}
@@ -398,8 +550,10 @@ if(!is.na(results_bio$model[[7]])) {reg_table(results_bio$model[[7]],
 if(!is.na(results_bio$plot[[7]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Biomasa objetivo 1 -->
+
 ```{r, fig.cap = "Biomasa de especies objetivo"}
-if (!is.na(results_bio$plot[[8]])) {cat("### Biomasa de especies objetivo\n")
+if (!is.na(results_bio$plot[[8]])) {cat("### Biomasa de especies objetivo 1\n")
   results_bio$plot[[8]]}
 ```
 
@@ -413,11 +567,132 @@ if(!is.na(results_bio$model[[8]])) {reg_table(results_bio$model[[8]],
 if(!is.na(results_bio$plot[[8]])) {cat("\\clearpage")}
 ```
 
+<!-- ### Biomasa objetivo 2 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[16]])) {cat("### Biomasa de especies objetivo 2\n")
+  results_bio$plot[[16]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[16]])) {reg_table(results_bio$model[[16]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[16]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 3 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[17]])) {cat("### Biomasa de especies objetivo 3\n")
+  results_bio$plot[[17]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[17]])) {reg_table(results_bio$model[[17]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[17]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 4 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[18]])) {cat("### Biomasa de especies objetivo 4\n")
+  results_bio$plot[[18]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[18]])) {reg_table(results_bio$model[[18]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[18]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 5 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[19]])) {cat("### Biomasa de especies objetivo 5\n")
+  results_bio$plot[[19]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[19]])) {reg_table(results_bio$model[[19]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[19]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 6 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[20]])) {cat("### Biomasa de especies objetivo 6\n")
+  results_bio$plot[[20]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[20]])) {reg_table(results_bio$model[[20]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[20]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 7 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[21]])) {cat("### Biomasa de especies objetivo 7\n")
+  results_bio$plot[[21]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[21]])) {reg_table(results_bio$model[[21]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[21]])) {cat("\\clearpage")}
+```
+
+<!-- ### Biomasa objetivo 8 -->
+
+```{r, fig.cap = "Biomasa de especies objetivo"}
+if (!is.na(results_bio$plot[[22]])) {cat("### Biomasa de especies objetivo 8\n")
+  results_bio$plot[[22]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[22]])) {reg_table(results_bio$model[[22]],
+                                              title = "Tabla de regresion para biomasa de especies objetivo",
+                                              dep.var.labels = "Biomasa (Kg/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[22]])) {cat("\\clearpage")}
+```
+
 <!-- ## Invertebrados -->
 
 ```{r}
 if(!is.null(params$results_bio_i)){cat("## Invertebrados\n")}
 ```
+
+<!-- ### Shannon -->
 
 ```{r}
 if(!is.na(results_bio_i$plot[[1]])) {cat("### Indice de diversidad de Shannon\n")
@@ -431,6 +706,12 @@ if(!is.na(results_bio_i$model[[1]])){reg_table(results_bio_i$model[[1]],
 ```
 
 ```{r}
+if(!is.na(results_bio_i$plot[[1]])) {cat("\\clearpage")}
+```
+
+<!-- ### Riqueza -->
+
+```{r}
 if(!is.na(results_bio_i$plot[[2]])) {cat("### Riqueza\n")
   results_bio_i$plot[[2]]}
 ```
@@ -440,6 +721,12 @@ if(!is.na(results_bio_i$model[[2]])) {reg_table(results_bio_i$model[[2]],
                                                title = "Tabla de regresion para riqueza especifica",
                                                dep.var.labels = "Riqueza (Spp/transecto)")}
 ```
+
+```{r}
+if(!is.na(results_bio_i$plot[[2]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad -->
 
 ```{r}
 if(!is.na(results_bio_i$plot[[3]])) {cat("### Densidad\n")
@@ -452,11 +739,154 @@ if(!is.na(results_bio_i$model[[3]])) {reg_table(results_bio_i$model[[3]],
                                                dep.var.labels = "Densidad (Organismos/transecto)")}
 ```
 
+```{r}
+if(!is.na(results_bio_i$plot[[3]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 1 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[4]])) {cat("### Densidad de especies objetivo 1\n")
+  results_bio_i$plot[[4]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[4]])) {reg_table(results_bio_i$model[[4]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[4]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 2 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[5]])) {cat("### Densidad de especies objetivo 2\n")
+  results_bio_i$plot[[5]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[5]])) {reg_table(results_bio_i$model[[5]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[5]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 3 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[6]])) {cat("### Densidad de especies objetivo 3\n")
+  results_bio_i$plot[[6]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[6]])) {reg_table(results_bio_i$model[[6]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[6]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 4 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[7]])) {cat("### Densidad de especies objetivo 4\n")
+  results_bio_i$plot[[7]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[7]])) {reg_table(results_bio_i$model[[7]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[7]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 5 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[8]])) {cat("### Densidad de especies objetivo 5\n")
+  results_bio_i$plot[[8]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[8]])) {reg_table(results_bio_i$model[[8]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[8]])) {cat("\\clearpage")}
+```
+
+
+<!-- ### Densidad objetivo 6 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[9]])) {cat("### Densidad de especies objetivo 2\n")
+  results_bio_i$plot[[9]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[9]])) {reg_table(results_bio_i$model[[9]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[9]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 7 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[10]])) {cat("### Densidad de especies objetivo 7\n")
+  results_bio_i$plot[[10]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[10]])) {reg_table(results_bio_i$model[[10]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[10]])) {cat("\\clearpage")}
+```
+
+<!-- ### Densidad objetivo 8 -->
+
+```{r}
+if(!is.na(results_bio_i$plot[[11]])) {cat("### Densidad de especies objetivo 8\n")
+  results_bio_i$plot[[11]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio_i$model[[11]])) {reg_table(results_bio_i$model[[11]],
+                                               title = "Tabla de regresion para densidad de organismos",
+                                               dep.var.labels = "Densidad (Organismos/transecto)")}
+```
+
+```{r}
+if(!is.na(results_bio_i$plot[[11]])) {cat("\\clearpage")}
+```
+
 <!-- Socioeconomicos  -->
 
 ```{r}
 if(!is.null(params$results_soc)){cat("# Socioeconomicos\n")}
 ```
+
+<!-- ## Arribos -->
 
 ```{r}
 if(!is.na(results_soc$plot[[1]])) {
@@ -481,6 +911,8 @@ if(!is.na(results_soc$model[[1]])) {
     )
 }
 ```
+
+<!-- ## Ingresos por arribos -->
 
 ```{r}
 if(!is.na(results_soc$plot[[2]])) {
@@ -572,8 +1004,8 @@ if(!is.null(params$results_gov)){
 if(!is.na(results_gov$e[[1]])){
   cat("## Acceso a la pesqueria\n")
   cat(paste("El acceso a la pesqueria se maneja por medio de:", filter(gov, !is.na(Q7)) %>% {unique(.$Q7)}, ".\n"))
-  cat(paste0("Mensaje: ",results_gov$string[[1]],"\n"))
-  cat("\\clearpage")
+  cat(paste0("Mensaje: ",results_gov$string[[1]]))
+  cat("\n")
 }
 ```
 
@@ -582,7 +1014,8 @@ if(!is.na(results_gov$e[[1]])){
 ```{r}
 if(!is.na(results_gov$e[[2]])){
   cat("## Numero de pescadores\n")
-  cat(paste0("Mensaje: ",results_gov$string[[2]], "\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[2]]))
+  cat("\n")
   
   gov %>% 
     select(contains("Q10")) %>% 
@@ -596,7 +1029,6 @@ if(!is.na(results_gov$e[[2]])){
     labs(x = "") +
     ggtitle(label = "Numero de pescadores")
   
-  cat("\\clearpage")
 }
 ```
 
@@ -605,7 +1037,8 @@ if(!is.na(results_gov$e[[2]])){
 ```{r}
 if(!is.na(results_gov$e[[3]])){
   cat("## Reconocimiento legal de la reserva\n")
-  cat(paste0("Mensaje: ",results_gov$string[[3]],"\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[3]], "\n"))
+  cat("\n")
   
   gov %>% 
     select(Interviewee, contains("Q5")) %>% 
@@ -622,8 +1055,6 @@ if(!is.na(results_gov$e[[3]])){
     ggtitle(label = "Reconocimiento legal de la reserva") +
     labs(x = "", y = "Proporcion") +
     scale_y_continuous(labels = percent)
-  
-  cat("\\clearpage")
 }
 ```
 
@@ -632,7 +1063,8 @@ if(!is.na(results_gov$e[[3]])){
 ```{r}
 if(!is.na(results_gov$e[[4]])){
   cat("## Tipo de reserva\n")
-  cat(paste0("Mensaje: ",results_gov$string[[4]], "\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[4]]))
+  cat("\n")
   cat("\\clearpage")
 }
 ```
@@ -642,7 +1074,7 @@ if(!is.na(results_gov$e[[4]])){
 ```{r, fig.height = 10, fig.width = 8}
 if(!is.na(results_gov$e[[5]])){
   cat("## Grado de pesca ilegal\n")
-  cat(paste0("Mensaje: ",results_gov$string[[5]]))
+  cat(paste0("Mensaje: ",results_gov$string[[5]], "\n"))
   cat("\n")
   
   q13 <- ggplot(gov, aes(x = Q13)) +
@@ -700,7 +1132,7 @@ if(!is.na(results_gov$e[[5]])){
 ```{r}
 if(!is.na(results_gov$e[[6]])){
   cat("## Plan de manejo\n")
-  cat(paste0("Mensaje: ",results_gov$string[[6]]))
+  cat(paste0("Mensaje: ",results_gov$string[[6]], "\n"))
   cat("\n")
   
   gov %>% 
@@ -712,8 +1144,6 @@ if(!is.na(results_gov$e[[6]])){
     ggtitle(label = "Existe un plan de manejo?") +
     labs(x = "", y = "Proporcion") +
     scale_y_continuous(labels = percent)
-  
-  cat("\\clearpage")
 }
 ```
 
