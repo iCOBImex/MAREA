@@ -124,7 +124,7 @@ if(is.null(params$results_bio)){
 
 if(is.null(params$results_bio_i)){
   results_bio_i <- tibble::tibble(
-    Ind = c(1, 2, 3),
+    Ind = seq(1,11),
     e = NA,
     p = NA,
     string = NA,
