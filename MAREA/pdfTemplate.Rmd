@@ -93,7 +93,7 @@ Para los indicadores descriptivos, proveemos una sintesis de las encuestas reali
 
 **Pares Figura - Tabla**
 
-Para cada uno de los indicadores numericos generamos una grafica y una tabla. Las figuras presentan series de tiempo de cada indicador. Los puntos son ajustados verticalmente para mejorar la visualizacion, pero se debe de entender que los muestreos se realizan de manera anual. Cada punto representa un transecto. Las lineas negras representan el promedio anual por tratamiento (reserva / control), y las bandas de colores indican $\pm$ 1 desviacion estandar con respecto de la media. La informacion de la reserva aparecera en rojo, y la de la(s) zona(s) control en azul. En cuanto a las tablas, presentamos las estimaciones de todos los coeficientes de las variables utilizadas en la regresion lineal. El termino **Efecto** representa el efecto que ha tenido la reserva en cada indicador.
+Para cada uno de los indicadores numericos generamos una grafica y una tabla. Las figuras presentan series de tiempo de cada indicador. Los puntos son ajustados verticalmente para mejorar la visualizacion, pero se debe de entender que los muestreos se realizan de manera anual. Cada punto representa un transecto. Las lineas negras representan el promedio anual por tratamiento (reserva / control), y las bandas de colores indican $\pm$ 1 error estandar con respecto de la media. La informacion de la reserva aparecera en rojo, y la de la(s) zona(s) control en azul. En cuanto a las tablas, presentamos las estimaciones de todos los coeficientes de las variables utilizadas en la regresion lineal. El termino **Efecto** representa el efecto que ha tenido la reserva en cada indicador.
 
 **Observas algo raro?**
 
