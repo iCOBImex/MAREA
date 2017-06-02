@@ -1587,7 +1587,8 @@ server <- function(input, output, session) {
         }
       
       if (isTruthy(input$govern)){
-        gov <- results_gov()} else {
+        gov <- list(data = gobInput(),
+                    results = results_gov())} else {
           gov <- NULL
         }
       
@@ -1598,8 +1599,7 @@ server <- function(input, output, session) {
                      results_bio = bio1,
                      results_bio_i = bio2,
                      results_soc = soc,
-                     results_gov = list(data = gobInput(),
-                                        results = gov))
+                     results_gov = gov)
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document

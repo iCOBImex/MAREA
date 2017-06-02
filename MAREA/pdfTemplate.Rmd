@@ -93,7 +93,7 @@ Para los indicadores descriptivos, proveemos una sintesis de las encuestas reali
 
 **Pares Figura - Tabla**
 
-Para cada uno de los indicadores numericos generamos una grafica y una tabla. Las figuras presentan series de tiempo de cada indicador. Los puntos son ajustados verticalmente para mejorar la visualizacion, pero se debe de entender que los muestreos se realizan de manera anual. La informacion de la reserva aparecera en rojo, y la de la(s) zona(s) control en azul. En cuanto a las tablas, presentamos las estimaciones de todos los coeficientes de las variables utilizadas en la regresion lineal. El termino **Efecto** representa el efecto que ha tenido la reserva en cada indicador.
+Para cada uno de los indicadores numericos generamos una grafica y una tabla. Las figuras presentan series de tiempo de cada indicador. Los puntos son ajustados verticalmente para mejorar la visualizacion, pero se debe de entender que los muestreos se realizan de manera anual. Cada punto representa un transecto. Las lineas negras representan el promedio anual por tratamiento (reserva / control), y las bandas de colores indican $\pm$ 1 desviacion estandar con respecto de la media. La informacion de la reserva aparecera en rojo, y la de la(s) zona(s) control en azul. En cuanto a las tablas, presentamos las estimaciones de todos los coeficientes de las variables utilizadas en la regresion lineal. El termino **Efecto** representa el efecto que ha tenido la reserva en cada indicador.
 
 **Observas algo raro?**
 
@@ -105,14 +105,11 @@ Si notas alguna inconsistencia en el reporte, o tienes problemas con MAREA, repo
 
 <center>
 
-**Leyenda**
-
 ![Leyenda para el resumen de indicadores.](legend2.gif)
 
 </center>
 
 ```{r}
-
 if(is.null(params$results_bio)){
   results_bio <- tibble::tibble(
     Ind = NA,
@@ -161,9 +158,12 @@ if(is.null(params$results_gov$results)){
   )
 } else {results_gov <- params$results_gov$results}
 
-gov <- params$results_gov$data %>%
+if(is.null(params$results_gov$data)){
+  gov <- NULL
+} else {
+  gov <- params$results_gov$data %>%
     filter(Community == params$comunidad, Q2_Name %in% c(params$reserva, NA))
-  
+}
 ```
 
 ```{r}
@@ -217,12 +217,11 @@ if(!is.na(results_bio$plot[[2]])) {cat("\\clearpage")}
 ```
 
 ```{r, fig.cap = "Densidad de organismos maduros"}
-if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros\n")
+if(!is.na(results_bio$plot[[3]])) {cat("### Organismos maduros 1\n")
   results_bio$plot[[3]]}
 ```
 
 ```{r, results = 'asis'}
-
 if(!is.na(results_bio$model[[3]])) {reg_table(results_bio$model[[3]],
                                               title = "Tabla de regresion para densidad organismos maduros",
                                               dep.var.labels = "Organismos > Lm")}
@@ -230,6 +229,111 @@ if(!is.na(results_bio$model[[3]])) {reg_table(results_bio$model[[3]],
 
 ```{r}
 if(!is.na(results_bio$plot[[3]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[9]])) {cat("### Organismos maduros 2\n")
+  results_bio$plot[[9]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[9]])) {reg_table(results_bio$model[[9]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[9]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[10]])) {cat("### Organismos maduros 3\n")
+  results_bio$plot[[10]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[10]])) {reg_table(results_bio$model[[10]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[10]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[11]])) {cat("### Organismos maduros 4\n")
+  results_bio$plot[[11]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[11]])) {reg_table(results_bio$model[[11]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[11]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[12]])) {cat("### Organismos maduros 5\n")
+  results_bio$plot[[12]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[12]])) {reg_table(results_bio$model[[12]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[12]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[13]])) {cat("### Organismos maduros 6\n")
+  results_bio$plot[[13]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[13]])) {reg_table(results_bio$model[[13]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[13]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[14]])) {cat("### Organismos maduros 7\n")
+  results_bio$plot[[14]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[14]])) {reg_table(results_bio$model[[14]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[14]])) {cat("\\clearpage")}
+```
+
+```{r, fig.cap = "Densidad de organismos maduros"}
+if(!is.na(results_bio$plot[[15]])) {cat("### Organismos maduros 8\n")
+  results_bio$plot[[15]]}
+```
+
+```{r, results = 'asis'}
+if(!is.na(results_bio$model[[15]])) {reg_table(results_bio$model[[15]],
+                                              title = "Tabla de regresion para densidad organismos maduros",
+                                              dep.var.labels = "Organismos > Lm")}
+```
+
+```{r}
+if(!is.na(results_bio$plot[[15]])) {cat("\\clearpage")}
 ```
 
 ```{r, fig.cap = "Densidad de organismos"}
