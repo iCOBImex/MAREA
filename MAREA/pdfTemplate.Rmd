@@ -1186,7 +1186,6 @@ if(!is.na(results_gov$e[[1]])){
   
   grid.arrange(q15, q16, q17)
   
-  cat("\\clearpage")
 }
 ```
 
@@ -1213,8 +1212,6 @@ if(!is.na(results_gov$e[[1]])){
     mutate(Sujeto = 1:length(Interviewee)) %>% 
     select(Sujeto, Razon = Q2_Reason) %>% 
     knitr::kable()
-  
-  cat("\\clearpage")
 }
 ```
 
@@ -1225,8 +1222,6 @@ if(!is.na(results_gov$e[[1]])){
   cat("## Pertenencia y Tipo de organizacion pesquera\n")
   cat(paste0("Mensaje: ",results_gov$string[[9]],"\n"))
   cat(paste("Los siguientes tipos de organizaciones pesqueras existen:", filter(gov, !is.na(Q1)) %>% {unique(.$Q1)},".\n"))
-  
-  cat("\\clearpage")
 }
 ```
 
@@ -1244,8 +1239,6 @@ if(!is.na(results_gov$e[[1]])){
   cat(paste("Las **decisiones** se toman por:", filter(gov, !is.na(Q12)) %>% {unique(.$Q12)},".\n"))
   cat("\n")
   cat(paste("Tambien deberian de participar:", filter(gov, !is.na(Q12_1)) %>% {unique(.$Q12_1)}, "\n"))
-  
-  cat("\\clearpage")
 }
 ```
 
@@ -1264,8 +1257,6 @@ if(!is.na(results_gov$e[[10]])){
     ggtitle(label = "Reglamentacion interna") +
     labs(x = "", y = "Proporcion") +
     scale_y_continuous(labels = percent)
-  
-  cat("\\clearpage")
 }
 ```
 
