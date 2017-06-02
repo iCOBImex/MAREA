@@ -46,19 +46,19 @@ suppressPackageStartupMessages({
 
 *Acentos y caracteres especiales omitidos*
 
-Este reporte tecnico fue producido por (MAREA)[www.turfeffect.org/apps], una aplicacion desarrollada por el grupo (TURFeffect)[www.turfeffect.org] para evaluar la efectividad de reservas marinas en Mexico. A continuacion, te proporcionamos una breve descripcion de lo que encontraras en el reporte, junto con indicaciones de como leer e interpretar lsa graficas y tablas generadas.
+Este reporte tecnico fue producido por [MAREA](www.turfeffect.org/apps), una aplicacion desarrollada por el grupo [TURFeffect](www.turfeffect.org) para evaluar la efectividad de reservas marinas en Mexico. A continuacion, te proporcionamos una breve descripcion de lo que encontraras en el reporte, junto con indicaciones de como leer e interpretar lsa graficas y tablas generadas.
 
 **Resumen y leyenda**
 
-Lo primero que veras en el reporte es un resumen, similar al que se produjo como "scorecard" dentro de MAREA. A cada indicador se le asocia un color. Los colores posibles son rojo, naranja, amarillo, verde y olivo. Junto con el resumen, te proporcionamos una leyenda con la que puedes interpretar estos colores. Los colores se definen utilizando el signo o sentido (positivo o negativo) del termino de efectividad (descrito a cotninuacion) y su significancia estadistica. Si tienes dudas, consulta nuestra (Guia para la evaluacion de zonas de no pesca en Mexico)[http://www.turfeffect.org/our-project].
+Lo primero que veras en el reporte es un resumen, similar al que se produjo como "scorecard" dentro de MAREA. A cada indicador se le asocia un color. Los colores posibles son rojo, naranja, amarillo, verde y olivo. Junto con el resumen, te proporcionamos una leyenda con la que puedes interpretar estos colores. Los colores se definen utilizando el signo o sentido (positivo o negativo) del termino de efectividad (descrito a cotninuacion) y su significancia estadistica. Si tienes dudas, consulta nuestra [Guia para la evaluacion de zonas de no pesca en Mexico](http://www.turfeffect.org/our-project.)
 
 **Modelos utilizados**
 
 Para estimar la efectividad de la reserva en los indicadores numericos utilizamos modelos de regresion lineal multiple. Los coeficientes se estiman por medio de minimos cuadrados ordinarios y errores estandar robustos a muestras heterocedasticas.
 
-Para los indicadores biofisicos el modelo es
+Para los indicadores biofisicos el modelo es:
 
-$$I_{i,t} = \beta_0 + \Sigma_{t = 2}^{T} \gamma_{i,t} Ano_t + \beta_2 Zona_i + \beta_3 Zona_i + Post_{i,t} + \omega_{i,t}+\epsilon_{i,t}$$
+$$I_{i,t} = \beta_0 + \Sigma_{t = 2}^{T} \gamma_{i,t} Ano_t + \beta_2 Zona_i + \beta_3 Zona_i \times Post_{i,t} + \omega_{i,t}+\epsilon_{i,t}$$
 
  En el caso de los indicadores socioeconomicos, que no cuentan con un control de referencia, el modelo toma la forma:
 
