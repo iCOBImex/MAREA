@@ -112,7 +112,7 @@ Si notas alguna inconsistencia en el reporte, o tienes problemas con MAREA, repo
 ```{r}
 if(is.null(params$results_bio)){
   results_bio <- tibble::tibble(
-    Ind = NA,
+    Ind = seq(1, 29),
     e = NA,
     p = NA,
     string = NA,
@@ -124,7 +124,7 @@ if(is.null(params$results_bio)){
 
 if(is.null(params$results_bio_i)){
   results_bio_i <- tibble::tibble(
-    Ind = seq(1,11),
+    Ind = seq(1, 11),
     e = NA,
     p = NA,
     string = NA,
@@ -136,7 +136,7 @@ if(is.null(params$results_bio_i)){
 
 if(is.null(params$results_soc)){
   results_soc <- tibble::tibble(
-    Ind = c(1,2),
+    Ind = seq(1, 18),
     e = NA,
     p = NA,
     string = NA,
