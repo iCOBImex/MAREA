@@ -1763,7 +1763,6 @@ server <- function(input, output, session) {
     )
   })
   
-  
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
     # Define a filename based on the input
