@@ -738,7 +738,7 @@ server <- function(input, output, session) {
                   objsp = objective_species(),
                   ano.imp = input$ano.imp)
     
-    soc_results(values, socioInput())
+    soc_results(values = values, data = socioInput())
   })
   
   # Define a reactive value for a tibble that stores the analysis results for governance indicators
