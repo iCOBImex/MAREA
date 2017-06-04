@@ -1,4 +1,5 @@
 
+library(rdrop2)
 library(shiny)
 library(shinydashboard)
 library(shinyjs)
@@ -19,12 +20,14 @@ ui <- dashboardPage(
     p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
     p("Enviar comentarios a JC Villaseñor a:"),
     p("juancarlos@turfeffect.org"),
-    p(""),
     bookmarkButton(),
-    p(""),
     tags$div(id="google_translate_element",
              tags$script(src = "google_translate.js"),
-             tags$script(src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"))
+             tags$script(src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")),
+    checkboxInput(inputId = "share",
+                  label = "Compartir datos",
+                  value = T),
+    p("Compartir tus datos fomenta la conservacion de nuestros oceanos al permitirnos construir conocimiento.")
   ),
   
   dashboardBody(
@@ -1795,8 +1798,8 @@ server <- function(input, output, session) {
       if (isTruthy(input$govern)){
         gov <- list(data = gobInput(),
                     results = results_gov())} else {
-          gov <- NULL
-        }
+                      gov <- NULL
+      }
       
       # Set up parameters to pass to Rmd document
       params <- list(comunidad = input$comunidad,
@@ -1806,6 +1809,16 @@ server <- function(input, output, session) {
                      results_bio_i = bio2,
                      results_soc = soc,
                      results_gov = gov)
+      
+      if (input$share){
+        MAREA_data <- params
+        MAREA_data$objetivos <- input$obj
+        MAREA_data$indB <- input$indB
+        MAREA_data$indS <- input$indS
+        MAREA_data$indG <- input$indG
+        
+        saveMAREA(data = MAREA_data, comunidad = input$comunidad, reserva = res.fun())
+      }
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
