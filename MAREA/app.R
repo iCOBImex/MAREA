@@ -601,7 +601,7 @@ server <- function(input, output, session) {
                               "Biomasa de especies objetivo"), 
             input$indS %in% c("Arribos de especies objetivo",
                               "Ingresos por arribos de especies objetivo")
-        )){
+    )){
       
       obj_sp_list <- sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc)
       
