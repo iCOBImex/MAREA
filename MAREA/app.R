@@ -1358,6 +1358,213 @@ server <- function(input, output, session) {
     }
   })
   
+  ######################### Landings Obj 1 #######################
+  output$landings_objsp_1 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[3])) {
+      valueBox(
+        value = input$objsp[1],
+        subtitle = paste("Arribos,", results_soc()$string[3]),
+        icon = icon("money"),
+        color = results_soc()$color[3],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 2 #######################
+  output$landings_objsp_2 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[4])) {
+      valueBox(
+        value = input$objsp[2],
+        subtitle = paste("Arribos,", results_soc()$string[4]),
+        icon = icon("money"),
+        color = results_soc()$color[4],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 3 #######################
+  output$landings_objsp_3 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[5])) {
+      valueBox(
+        value = input$objsp[3],
+        subtitle = paste("Arribos,", results_soc()$string[5]),
+        icon = icon("money"),
+        color = results_soc()$color[5],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 4 #######################
+  output$landings_objsp_4 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[6])) {
+      valueBox(
+        value = input$objsp[4],
+        subtitle = paste("Arribos,", results_soc()$string[6]),
+        icon = icon("money"),
+        color = results_soc()$color[6],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 5 #######################
+  output$landings_objsp_5 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[7])) {
+      valueBox(
+        value = input$objsp[5],
+        subtitle = paste("Arribos,", results_soc()$string[7]),
+        icon = icon("money"),
+        color = results_soc()$color[7],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 6 #######################
+  output$landings_objsp_6 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[8])) {
+      valueBox(
+        value = input$objsp[6],
+        subtitle = paste("Arribos,", results_soc()$string[8]),
+        icon = icon("money"),
+        color = results_soc()$color[8],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 7 #######################
+  output$landings_objsp_7 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[9])) {
+      valueBox(
+        value = input$objsp[7],
+        subtitle = paste("Arribos,", results_soc()$string[9]),
+        icon = icon("money"),
+        color = results_soc()$color[9],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Landings Obj 8 #######################
+  output$landings_objsp_8 <- renderUI({
+    if ("Arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[10])) {
+      valueBox(
+        value = input$objsp[8],
+        subtitle = paste("Arribos,", results_soc()$string[10]),
+        icon = icon("money"),
+        color = results_soc()$color[10],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 1 #######################
+  output$income_objsp_1 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[11])) {
+      valueBox(
+        value = input$objsp[1],
+        subtitle = paste("Ingresos,", results_soc()$string[11]),
+        icon = icon("money"),
+        color = results_soc()$color[11],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 2 #######################
+  output$income_objsp_2 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[12])) {
+      valueBox(
+        value = input$objsp[2],
+        subtitle = paste("Ingresos,", results_soc()$string[12]),
+        icon = icon("money"),
+        color = results_soc()$color[12],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 3 #######################
+  output$income_objsp_3 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[13])) {
+      valueBox(
+        value = input$objsp[3],
+        subtitle = paste("Ingresos,", results_soc()$string[13]),
+        icon = icon("money"),
+        color = results_soc()$color[13],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 4 #######################
+  output$income_objsp_4 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[14])) {
+      valueBox(
+        value = input$objsp[4],
+        subtitle = paste("Ingresos,", results_soc()$string[14]),
+        icon = icon("money"),
+        color = results_soc()$color[14],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 5 #######################
+  output$income_objsp_5 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[15])) {
+      valueBox(
+        value = input$objsp[5],
+        subtitle = paste("Ingresos,", results_soc()$string[15]),
+        icon = icon("money"),
+        color = results_soc()$color[15],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 6 #######################
+  output$income_objsp_6 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[16])) {
+      valueBox(
+        value = input$objsp[6],
+        subtitle = paste("Ingresos,", results_soc()$string[16]),
+        icon = icon("money"),
+        color = results_soc()$color[16],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 7 #######################
+  output$income_objsp_7 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[17])) {
+      valueBox(
+        value = input$objsp[7],
+        subtitle = paste("Ingresos,", results_soc()$string[17]),
+        icon = icon("money"),
+        color = results_soc()$color[17],
+        width = NULL
+      )
+    }
+  })
+  
+  ######################### Income from landings 8 #######################
+  output$income_objsp_8 <- renderUI({
+    if ("Ingresos por arribos de especies objetivo" %in% input$indS & !is.na(results_soc()$color[18])) {
+      valueBox(
+        value = input$objsp[8],
+        subtitle = paste("Ingresos,", results_soc()$string[18]),
+        icon = icon("money"),
+        color = results_soc()$color[18],
+        width = NULL
+      )
+    }
+  })
   
   ### Output for governance indicators ####################################################################
   
