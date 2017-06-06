@@ -820,6 +820,7 @@ server <- function(input, output, session) {
   
   ######## Toggle Bio output ##################################
   observeEvent(input$toggle_bio, {
+    toggle("Peces")
     toggle("shannon")
     toggle("richness")
     toggle("density")
@@ -827,9 +828,15 @@ server <- function(input, output, session) {
     toggle("TL")
     toggle("natural")
     
+    toggle("Invertebrados")
     toggle("shannon_i")
     toggle("richness_i")
     toggle("density_i")
+    
+    toggle("bio_obj")
+    toggle("LT50")
+    toggle("Biomasa")
+    toggle("Densidad")
     
     toggle("orgtl50_1")
     toggle("density_objsp_1")
@@ -974,6 +981,19 @@ server <- function(input, output, session) {
     }
   })
   
+  ######################## Perturbacion natural #######################
+  # output$natural <- renderUI({
+  #   if ("Perturbacion natural" %in% input$indB) {
+  #     valueBox(
+  #       value = "Perturbacion natural",
+  #       subtitle = "Nada",
+  #       icon = icon("leaf"),
+  #       color = "olive",
+  #       width = NULL
+  #     )
+  #   }
+  # })
+  # 
   ## Especies objetivo ########################################
   
   ######################### Organisms above TL 50 1 #######################
