@@ -230,26 +230,26 @@ ui <- dashboardPage(
                                                 "Mas/Menos",
                                                 icon = icon("th-list")),
                                    
-                                   h2("Peces"),
                                    hidden(
+                                     uiOutput("natural"),
+                                     h2("Peces", id = "Peces"),
                                      uiOutput("shannon"),
                                      uiOutput("richness"),
                                      uiOutput("density"),
-                                     uiOutput("natural"),
                                      uiOutput("TL"),
                                      uiOutput("biomass")
                                    ),
                                    
-                                   h2("Invertebrados"),
                                    hidden(
+                                     h2("Invertebrados", id = "Invertebrados"),
                                      uiOutput("shannon_i"),
                                      uiOutput("richness_i"),
                                      uiOutput("density_i")
                                    ),
                                    
-                                   h2("Especies objetivo"),
-                                   h3("Organismos maduros (peces)"),
                                    hidden(
+                                     h2("Especies objetivo", id = "bio_obj"),
+                                     h3("Organismos maduros (peces)", id = "LT50"),
                                      uiOutput("orgtl50_1"),
                                      uiOutput("orgtl50_2"),
                                      uiOutput("orgtl50_3"),
@@ -257,10 +257,9 @@ ui <- dashboardPage(
                                      uiOutput("orgtl50_5"),
                                      uiOutput("orgtl50_6"),
                                      uiOutput("orgtl50_7"),
-                                     uiOutput("orgtl50_8")
-                                   ),
-                                   h3("Biomasa (peces)"),
-                                   hidden(
+                                     uiOutput("orgtl50_8"),
+                                     
+                                     h3("Biomasa (peces)", id = "Biomasa"),
                                      uiOutput("biomass_objsp_1"),
                                      uiOutput("biomass_objsp_2"),
                                      uiOutput("biomass_objsp_3"),
@@ -268,10 +267,9 @@ ui <- dashboardPage(
                                      uiOutput("biomass_objsp_5"),
                                      uiOutput("biomass_objsp_6"),
                                      uiOutput("biomass_objsp_7"),
-                                     uiOutput("biomass_objsp_8")
-                                   ),
-                                   h3("Densidad"),
-                                   hidden(
+                                     uiOutput("biomass_objsp_8"),
+                                     
+                                     h3("Densidad", id = "Densidad"),
                                      uiOutput("density_objsp_1"),
                                      uiOutput("density_objsp_2"),
                                      uiOutput("density_objsp_3"),
@@ -291,13 +289,12 @@ ui <- dashboardPage(
                                                 "Mas/Menos",
                                                 icon = icon("th-list")),
                                    hidden(
-                                     uiOutput("landings", width = NULL),
-                                     uiOutput("income", width = NULL)
-                                   ),
-                                   
-                                   h2("Especies objetivo"),
-                                   h3("Arribos"),
-                                   hidden(
+                                     uiOutput("landings"),
+                                     uiOutput("income"),
+                                     uiOutput("livelihoods"),
+                                     
+                                     h2("Especies objetivo", id = "soc_obj"),
+                                     h3("Arribos", id = "Arribos"),
                                      uiOutput("landings_objsp_1"),
                                      uiOutput("landings_objsp_2"),
                                      uiOutput("landings_objsp_3"),
@@ -305,11 +302,9 @@ ui <- dashboardPage(
                                      uiOutput("landings_objsp_5"),
                                      uiOutput("landings_objsp_6"),
                                      uiOutput("landings_objsp_7"),
-                                     uiOutput("landings_objsp_8")
-                                   ),
-                                   
-                                   h3("Ingresos"),
-                                   hidden(
+                                     uiOutput("landings_objsp_8"),
+                                     
+                                     h3("Ingresos", id = "Ingresos"),
                                      uiOutput("income_objsp_1"),
                                      uiOutput("income_objsp_2"),
                                      uiOutput("income_objsp_3"),
