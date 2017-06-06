@@ -349,8 +349,6 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   
-  addClass(selector = "body", class = "sidebar-collapse")
-  
   #### Manage the buttons to go back and forth ####
   # The way to read this is that b1.2 changes from tab 1 to tab 2. As b6.5 changes from tab 6 to tab 5.
   
@@ -1873,3 +1871,4 @@ server <- function(input, output, session) {
 }
 
 # Run the application
+shinyApp(ui = ui, server = server)
