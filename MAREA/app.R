@@ -1333,6 +1333,10 @@ server <- function(input, output, session) {
   observeEvent(input$toggle_soc, {
     toggle("landings")
     toggle("income")
+    toggle("livelihoods")
+    
+    toggle("soc_obj")
+    toggle("Arribos")
     toggle("landings_objsp_1")
     toggle("landings_objsp_2")
     toggle("landings_objsp_3")
@@ -1341,6 +1345,8 @@ server <- function(input, output, session) {
     toggle("landings_objsp_6")
     toggle("landings_objsp_7")
     toggle("landings_objsp_8")
+    
+    toggle("Ingresos")
     toggle("income_objsp_1")
     toggle("income_objsp_2")
     toggle("income_objsp_3")
@@ -1376,6 +1382,19 @@ server <- function(input, output, session) {
       )
     }
   })
+  
+  ######################### Alternative livelihoods #######################
+  # output$income <- renderUI({
+  #   if ("Trabajos alternativos a pesca" %in% input$indS) {
+  #     valueBox(
+  #       value = "Ingresos",
+  #       subtitle = results_soc()$string[2],
+  #       icon = icon("money"),
+  #       color = results_soc()$color[2],
+  #       width = NULL
+  #     )
+  #   }
+  # })
   
   ######################### Landings Obj 1 #######################
   output$landings_objsp_1 <- renderUI({
