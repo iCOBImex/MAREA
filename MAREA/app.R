@@ -20,8 +20,6 @@ ui <- dashboardPage(
     p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
     p(a("Formato de access", href = "https://github.com/turfeffect/Docs/blob/master/Governance%20DB/Governance_0509.accdb", target = "_blank"), "para ingreso de datos de gobenanza."),
     p("Enviar comentarios a:", a("contact@turfeffect.org", href = "contact@turfeffect.org", target = "_blank")),
-    p(),
-    bookmarkButton(),
     tags$div(id="google_translate_element",
              tags$script(src = "google_translate.js"),
              tags$script(src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")),
