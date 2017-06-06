@@ -743,7 +743,9 @@ server <- function(input, output, session) {
     req(gobInput())
     
     values <- list(indG = input$indG,
-                   comunidad = input$comunidad)
+                   comunidad = input$comunidad,
+                   objsp = objective_species(),
+                   fish_data = bioInput())
     
     gov_results(values, gobInput(), res.fun())
   })
