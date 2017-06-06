@@ -1,27 +1,70 @@
 Comunidad,Ano,GeneroEspecie,NombreComun,Arribos,Ingresos,PrecioPromedio,CPI
-El Rosario,2008,Panulirus interruptus,Langosta,28622,7155500,250,5.124981692
-El Rosario,2009,Panulirus interruptus,Langosta,14069,4924150,350,5.297357127
-El Rosario,2010,Panulirus interruptus,Langosta,22687,5558315,245,4.156727837
-El Rosario,2011,Panulirus interruptus,Langosta,23203,8469095,365,3.407379617
-El Rosario,2012,Panulirus interruptus,Langosta,47943.5,12129706,299,4.111508546
-El Rosario,2013,Panulirus interruptus,Langosta,59608,14365528,356,3.806389823
-El Rosario,2014,Panulirus interruptus,Langosta,84296.3,22169927,324,4.018617202
-El Rosario,2015,Panulirus interruptus,Langosta,91347,23841567,357,2.720641263
-El Rosario,2016,Panulirus interruptus,Langosta,87102,20120562,253,2
-El Rosario,2008,Parastichopus parvimensis,Pepino,28622,7155500,250,5.124981692
-El Rosario,2009,Parastichopus parvimensis,Pepino,14069,4924150,350,5.297357127
-El Rosario,2010,Parastichopus parvimensis,Pepino,22687,5558315,245,4.156727837
-El Rosario,2011,Parastichopus parvimensis,Pepino,23203,8469095,365,3.407379617
-El Rosario,2012,Parastichopus parvimensis,Pepino,47943.5,12129706,299,4.111508546
-El Rosario,2013,Parastichopus parvimensis,Pepino,59608,14365528,356,3.806389823
-El Rosario,2014,Parastichopus parvimensis,Pepino,84296.3,22169927,324,4.018617202
-El Rosario,2015,Parastichopus parvimensis,Pepino,91347,23841567,357,2.720641263
-El Rosario,2016,Parastichopus parvimensis,Pepino,87102,20120562,253,2
-El Rosario,2009,Mesocentrotus franciscanus,Erizo,14069,4924150,350,5.297357127
-El Rosario,2010,Mesocentrotus franciscanus,Erizo,22687,5558315,245,4.156727837
-El Rosario,2011,Mesocentrotus franciscanus,Erizo,23203,8469095,365,3.407379617
-El Rosario,2012,Mesocentrotus franciscanus,Erizo,47943.5,12129706,299,4.111508546
-El Rosario,2013,Mesocentrotus franciscanus,Erizo,59608,14365528,356,3.806389823
-El Rosario,2014,Mesocentrotus franciscanus,Erizo,84296.3,22169927,324,4.018617202
-El Rosario,2015,Mesocentrotus franciscanus,Erizo,91347,23841567,357,2.720641263
-El Rosario,2016,Mesocentrotus franciscanus,Erizo,87102,20120562,253,2
+Puerto Mateo,2008,Paralabrax maculatofasciatus,Cabrilla,28622,7155500,250,5.124981692
+Puerto Mateo,2009,Paralabrax maculatofasciatus,Cabrilla,14069,4924150,350,5.297357127
+Puerto Mateo,2010,Paralabrax maculatofasciatus,Cabrilla,22687,5558315,245,4.156727837
+Puerto Mateo,2011,Paralabrax maculatofasciatus,Cabrilla,23203,8469095,365,3.407379617
+Puerto Mateo,2012,Paralabrax maculatofasciatus,Cabrilla,47943.5,12129706,299,4.111508546
+Puerto Mateo,2013,Paralabrax maculatofasciatus,Cabrilla,59608,14365528,356,3.806389823
+Puerto Mateo,2014,Paralabrax maculatofasciatus,Cabrilla,84296.3,22169927,324,4.018617202
+Puerto Mateo,2015,Paralabrax maculatofasciatus,Cabrilla,91347,23841567,357,2.720641263
+Puerto Mateo,2016,Paralabrax maculatofasciatus,Cabrilla,87102,20120562,253,2
+Puerto Mateo,2009,Semicossyphus pulcher,Vieja,14069,4924150,350,5.297357127
+Puerto Mateo,2010,Semicossyphus pulcher,Vieja,22687,5558315,245,4.156727837
+Puerto Mateo,2011,Semicossyphus pulcher,Vieja,23203,8469095,365,3.407379617
+Puerto Mateo,2012,Semicossyphus pulcher,Vieja,47943.5,12129706,299,4.111508546
+Puerto Mateo,2013,Semicossyphus pulcher,Vieja,59608,14365528,356,3.806389823
+Puerto Mateo,2014,Semicossyphus pulcher,Vieja,84296.3,22169927,324,4.018617202
+Puerto Mateo,2015,Semicossyphus pulcher,Vieja,91347,23841567,357,2.720641263
+Puerto Mateo,2016,Semicossyphus pulcher,Vieja,87102,20120562,253,2
+San Bartolo,2008,Panulirus interruptus,Langosta,28622,7155500,250,5.124981692
+San Bartolo,2009,Panulirus interruptus,Langosta,14069,4924150,350,5.297357127
+San Bartolo,2010,Panulirus interruptus,Langosta,22687,5558315,245,4.156727837
+San Bartolo,2011,Panulirus interruptus,Langosta,23203,8469095,365,3.407379617
+San Bartolo,2012,Panulirus interruptus,Langosta,47943.5,12129706,299,4.111508546
+San Bartolo,2013,Panulirus interruptus,Langosta,59608,14365528,356,3.806389823
+San Bartolo,2014,Panulirus interruptus,Langosta,84296.3,22169927,324,4.018617202
+San Bartolo,2015,Panulirus interruptus,Langosta,91347,23841567,357,2.720641263
+San Bartolo,2016,Panulirus interruptus,Langosta,87102,20120562,253,2
+San Bartolo,2008,Parastichopus parvimensis,Pepino,28622,7155500,250,5.124981692
+San Bartolo,2009,Parastichopus parvimensis,Pepino,14069,4924150,350,5.297357127
+San Bartolo,2010,Parastichopus parvimensis,Pepino,22687,5558315,245,4.156727837
+San Bartolo,2011,Parastichopus parvimensis,Pepino,23203,8469095,365,3.407379617
+San Bartolo,2012,Parastichopus parvimensis,Pepino,47943.5,12129706,299,4.111508546
+San Bartolo,2013,Parastichopus parvimensis,Pepino,59608,14365528,356,3.806389823
+San Bartolo,2014,Parastichopus parvimensis,Pepino,84296.3,22169927,324,4.018617202
+San Bartolo,2015,Parastichopus parvimensis,Pepino,91347,23841567,357,2.720641263
+San Bartolo,2016,Parastichopus parvimensis,Pepino,87102,20120562,253,2
+San Bartolo,2009,Mesocentrotus franciscanus,Erizo,14069,4924150,350,5.297357127
+San Bartolo,2010,Mesocentrotus franciscanus,Erizo,22687,5558315,245,4.156727837
+San Bartolo,2011,Mesocentrotus franciscanus,Erizo,23203,8469095,365,3.407379617
+San Bartolo,2012,Mesocentrotus franciscanus,Erizo,47943.5,12129706,299,4.111508546
+San Bartolo,2013,Mesocentrotus franciscanus,Erizo,59608,14365528,356,3.806389823
+San Bartolo,2014,Mesocentrotus franciscanus,Erizo,84296.3,22169927,324,4.018617202
+San Bartolo,2015,Mesocentrotus franciscanus,Erizo,91347,23841567,357,2.720641263
+San Bartolo,2016,Mesocentrotus franciscanus,Erizo,87102,20120562,253,2
+Punta Rompiente,2008,Haliotis fulgens,Abulon azul,28622,7155500,250,5.124981692
+Punta Rompiente,2009,Haliotis fulgens,Abulon azul,14069,4924150,350,5.297357127
+Punta Rompiente,2010,Haliotis fulgens,Abulon azul,22687,5558315,245,4.156727837
+Punta Rompiente,2011,Haliotis fulgens,Abulon azul,23203,8469095,365,3.407379617
+Punta Rompiente,2012,Haliotis fulgens,Abulon azul,47943.5,12129706,299,4.111508546
+Punta Rompiente,2013,Haliotis fulgens,Abulon azul,59608,14365528,356,3.806389823
+Punta Rompiente,2014,Haliotis fulgens,Abulon azul,84296.3,22169927,324,4.018617202
+Punta Rompiente,2015,Haliotis fulgens,Abulon azul,91347,23841567,357,2.720641263
+Punta Rompiente,2016,Haliotis fulgens,Abulon azul,87102,20120562,253,2
+Punta Rompiente,2008,Parastichopus parvimensis,Pepino,28622,7155500,250,5.124981692
+Punta Rompiente,2009,Parastichopus parvimensis,Pepino,14069,4924150,350,5.297357127
+Punta Rompiente,2010,Parastichopus parvimensis,Pepino,22687,5558315,245,4.156727837
+Punta Rompiente,2011,Parastichopus parvimensis,Pepino,23203,8469095,365,3.407379617
+Punta Rompiente,2012,Parastichopus parvimensis,Pepino,47943.5,12129706,299,4.111508546
+Punta Rompiente,2013,Parastichopus parvimensis,Pepino,59608,14365528,356,3.806389823
+Punta Rompiente,2014,Parastichopus parvimensis,Pepino,84296.3,22169927,324,4.018617202
+Punta Rompiente,2015,Parastichopus parvimensis,Pepino,91347,23841567,357,2.720641263
+Punta Rompiente,2016,Parastichopus parvimensis,Pepino,87102,20120562,253,2
+Punta Rompiente,2009,Mesocentrotus franciscanus,Erizo,14069,4924150,350,5.297357127
+Punta Rompiente,2010,Mesocentrotus franciscanus,Erizo,22687,5558315,245,4.156727837
+Punta Rompiente,2011,Mesocentrotus franciscanus,Erizo,23203,8469095,365,3.407379617
+Punta Rompiente,2012,Mesocentrotus franciscanus,Erizo,47943.5,12129706,299,4.111508546
+Punta Rompiente,2013,Mesocentrotus franciscanus,Erizo,59608,14365528,356,3.806389823
+Punta Rompiente,2014,Mesocentrotus franciscanus,Erizo,84296.3,22169927,324,4.018617202
+Punta Rompiente,2015,Mesocentrotus franciscanus,Erizo,91347,23841567,357,2.720641263
+Punta Rompiente,2016,Mesocentrotus franciscanus,Erizo,87102,20120562,253,2
