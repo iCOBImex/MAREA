@@ -44,7 +44,7 @@ ui <- dashboardPage(
                           h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
              así como el manual de evaluación de zonas de no pesca en México.
              Podrás encontrar los recursos en el menú lateral."),
-                          img(src = "intro.gif", width = "125%")
+                          img(src = "intro.gif")
                         )
                ),
                #### Second tab starts here ################################################################################
