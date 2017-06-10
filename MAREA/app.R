@@ -598,7 +598,6 @@ server <- function(input, output, session) {
             input$indS %in% c("Arribos de especies objetivo",
                               "Ingresos por arribos de especies objetivo")
     )){
-      
       obj_sp_list <- sp_list(fish = bioInput(), invert = bioInput_i(), rc = input$rc)
       
       wellPanel(
@@ -764,7 +763,9 @@ server <- function(input, output, session) {
     values <- list(indG = input$indG,
                    comunidad = input$comunidad,
                    objsp = objective_species(),
-                   fish_data = bioInput())
+                   fish_data = bioInput(),
+                   res.length = input$res.length,
+                   res.width = input$res.width)
     
     gov_results(values, gobInput(), res.fun())
   })
