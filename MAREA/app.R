@@ -155,19 +155,20 @@ ui <- dashboardPage(
                           column(3, offset = 2,
                                  wellPanel(h1("Comunidad"),
                                            uiOutput("comunidad"))),
-                          
                           column(3, wellPanel(h1("Reserva-Control"),
                                               uiOutput("rc")),
                                  wellPanel(numericInput("ano.imp",
                                                         "Año de implementacion",
-                                                        value = 2017,
+                                                        value = NA,
                                                         min = 1990,
                                                         max = 2100,
-                                                        step = 1))),
-                          
+                                                        step = 1),
+                                           uiOutput("res.length"),
+                                           uiOutput("res.width")
+                                           )
+                                 ),
                           column(3, uiOutput("objsp"))
                         )
-                        
                ),
                
                #### Fifth tab starts here ################################################################################
@@ -607,6 +608,26 @@ server <- function(input, output, session) {
                            choices = obj_sp_list$sp,
                            selected = obj_sp_list$sp[1])
       )
+    }
+  })
+  
+  output$res.length <- renderUI({
+    if("Tamano de la reserva" %in% input$indG & input$indB %in% c("Organismos > LT_50",
+                                                                  "Densidad de especies objetivo",
+                                                                  "Biomasa de especies objetivo")){
+      numericInput("res.length",
+                   "Longitud de reserva (m)",
+                   value = NA)
+    }
+  })
+  
+  output$res.width <- renderUI({
+    if("Tamano de la reserva" %in% input$indG & input$indB %in% c("Organismos > LT_50",
+                                                                  "Densidad de especies objetivo",
+                                                                  "Biomasa de especies objetivo")){
+      numericInput("res.width",
+                   "Ancho de reserva (m)",
+                   value = NA)
     }
   })
   
