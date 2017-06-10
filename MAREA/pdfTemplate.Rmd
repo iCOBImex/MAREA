@@ -1192,11 +1192,11 @@ if(!is.na(results_gov$e[[1]])){
 <!-- Tamano de la reserva -->
 
 ```{r}
-if(!is.na(results_gov$e[[1]])){
+if(!is.na(results_gov$e[[8]])){
   cat("## Tamano de la reserva\n")
   cat(paste0("Mensaje: ",results_gov$string[[8]], "\n"))
   
-  cat("\\clearpage")
+  results_gov$plot[[8]]
 }
 ```
 
@@ -1205,8 +1205,6 @@ if(!is.na(results_gov$e[[1]])){
 ```{r}
 if(!is.na(results_gov$e[[1]])){
   cat("## Razonamiento para el diseno de la reserva\n")
-
-  gov$Q2_Reason <- "blah blah blah blah blah"
   
   gov %>% 
     mutate(Sujeto = 1:length(Interviewee)) %>% 
