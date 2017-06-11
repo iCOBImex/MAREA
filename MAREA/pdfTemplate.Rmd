@@ -1149,8 +1149,15 @@ if(!is.na(results_gov$e[[6]])){
 
 <!-- Procuracion y vigilancia de la reserva -->
 
+```{r}
+if(!is.na(results_gov$e[[7]])){
+  cat("\\clearpage")
+  cat("\n")
+  }
+```
+
 ```{r, fig.height = 7.5, fig.width = 8}
-if(!is.na(results_gov$e[[1]])){
+if(!is.na(results_gov$e[[7]])){
   cat("## Procuracion y vigilancia de la reserva\n")
   cat(paste0("Mensaje: ",results_gov$string[[7]],"\n"))
   cat("\n")
@@ -1193,8 +1200,16 @@ if(!is.na(results_gov$e[[1]])){
 
 ```{r}
 if(!is.na(results_gov$e[[8]])){
+  cat("\\clearpage")
+  cat("\n")
+  }
+```
+
+```{r}
+if(!is.na(results_gov$e[[8]])){
   cat("## Tamano de la reserva\n")
   cat(paste0("Mensaje: ",results_gov$string[[8]], "\n"))
+  cat("\n")
   
   results_gov$plot[[8]]
 }
@@ -1203,10 +1218,11 @@ if(!is.na(results_gov$e[[8]])){
  <!-- Razonamiento para el diseno de la reserva -->
 
 ```{r}
-if(!is.na(results_gov$e[[1]])){
+if(!is.na(results_gov$e[[9]])){
   cat("## Razonamiento para el diseno de la reserva\n")
   
   gov %>% 
+    filter(!is.na(Q2_Reason)) %>% 
     mutate(Sujeto = 1:length(Interviewee)) %>% 
     select(Sujeto, Razon = Q2_Reason) %>% 
     knitr::kable()
@@ -1244,8 +1260,16 @@ if(!is.na(results_gov$e[[1]])){
 
 ```{r}
 if(!is.na(results_gov$e[[10]])){
+  cat("\\clearpage")
+  cat("\n")
+  }
+```
+
+```{r}
+if(!is.na(results_gov$e[[10]])){
   cat("## Reglamentacion interna\n")
   cat(paste0("Mensaje: ",results_gov$string[[10]],"\n"))
+  cat("\n")
   
   gov %>% 
     filter(!is.na(Q9)) %>% 
@@ -1259,6 +1283,13 @@ if(!is.na(results_gov$e[[10]])){
 ```
 
 <!-- Efectiviudad percibida  -->
+
+```{r}
+if(!is.na(results_gov$e[[11]])){
+  cat("\\clearpage")
+  cat("\n")
+  }
+```
 
 ```{r, fig.height = 10, fig.width = 8}
 if(!is.na(results_gov$e[[11]])){
