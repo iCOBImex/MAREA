@@ -611,22 +611,22 @@ server <- function(input, output, session) {
   })
   
   output$res.length <- renderUI({
-    if("Tamano de la reserva" %in% input$indG & input$indB %in% c("Organismos > LT_50",
+    if("Tamano de la reserva" %in% input$indG & any(input$indB %in% c("Organismos > LT_50",
                                                                   "Densidad de especies objetivo",
-                                                                  "Biomasa de especies objetivo")){
+                                                                  "Biomasa de especies objetivo"))){
       numericInput("res.length",
                    "Longitud de reserva (m)",
-                   value = NA)
+                   value = 0)
     }
   })
   
   output$res.width <- renderUI({
-    if("Tamano de la reserva" %in% input$indG & input$indB %in% c("Organismos > LT_50",
+    if("Tamano de la reserva" %in% input$indG & any(input$indB %in% c("Organismos > LT_50",
                                                                   "Densidad de especies objetivo",
-                                                                  "Biomasa de especies objetivo")){
+                                                                  "Biomasa de especies objetivo"))){
       numericInput("res.width",
                    "Ancho de reserva (m)",
-                   value = NA)
+                   value = 0)
     }
   })
   
@@ -660,7 +660,7 @@ server <- function(input, output, session) {
     )
     
     # Extract the selected ones, and add a number before them
-    selected <- options[as.numeric(input$obj) - 1, ]
+    selected <- options[as.numeric(input$obj) - 1,]
     selected <- unname(data.frame(paste(seq(1, length(selected)), "- ", selected)))
   })
   
@@ -726,7 +726,7 @@ server <- function(input, output, session) {
                   objsp = fish_species,
                   ano.imp = input$ano.imp)
     
-    bio_results(values, bioInput(), res.fun(), con.fun())
+    bio_results(values = values, data = bioInput(), res = res.fun(), con = con.fun())
   })
   
   # Define a reactive value for a tibble that stores the analysis results for biophysical INVERT indicators
