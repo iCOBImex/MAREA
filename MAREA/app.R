@@ -1826,8 +1826,22 @@ server <- function(input, output, session) {
     )
   })
   
+  observeEvent(input$b5.6, {
+    if(input$email == "" & input$share){
+    cat("got here")
+    print(input$email)
+    showModal(modalDialog(
+      title = "Correo no proporcionado",
+      "Asegurate de proveer un correo electronico en la barra lateral.",
+      footer = modalButton("Ok")
+      
+    ))
+    }
+  })
+  
   ### Output to download ####################################################################
   output$reporte <- downloadHandler(
+    
     # Define a filename based on the input
     filename = c("ReporteTURFeffect.pdf"),
     
