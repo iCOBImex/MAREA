@@ -1885,11 +1885,13 @@ server <- function(input, output, session) {
                      results_gov = gov)
       
       if (input$share){
+        
         MAREA_data <- params
         MAREA_data$objetivos <- input$obj
         MAREA_data$indB <- input$indB
         MAREA_data$indS <- input$indS
         MAREA_data$indG <- input$indG
+        MAREA_data$email <- input$email
         
         saveMAREA(data = MAREA_data, comunidad = input$comunidad, reserva = res.fun())
       }
