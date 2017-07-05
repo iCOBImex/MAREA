@@ -26,7 +26,10 @@ ui <- dashboardPage(
     checkboxInput(inputId = "share",
                   label = "Compartir datos",
                   value = T),
-    p("Compartir tus datos fomenta la conservacion de nuestros oceanos al permitirnos construir conocimiento.")
+    p("Compartir tus datos fomenta la conservacion de nuestros oceanos al permitirnos construir conocimiento. Proporciona un correo donde podamos contactarte:"),
+    textInput(inputId = "email",
+              label = "Correo electronico:",
+              value = NULL)
   ),
   
   dashboardBody(
