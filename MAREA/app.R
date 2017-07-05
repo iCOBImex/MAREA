@@ -42,9 +42,11 @@ ui <- dashboardPage(
                         fluidRow(column(1, offset = 10,
                                         actionButton(inputId = "b1.2", label = "Siguiente", icon = icon("arrow-right"), class = "btn2"))),
                         mainPanel(
-                          h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
-             así como el manual de evaluación de zonas de no pesca en México.
-             Podrás encontrar los recursos en el menú lateral."),
+                          wellPanel(
+                            h2("Introduccion"),
+                            h3("Antes de seguir, asegúrate de leer la guía de usuario de la aplicación,
+             así como el manual de evaluación de zonas de no pesca en México. Podrás encontrar los recursos en el menú lateral.")
+                          ),
                           img(src = "intro.gif")
                         )
                ),
