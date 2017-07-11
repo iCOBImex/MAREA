@@ -29,7 +29,8 @@ ui <- dashboardPage(
     p("Compartir tus datos fomenta la conservacion de nuestros oceanos al permitirnos construir conocimiento. Proporciona un correo donde podamos contactarte:"),
     textInput(inputId = "email",
               label = "Correo electronico:",
-              value = NULL)
+              value = NULL),
+    p("Disclaimer: MAREA analyses are based entirely on users' assumptions; Neither of the parties involved in the development of this tool endorse the results.")
   ),
   
   dashboardBody(
