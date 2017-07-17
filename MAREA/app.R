@@ -5,8 +5,9 @@ library(shinydashboard)
 library(shinyjs)
 library(shinyBS)
 library(MPAtools)
-library(tidyverse)
 library(xtable)
+library(magrittr)
+library(tidyverse)
 
 my_max <- 8
 
