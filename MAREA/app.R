@@ -7,6 +7,7 @@ library(shinyBS)
 library(MPAtools)
 library(xtable)
 library(magrittr)
+library(ggExtra)
 library(tidyverse)
 
 my_max <- 8
@@ -1647,7 +1648,7 @@ server <- function(input, output, session) {
     valueBox(
       value = "General",
       subtitle = paste0(formatC(govsummary, digits = 1, format = "f"), "% de indicadores positivos"),
-      icon = icon("money"),
+      icon = icon("users"),
       color = gen_score(govsummary)
     )
   })
@@ -1718,9 +1719,9 @@ server <- function(input, output, session) {
   output$pesca_ilegal <- renderValueBox({
     valueBox(
       value = "Grado de pesca ilegal",
-      subtitle = results_gov()$string[5],
+      subtitle = "Bien!",
       icon = icon("users"),
-      color = results_gov()$color[5],
+      color = "olive",
       width = NULL
     )
   })
