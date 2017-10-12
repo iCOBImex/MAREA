@@ -426,6 +426,7 @@ server <- function(input, output, session) {
         "Tamano de la reserva",
         "Razonamiento para el diseno de la reserva",
         "Pertenencia a oragnizaciones pesqueras",
+        "Organizacion pesquera",
         "Tipo de organizacion pesquera",
         "Representacion",
         "Reglamentacion interna",
@@ -1690,25 +1691,14 @@ server <- function(input, output, session) {
     )
   })
   
-  ######################### Type of reserve #######################
-  output$tipo <- renderValueBox({
-    valueBox(
-      value = "Tipo de reserva",
-      subtitle = results_gov()$string[4],
-      icon = icon("users"),
-      color = results_gov()$color[4],
-      width = NULL
-    )
-  })
-  
   ######################### Degree of illegal fishing #######################
   
   output$pesca_ilegal <- renderValueBox({
     valueBox(
       value = "Grado de pesca ilegal",
-      subtitle = "Bien!",
+      subtitle = results_gov()$string[4],
       icon = icon("users"),
-      color = "olive",
+      color = results_gov()$color[4],
       width = NULL
     )
   })
@@ -1718,9 +1708,9 @@ server <- function(input, output, session) {
   output$plan_manejo <- renderValueBox({
     valueBox(
       value = "Plan de manejo",
-      subtitle = results_gov()$string[6],
+      subtitle = results_gov()$string[5],
       icon = icon("users"),
-      color = results_gov()$color[6],
+      color = results_gov()$color[5],
       width = NULL
     )
   })
@@ -1729,9 +1719,9 @@ server <- function(input, output, session) {
   output$procuracion <- renderValueBox({
     valueBox(
       value = "Procuracion y vigilancia",
-      subtitle = results_gov()$string[7],
+      subtitle = results_gov()$string[6],
       icon = icon("users"),
-      color = results_gov()$color[7],
+      color = results_gov()$color[6],
       width = NULL
     )
   })
@@ -1740,9 +1730,9 @@ server <- function(input, output, session) {
   output$tamano <- renderValueBox({
     valueBox(
       value = "Tamano de la reserva",
-      subtitle = results_gov()$string[8],
+      subtitle = results_gov()$string[7],
       icon = icon("users"),
-      color = results_gov()$color[8],
+      color = results_gov()$color[7],
       width = NULL
     )
   })
@@ -1751,9 +1741,9 @@ server <- function(input, output, session) {
   output$org_pesquera <- renderValueBox({
     valueBox(
       value = "Organizacion pesquera",
-      subtitle = results_gov()$string[9],
+      subtitle = results_gov()$string[8],
       icon = icon("users"),
-      color = results_gov()$color[9],
+      color = results_gov()$color[8],
       width = NULL
     )
   })
@@ -1762,9 +1752,9 @@ server <- function(input, output, session) {
   output$reglas_internas <- renderValueBox({
     valueBox(
       value = "Reglamentacion interna",
-      subtitle = results_gov()$string[10],
+      subtitle = results_gov()$string[9],
       icon = icon("users"),
-      color = results_gov()$color[10],
+      color = results_gov()$color[9],
       width = NULL
     )
   })
@@ -1774,9 +1764,9 @@ server <- function(input, output, session) {
   output$efectividad <- renderValueBox({
     valueBox(
       value = "Efectividad percibida",
-      subtitle = results_gov()$string[11],
+      subtitle = results_gov()$string[10],
       icon = icon("users"),
-      color = results_gov()$color[11],
+      color = results_gov()$color[10],
       width = NULL
     )
   })
