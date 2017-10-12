@@ -1009,19 +1009,6 @@ server <- function(input, output, session) {
     }
   })
   
-  ######################## Perturbacion natural #######################
-  # output$natural <- renderUI({
-  #   if ("Perturbacion natural" %in% input$indB) {
-  #     valueBox(
-  #       value = "Perturbacion natural",
-  #       subtitle = "Nada",
-  #       icon = icon("leaf"),
-  #       color = "olive",
-  #       width = NULL
-  #     )
-  #   }
-  # })
-  # 
   ## Especies objetivo ########################################
   
   ######################### Organisms above TL 50 1 #######################
