@@ -7,6 +7,8 @@ output:
       number_sections: yes
       toc: yes
       toc_depth: 4
+      includes:  
+        in_header: preamble-latex.tex
 params:
   comunidad: ""
   reserva: ""
@@ -23,7 +25,12 @@ title: `r paste("Reporte para", params$rc, "en", params$comunidad)`
 
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = F, fig.height = 3, warning = F, message = F, results = 'asis')
+knitr::opts_chunk$set(echo = F,
+                      fig.height = 3,
+                      warning = F,
+                      message = F,
+                      results = 'asis',
+                      fig.pos = "!h")
 
 ```
 
@@ -46,7 +53,7 @@ suppressPackageStartupMessages({
 
 *Acentos y caracteres especiales omitidos*
 
-Este reporte tecnico fue producido por [MAREA](www.turfeffect.org/apps), una aplicacion desarrollada por el grupo [TURFeffect](www.turfeffect.org) para evaluar la efectividad de reservas marinas en Mexico. A continuacion, te proporcionamos una breve descripcion de lo que encontraras en el reporte, junto con indicaciones de como leer e interpretar lsa graficas y tablas generadas.
+Este reporte tecnico fue producido por [MAREA](www.turfeffect.org/apps), una aplicacion desarrollada por el grupo [TURFeffect](www.turfeffect.org) para evaluar la efectividad de reservas marinas en Mexico. A continuacion, te proporcionamos una breve descripcion de lo que encontraras en el reporte, junto con indicaciones de como leer e interpretar las graficas y tablas generadas.
 
 **Resumen y leyenda**
 
@@ -1058,23 +1065,12 @@ if(!is.na(results_gov$e[[3]])){
 }
 ```
 
-<!-- Tipo de reserva -->
-
-```{r}
-if(!is.na(results_gov$e[[4]])){
-  cat("## Tipo de reserva\n")
-  cat(paste0("Mensaje: ",results_gov$string[[4]]))
-  cat("\n")
-  cat("\\clearpage")
-}
-```
-
 <!-- Grado de pesca ilegal -->
 
 ```{r, fig.height = 10, fig.width = 8}
-if(!is.na(results_gov$e[[5]])){
+if(!is.na(results_gov$e[[4]])){
   cat("## Grado de pesca ilegal\n")
-  cat(paste0("Mensaje: ",results_gov$string[[5]], "\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[4]], "\n"))
   cat("\n")
   
   q13 <- ggplot(gov, aes(x = Q13)) +
@@ -1130,9 +1126,9 @@ if(!is.na(results_gov$e[[5]])){
 <!-- Plan de manejo -->
 
 ```{r}
-if(!is.na(results_gov$e[[6]])){
+if(!is.na(results_gov$e[[5]])){
   cat("## Plan de manejo\n")
-  cat(paste0("Mensaje: ",results_gov$string[[6]], "\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[5]], "\n"))
   cat("\n")
   
   gov %>% 
@@ -1150,16 +1146,16 @@ if(!is.na(results_gov$e[[6]])){
 <!-- Procuracion y vigilancia de la reserva -->
 
 ```{r}
-if(!is.na(results_gov$e[[7]])){
+if(!is.na(results_gov$e[[6]])){
   cat("\\clearpage")
   cat("\n")
   }
 ```
 
 ```{r, fig.height = 7.5, fig.width = 8}
-if(!is.na(results_gov$e[[7]])){
+if(!is.na(results_gov$e[[6]])){
   cat("## Procuracion y vigilancia de la reserva\n")
-  cat(paste0("Mensaje: ",results_gov$string[[7]],"\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[6]],"\n"))
   cat("\n")
   cat(paste("Los principales actores para la procuracion y vigilancia son:", filter(gov, !is.na(Q4_3)) %>% {unique(.$Q4_3)}, ".\n"))
   cat("\n")
@@ -1199,26 +1195,26 @@ if(!is.na(results_gov$e[[7]])){
 <!-- Tamano de la reserva -->
 
 ```{r}
-if(!is.na(results_gov$e[[8]])){
+if(!is.na(results_gov$e[[7]])){
   cat("\\clearpage")
   cat("\n")
   }
 ```
 
 ```{r}
-if(!is.na(results_gov$e[[8]])){
+if(!is.na(results_gov$e[[7]])){
   cat("## Tamano de la reserva\n")
-  cat(paste0("Mensaje: ",results_gov$string[[8]], "\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[7]], "\n"))
   cat("\n")
   
-  results_gov$plot[[8]]
+  results_gov$plot[[7]]
 }
 ```
 
  <!-- Razonamiento para el diseno de la reserva -->
 
 ```{r}
-if(!is.na(results_gov$e[[9]])){
+if(any(is.na(gov$Q2_Reason))){
   cat("## Razonamiento para el diseno de la reserva\n")
   
   gov %>% 
@@ -1232,9 +1228,9 @@ if(!is.na(results_gov$e[[9]])){
 <!-- Pertenencia y Tipo de organizacion pesquera -->
 
 ```{r}
-if(!is.na(results_gov$e[[1]])){
+if(!is.na(results_gov$e[[8]])){
   cat("## Pertenencia y Tipo de organizacion pesquera\n")
-  cat(paste0("Mensaje: ",results_gov$string[[9]],"\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[8]],"\n"))
   cat(paste("Los siguientes tipos de organizaciones pesqueras existen:", filter(gov, !is.na(Q1)) %>% {unique(.$Q1)},".\n"))
 }
 ```
@@ -1242,7 +1238,7 @@ if(!is.na(results_gov$e[[1]])){
 <!-- Representacion -->
 
 ```{r}
-if(!is.na(results_gov$e[[1]])){
+if(any(is.na(gov$Q3), is.na(gov$Q4_1), is.na(gov$Q4_2), is.na(gov$Q12), is.na(gov$Q12_1))){
   cat("## Representacion\n")
   cat(paste("La creacion de las reservas fue **motivada** por:", filter(gov, !is.na(Q3)) %>% {unique(.$Q3)}, ".\n"))
   cat("\n")
@@ -1259,16 +1255,16 @@ if(!is.na(results_gov$e[[1]])){
 <!-- Reglamentacion interna -->
 
 ```{r}
-if(!is.na(results_gov$e[[10]])){
+if(!is.na(results_gov$e[[9]])){
   cat("\\clearpage")
   cat("\n")
   }
 ```
 
 ```{r}
-if(!is.na(results_gov$e[[10]])){
+if(!is.na(results_gov$e[[9]])){
   cat("## Reglamentacion interna\n")
-  cat(paste0("Mensaje: ",results_gov$string[[10]],"\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[9]],"\n"))
   cat("\n")
   
   gov %>% 
@@ -1285,16 +1281,16 @@ if(!is.na(results_gov$e[[10]])){
 <!-- Efectiviudad percibida  -->
 
 ```{r}
-if(!is.na(results_gov$e[[11]])){
+if(!is.na(results_gov$e[[10]])){
   cat("\\clearpage")
   cat("\n")
   }
 ```
 
 ```{r, fig.height = 10, fig.width = 8}
-if(!is.na(results_gov$e[[11]])){
+if(!is.na(results_gov$e[[10]])){
   cat("## Efectividad percibida\n")
-  cat(paste0("Mensaje: ",results_gov$string[[11]],"\n"))
+  cat(paste0("Mensaje: ",results_gov$string[[10]],"\n"))
   cat("\n")
   
   q21_1 <- gov %>% 
