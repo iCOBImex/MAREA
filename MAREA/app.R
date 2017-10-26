@@ -1808,7 +1808,6 @@ server <- function(input, output, session) {
   
   observeEvent(input$b5.6, {
     if(input$email == "" & input$share){
-    cat("got here")
     print(input$email)
     showModal(modalDialog(
       title = "Correo no proporcionado",
@@ -1873,7 +1872,9 @@ server <- function(input, output, session) {
         MAREA_data$indG <- input$indG
         MAREA_data$email <- input$email
         
-        saveMAREA(data = MAREA_data, comunidad = input$comunidad, reserva = res.fun())
+        token <- readRDS("droptoken.rds")
+        
+        saveMAREA(data = MAREA_data, comunidad = input$comunidad, reserva = res.fun(), token = token)
       }
       
       # Knit the document, passing in the `params` list, and eval it in a
