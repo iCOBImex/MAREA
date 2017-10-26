@@ -4,7 +4,7 @@
 ![TURFeffect framework](./Content/Framework.gif)
 
 
-#MAREA
+# MAREA
 
 ## Overview of MAREA
 MAREA stands for MArine Reserve Evaluation App. It is a web-based application developed to automate the analyses defined by the [TURFeffect framework](www.turfeffect.org). It is free and all you need is internet access, the link to the webpage, and the necessary data. The run-time for the analysis automated by MAREA varies depending on the data. The general scorecard will be generated in about 4 seconds, while generating and downloading the report might take up to 20 seconds.
