@@ -9,6 +9,7 @@ library(xtable)
 library(magrittr)
 library(ggExtra)
 library(tidyverse)
+library(kableExtra)
 
 my_max <- 8
 

@@ -1,10 +1,12 @@
-name: marea
+name: MAREA
 title: MAREA
+username:
 account: turfeffect
 server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
 appId: 169976
-bundleId: 988780
+bundleId: 1045429
 url: https://turfeffect.shinyapps.io/marea/
-when: 1505877335.65315
+when: 1508979706.34557
 asMultiple: FALSE
 asStatic: FALSE
