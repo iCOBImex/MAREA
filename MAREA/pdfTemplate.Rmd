@@ -945,6 +945,27 @@ if(!is.na(results_soc$model[[2]])) {
 }
 ```
 
+<!-- ## Livelihoods -->
+
+```{r}
+if(!is.null(gov)){
+  cat("## Trabajos alternativos a pesca\n")
+  
+  gov %>% 
+    select(contains("Q19")) %>% 
+    set_names(c("Antes", "Despues")) %>% 
+    gather(Dim, Value) %>% 
+    filter(!is.na(Value)) %>% 
+    ggplot(aes(x = Dim, y = Value)) +
+    geom_boxplot(fill = "steelblue") +
+    stat_summary(geom = "point", fun.y = mean, color = "black", size = 10, pch = "*") +
+    theme_bw() +
+    labs(x = "") +
+    ggtitle(label = "Numero de pescadores")
+  
+}
+```
+
 <!-- ## Arribos sp 1 -->
 
 ```{r}
