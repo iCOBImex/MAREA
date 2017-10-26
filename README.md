@@ -1,6 +1,8 @@
-<center>
+
+![MAREA](./MAREA/www/MAREAlogo.gif)
+
 ![TURFeffect framework](./Content/Framework.gif)
-</center>
+
 
 #MAREA
 
