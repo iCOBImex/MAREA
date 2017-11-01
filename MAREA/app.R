@@ -28,7 +28,7 @@ ui <- dashboardPage(
              tags$script(src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")),
     checkboxInput(inputId = "share",
                   label = "Compartir datos",
-                  value = T),
+                  value = F),
     p("Compartir tus datos fomenta la conservacion de nuestros oceanos al permitirnos construir conocimiento. Proporciona un correo donde podamos contactarte:"),
     textInput(inputId = "email",
               label = "Correo electronico:",

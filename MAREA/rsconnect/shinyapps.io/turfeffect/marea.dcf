@@ -5,8 +5,8 @@ account: turfeffect
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 169976
-bundleId: 1045429
+bundleId: 1055381
 url: https://turfeffect.shinyapps.io/marea/
-when: 1508979706.34557
+when: 1509570518.27384
 asMultiple: FALSE
 asStatic: FALSE
