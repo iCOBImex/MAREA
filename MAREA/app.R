@@ -19,8 +19,9 @@ ui <- dashboardPage(
   dashboardHeader(title = img(src = "MAREAlogo.gif", height = "52px")),
   dashboardSidebar(
     h1("Recursos"),
-    p("Link a la ", a("Guía de usuario", href = "https://github.com/turfeffect/AppDraft/blob/master/MAREA_Guide.pdf", target = "_blank")),
-    p("Página de ", a("TURFeffect", href = "http://.turfeffect.org", target = "_blank")),
+    p("Link a la ", a("Guía en español", href = "https://www.researchgate.net/publication/317840836_Una_guia_para_evaluar_la_efectividad_de_las_zonas_de_no_pesca_en_Mexico", target = "_blank")),
+    p("Link to ", a("Guidebook in English", href = "https://www.researchgate.net/publication/317840581_A_guide_to_evaluate_the_effectiveness_of_no-take_marine_reserves_in_Mexico", target = "_blank")),
+    p("Página de ", a("TURFeffect", href = "http://turfeffect.org", target = "_blank")),
     p(a("Formato de access", href = "https://github.com/turfeffect/Docs/blob/master/Governance%20DB/Governance_0509.accdb", target = "_blank"), "para ingreso de datos de gobenanza."),
     p("Enviar comentarios a:", a("contact@turfeffect.org", href = "contact@turfeffect.org", target = "_blank")),
     tags$div(id="google_translate_element",
