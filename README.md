@@ -7,11 +7,13 @@ Links:
 - [MAREA](turfeffect.shinyapps.io/marea/)
 - [MAREA's guidebook](https://www.researchgate.net/publication/317840581_A_guide_to_evaluate_the_effectiveness_of_no-take_marine_reserves_in_Mexico)
 
+
+-------
+
+
 ![MAREA](./MAREA/www/MAREAlogo.gif)
 
 ![TURFeffect framework](./Content/Framework.gif)
-
--------
 
 # MAREA
 
