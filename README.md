@@ -1,8 +1,17 @@
 
+JC Villaseñor-Derbez, C Faro, M Wright, J Martínez, S Fitzgerald, S Fulton, MM Mancha-Cisneros, G McDonald, F Micheli, A Suárez, J Torre, C Costello (2018). A user-friendly tool to evaluate the effectiveness of no-take marine reserves. *PLOS ONE*. [DOI 10.1371/journal.pone.0191821](https://doi.org/10.1371/journal.pone.0191821).
+
+Links:
+
+- Peer-reviewed paper can be found online [here as HTML](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0191821), [here as pdf](http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0191821&type=printable).
+- [MAREA](turfeffect.shinyapps.io/marea/)
+- [MAREA's guidebook](https://www.researchgate.net/publication/317840581_A_guide_to_evaluate_the_effectiveness_of_no-take_marine_reserves_in_Mexico)
+
 ![MAREA](./MAREA/www/MAREAlogo.gif)
 
 ![TURFeffect framework](./Content/Framework.gif)
 
+-------
 
 # MAREA
 
